@@ -10,3 +10,14 @@ import SwiftUI
 extension View {
 	
 }
+
+extension String {
+	
+}
+
+//extension Int {
+//	private func rateCalculated() -> Int {
+//		let rate
+//		return self * rate
+//	}
+//}
