@@ -91,4 +91,5 @@ func request(url: String, method: HTTPMethod, param: [String: Any]? = nil, compl
 			completionHandler(.failure(error))
 		}
 	}.resume()
+	
 }
