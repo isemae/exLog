@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Keypad: View {
 	@Binding var string: String
+	@FocusState private var isFocused: Bool
 	
     var body: some View {
 		VStack {
@@ -17,6 +18,10 @@ struct Keypad: View {
 			KeypadRow(keys: ["7","8","9"])
 			KeypadRow(keys: [".","0","<"])
 		}.environment(\.keypadButtonAction, self.keyPressed(_:))
+			.disabled(isFocused)
+			.onAppear() {
+				isFocused = true
+			}
     }
 	
 	private func keyPressed(_ key: String) {
