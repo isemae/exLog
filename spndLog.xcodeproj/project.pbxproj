@@ -17,6 +17,7 @@
 		082177BF2B0DFDC400D46518 /* spndLogUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177BE2B0DFDC400D46518 /* spndLogUITestsLaunchTests.swift */; };
 		082177CC2B0DFE7800D46518 /* CountryItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177CB2B0DFE7800D46518 /* CountryItems.swift */; };
 		082177CE2B0DFE9300D46518 /* Keypad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177CD2B0DFE9300D46518 /* Keypad.swift */; };
+		08AB637E2B0E706600F03C64 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AB637D2B0E706600F03C64 /* extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		082177BE2B0DFDC400D46518 /* spndLogUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = spndLogUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		082177CB2B0DFE7800D46518 /* CountryItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryItems.swift; sourceTree = "<group>"; };
 		082177CD2B0DFE9300D46518 /* Keypad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keypad.swift; sourceTree = "<group>"; };
+		08AB637D2B0E706600F03C64 /* extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				0821779F2B0DFDC300D46518 /* spndLogApp.swift */,
+				08AB637D2B0E706600F03C64 /* extensions.swift */,
 				082177A12B0DFDC300D46518 /* ContentView.swift */,
 				082177A32B0DFDC300D46518 /* Item.swift */,
 				082177CB2B0DFE7800D46518 /* CountryItems.swift */,
@@ -271,6 +274,7 @@
 				082177A02B0DFDC300D46518 /* spndLogApp.swift in Sources */,
 				082177CE2B0DFE9300D46518 /* Keypad.swift in Sources */,
 				082177CC2B0DFE7800D46518 /* CountryItems.swift in Sources */,
+				08AB637E2B0E706600F03C64 /* extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
