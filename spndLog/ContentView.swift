@@ -9,20 +9,20 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
+	@Environment(\.modelContext) private var modelContext
+	@Query private var items: [Item]
 	@State private var string = "0"
 	@State private var isShowingKeypad = false
 	let minDistance = 10.0
-
+	
 	let exchangeURL = ExchangeURL(authKey: authKey, theDateBefore: "20231101")
-
+	
 	var body: some View {
 		let bounds = UIScreen.main.bounds
 		var width = bounds.size.width
 		var height = bounds.size.height
 		
-		let groupedItems = groupItemsByDate(items: items)
+		let groupedItems = items.sortedByDate()
 		NavigationSplitView {
 			var dayTotal: Int = 0
 			ScrollView {
@@ -57,27 +57,33 @@ struct ContentView: View {
 								})
 							}
 							Divider()
-							
 						}
 						.padding(5)
 					}
 				}
 			}.padding()
-			.toolbar {
-				ToolbarItem(placement: .navigationBarTrailing) {
-					EditButton()
-				}
-				ToolbarItem {
-					Button(action: addItem) {
-						Label("Add Item", systemImage: "plus")
+				.toolbar {
+//					ToolbarItem(placement: .navigationBarTrailing) {
+//						EditButton()
+//					}
+					ToolbarItem {
+						Button(action: addItem) {
+							Label("Add Item", systemImage: "plus")
+						}
 					}
+					
+// dev only
+//					ToolbarItem(placement: .navigationBarLeading) {
+//						Button(action: deleteAll) {
+//							Label("delete All", systemImage:"trash")
+//						}
+//					}
 				}
-				ToolbarItem {
-					Button(action: deleteAll) {
-						Label("delete All", systemImage:"trash")
-					}
+				.onAppear {
+					print("Loading Exchange rate data...")
+//	Disabled for now
+//					fetchData()
 				}
-			}
 		} detail: {
 			
 		}
@@ -86,23 +92,8 @@ struct ContentView: View {
 				Text("¥")
 				Spacer()
 				Text(string)
-				Button {
-					request(url: exchangeURL.url!.absoluteString, method: .get) { result in
-						switch result {
-						case .success(let data):
-							print("Received data: \(data)")
-							// Process the data as needed
-						case .failure(let error):
-							print("Error: \(error)")
-							// Handle the error
-//							showErrorAlert(message: "Failed to fetch data. Please try again.")
-						}
-					}
-				} label: {
-					Label("Fetch Data", systemImage: "star")
-						.foregroundColor(.blue) // Optionally customize the button color
-				}
-			   
+				
+				
 			}
 			.contentShape(Rectangle())
 			.padding([.leading, .trailing])
@@ -125,7 +116,7 @@ struct ContentView: View {
 								UISelectionFeedbackGenerator().selectionChanged()
 							}
 						}
-				
+						
 					}
 					.onEnded { orientation in
 						let trans = orientation.translation
@@ -146,25 +137,25 @@ struct ContentView: View {
 		.padding()
 	}
 	
+	
+	
 	private func addItem() {
-			let newItem = Item(timestamp: Date(), balance: string)
-			modelContext.insert(newItem)
-			string = "0"
+		let newItem = Item(timestamp: Date(), balance: string)
+		modelContext.insert(newItem)
+		string = "0"
 	}
 	
-    private func deleteItems(offsets: IndexSet) {
-        
-            for index in offsets {
-                modelContext.delete(items[index])
-            }
-        
-    }
+	private func deleteItems(offsets: IndexSet) {
+		
+		for index in offsets {
+			modelContext.delete(items[index])
+		}
+	}
 	
 	private func deleteFirst() {
-			if let recentItem = items.last {
-				withAnimation {
-				modelContext.delete(recentItem)
-			}
+		if let firstGroup = items.sortedByDate().first,
+		   let recentItem = firstGroup.1.first {
+			modelContext.delete(recentItem)
 		}
 	}
 	
@@ -177,21 +168,26 @@ struct ContentView: View {
 			fatalError(error.localizedDescription)
 		}
 	}
-	func groupItemsByDate(items: [Item]) -> [(Date, [Item])] {
-		let groupedDictionary = Dictionary(grouping: items) { item in
-			Calendar.current.startOfDay(for: item.timestamp)
+	private func fetchData() {
+		guard items.isEmpty else {
+			print("Previous data already exists.")
+			return
 		}
-
-		let sortedGroups = groupedDictionary.sorted { $0.key > $1.key }
-
 		
-		let sortedItemsInGroups = sortedGroups.map { (date, items) in
-			(date, items.sorted(by: { $0.timestamp > $1.timestamp }))
+		request(url: exchangeURL.url!.absoluteString, method: .get) { result in
+			switch result {
+			case .success(let data):
+				print("Received data: \(data)")
+				
+			case .failure(let error):
+				print("Error: \(error)")
+			}
 		}
-
-		return sortedItemsInGroups
 	}
 }
+
+
+	
 
 #Preview {
     ContentView()

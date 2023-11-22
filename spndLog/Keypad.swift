@@ -54,10 +54,10 @@ struct KeypadButton: View {
 			self.action(self.key)
 			UISelectionFeedbackGenerator().selectionChanged()
 		}) {
-			
 			Color.clear
 				.overlay(RoundedRectangle(cornerRadius: 10)
-					.stroke(Color.accentColor))
+					.stroke(Color.accentColor)
+				)
 				.overlay(Text(key))
 		}
 	}
