@@ -50,13 +50,18 @@ struct KeypadRow: View {
 struct KeypadButton: View {
 	var key: String
 	var body: some View {
-		Button(action: { self.action(self.key)}) {
+		Button(action: {
+			self.action(self.key)
+			UISelectionFeedbackGenerator().selectionChanged()
+		}) {
+			
 			Color.clear
 				.overlay(RoundedRectangle(cornerRadius: 10)
 					.stroke(Color.accentColor))
 				.overlay(Text(key))
 		}
 	}
+	
 	enum ActionKey: EnvironmentKey {
 		static var defaultValue: (String) -> Void {{_ in}}
 	}
