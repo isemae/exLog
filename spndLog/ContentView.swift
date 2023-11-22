@@ -14,7 +14,9 @@ struct ContentView: View {
 	@State private var string = "0"
 	@State private var isShowingKeypad = false
 	let minDistance = 10.0
-	
+
+	let exchangeURL = ExchangeURL(authKey: authKey, theDateBefore: "20231101")
+
 	var body: some View {
 		let bounds = UIScreen.main.bounds
 		var width = bounds.size.width
@@ -84,6 +86,23 @@ struct ContentView: View {
 				Text("¥")
 				Spacer()
 				Text(string)
+				Button {
+					request(url: exchangeURL.url!.absoluteString, method: .get) { result in
+						switch result {
+						case .success(let data):
+							print("Received data: \(data)")
+							// Process the data as needed
+						case .failure(let error):
+							print("Error: \(error)")
+							// Handle the error
+//							showErrorAlert(message: "Failed to fetch data. Please try again.")
+						}
+					}
+				} label: {
+					Label("Fetch Data", systemImage: "star")
+						.foregroundColor(.blue) // Optionally customize the button color
+				}
+			   
 			}
 			.contentShape(Rectangle())
 			.padding([.leading, .trailing])
