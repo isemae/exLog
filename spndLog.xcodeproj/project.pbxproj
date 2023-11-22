@@ -15,6 +15,8 @@
 		082177B32B0DFDC400D46518 /* spndLogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177B22B0DFDC400D46518 /* spndLogTests.swift */; };
 		082177BD2B0DFDC400D46518 /* spndLogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177BC2B0DFDC400D46518 /* spndLogUITests.swift */; };
 		082177BF2B0DFDC400D46518 /* spndLogUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177BE2B0DFDC400D46518 /* spndLogUITestsLaunchTests.swift */; };
+		082177CC2B0DFE7800D46518 /* CountryItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177CB2B0DFE7800D46518 /* CountryItems.swift */; };
+		082177CE2B0DFE9300D46518 /* Keypad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177CD2B0DFE9300D46518 /* Keypad.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +48,8 @@
 		082177B82B0DFDC400D46518 /* spndLogUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = spndLogUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		082177BC2B0DFDC400D46518 /* spndLogUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = spndLogUITests.swift; sourceTree = "<group>"; };
 		082177BE2B0DFDC400D46518 /* spndLogUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = spndLogUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		082177CB2B0DFE7800D46518 /* CountryItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryItems.swift; sourceTree = "<group>"; };
+		082177CD2B0DFE9300D46518 /* Keypad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keypad.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +103,8 @@
 				0821779F2B0DFDC300D46518 /* spndLogApp.swift */,
 				082177A12B0DFDC300D46518 /* ContentView.swift */,
 				082177A32B0DFDC300D46518 /* Item.swift */,
+				082177CB2B0DFE7800D46518 /* CountryItems.swift */,
+				082177CD2B0DFE9300D46518 /* Keypad.swift */,
 				082177A52B0DFDC400D46518 /* Assets.xcassets */,
 				082177A72B0DFDC400D46518 /* Preview Content */,
 			);
@@ -263,6 +269,8 @@
 				082177A22B0DFDC300D46518 /* ContentView.swift in Sources */,
 				082177A42B0DFDC300D46518 /* Item.swift in Sources */,
 				082177A02B0DFDC300D46518 /* spndLogApp.swift in Sources */,
+				082177CE2B0DFE9300D46518 /* Keypad.swift in Sources */,
+				082177CC2B0DFE7800D46518 /* CountryItems.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
