@@ -13,48 +13,88 @@ struct ContentView: View {
     @Query private var items: [Item]
 	@State private var string = "0"
 	
-    var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                    }
-                }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
-            }
-        } detail: {
-            Text("Select an item")
-        }
+	let minDistance = 10.0
+	
+	
+	var body: some View {
+		let bounds = UIScreen.main.bounds
+		var width = bounds.size.width
+		var height = bounds.size.height
+		let groupedItems = groupItemsByDate(items: items)
+		NavigationSplitView {
+			List {
+				ForEach(groupedItems.reversed(), id: \.0) { date, itemsInDate in
+					Section(header: Text("\(date, format: Date.FormatStyle(date: .long, time: .none))")) {
+						ForEach(itemsInDate, id: \.id) { item in
+							HStack {
+								Text(" \(item.balance) ")
+								Spacer()
+								Text(" \(item.timestamp, format: Date.FormatStyle(date: .none, time: .shortened))")
+									.foregroundColor(.gray)
+							}.padding(5)
+						}
+					}
+				}
+				.onDelete(perform: deleteItems)
+			}
+			.toolbar {
+				ToolbarItem(placement: .navigationBarTrailing) {
+					EditButton()
+				}
+				ToolbarItem {
+					Button(action: addItem) {
+						Label("Add Item", systemImage: "plus")
+					}
+				}
+				ToolbarItem {
+					Button(action: deleteAll) {
+						Label("delete All", systemImage:"trash")
+					}
+				}
+			}
+		} detail: {
+			Text("Select an item")
+		}
 		VStack {
 			HStack {
 				Spacer()
 				Text(string)
-			}.padding([.leading, .trailing])
+			}
+			.contentShape(Rectangle())
+			.padding([.leading, .trailing])
+			.gesture(
+				DragGesture()
+					.onChanged { orientation in
+						let trans = orientation.translation
+						if abs(trans.width) > abs(trans.height) {
+							return
+						}
+						
+						if trans.height < minDistance {
+							if string != "0" {
+								UISelectionFeedbackGenerator().selectionChanged()
+								addItem()
+							}
+						}
+						
+						if ((orientation.location.y - orientation.startLocation.y) > 0) {
+							UISelectionFeedbackGenerator().selectionChanged()
+							deleteFirst()
+						}
+					}
+					.onEnded { orientation in }
+			)
 			Divider()
 			Keypad(string: $string)
 		}
 		.font(.largeTitle)
 		.padding()
-    }
-
+	}
+	
     private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
+			let newItem = Item(timestamp: Date(), balance: string)
+			string = "0"
             modelContext.insert(newItem)
-        }
     }
 
     private func deleteItems(offsets: IndexSet) {
@@ -64,6 +104,29 @@ struct ContentView: View {
             }
         }
     }
+	
+	private func deleteFirst() {
+		let firstItem = items.firstIndex
+//		modelContext.delete(firstItem)
+	}
+	
+	// for dev only
+	private func deleteAll() {
+		do {
+			try modelContext.delete(model: Item.self)
+		} catch {
+			fatalError(error.localizedDescription)
+		}
+	}
+	func groupItemsByDate(items: [Item]) -> [(Date, [Item])] {
+		let groupedDictionary = Dictionary(grouping: items) { item in
+			Calendar.current.startOfDay(for: item.timestamp)
+		}
+
+		let sortedGroups = groupedDictionary.sorted { $0.key > $1.key }
+
+		return sortedGroups
+	}
 }
 
 #Preview {
