@@ -11,7 +11,8 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
-
+	@State private var string = "0"
+	
     var body: some View {
         NavigationSplitView {
             List {
@@ -37,6 +38,16 @@ struct ContentView: View {
         } detail: {
             Text("Select an item")
         }
+		VStack {
+			HStack {
+				Spacer()
+				Text(string)
+			}.padding([.leading, .trailing])
+			Divider()
+			Keypad(string: $string)
+		}
+		.font(.largeTitle)
+		.padding()
     }
 
     private func addItem() {
