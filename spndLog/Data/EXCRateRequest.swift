@@ -3,23 +3,11 @@
 //  spndLog
 //
 //  Created by Jiwoon Lee on 11/23/23.
-//
+
 
 import Foundation
+import SwiftData
 
-struct Response: Decodable {
-	var result: Int
-	var cur_unit: String
-	var ttb: String
-	var tts: String
-	var deal_bas_r: String
-	var bkpr: String
-	var yy_efee_r: String
-	var ten_dd_efee_r: String
-	var kftc_bkpr: String
-	var kftc_deal_bas_r: String
-	var cur_nm: String
-}
 
 enum HTTPMethod: String {
 	case get = "GET"
@@ -28,7 +16,6 @@ enum HTTPMethod: String {
 
 struct ExchangeURL {
 	var urlComponents = URLComponents()
-
 	var url: URL? {
 		return urlComponents.url
 	}
@@ -84,8 +71,21 @@ func request(url: String, method: HTTPMethod, param: [String: Any]? = nil, compl
 		}
 
 		do {
-			let output = try JSONDecoder().decode([Response].self, from: data)
-			completionHandler(.success(output.first!.result))
+			let decoder = JSONDecoder()
+			let output = try decoder.decode([Response].self, from: data)
+			
+			let currencyNameToFind = "일본 옌"
+			filteredResponse = output.first { $0.cur_nm == currencyNameToFind }!
+			
+			if let response = filteredResponse {
+				let curNmValue = response.cur_nm
+				let dealBasR = response.deal_bas_r
+				print("cur_nm Value: \(curNmValue)")
+				print("deal_bar_r: \(dealBasR)")
+			} else {
+				print("No result found for \(currencyNameToFind)")
+			}
+//			completionHandler(.success(filteredResponse?.result ?? 0))
 		} catch {
 			print("Error: JSON Data Parsing failed")
 			completionHandler(.failure(error))

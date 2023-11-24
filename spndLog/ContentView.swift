@@ -14,17 +14,17 @@ struct ContentView: View {
 	@State private var string = "0"
 	@State private var isShowingKeypad = false
 	let minDistance = 10.0
-	
-	let exchangeURL = ExchangeURL(authKey: authKey, theDateBefore: "20231101")
-	
+
 	var body: some View {
 		let bounds = UIScreen.main.bounds
 		var width = bounds.size.width
 		var height = bounds.size.height
-		
 		let groupedItems = items.sortedByDate()
+//			var dayTotal: Int = 0
+		
+		let dealBasisRate = (Double(filteredResponse?.deal_bas_r ?? "1000") ?? 1.0) / 1000
+			
 		NavigationSplitView {
-			var dayTotal: Int = 0
 			ScrollView {
 				ForEach(groupedItems, id: \.0) { date, itemsInDate in
 					HStack(alignment: .top) {
@@ -32,29 +32,36 @@ struct ContentView: View {
 							Text("\(date, format: Date.FormatStyle(date: .numeric, time: .none))")
 								.font(.title2)
 								.foregroundColor(.blue)
+							
 						}
+						Divider()
 						VStack(alignment: .trailing) {
-							VStack {
-								ForEach(itemsInDate, id: \.id) { item in
-									HStack {
-										Text("₩\(item.balance)")
-											.onAppear {
-												if let balance = Int(item.balance) {
-													dayTotal += balance
-												}
-											}
-											.font(.title)
-										Spacer()
-										Text("\(item.timestamp, format: Date.FormatStyle(date: .none, time: .shortened))")
-											.foregroundColor(.gray)
+//							Text(dealBasisRate ?? "0")
+							ForEach(itemsInDate, id: \.id) { item in
+								HStack {
+									if let balance = Double(item.balance) {
+										Text("₩")
 											.font(.title2)
+										Spacer()
+										Text("\(Int(round(balance * dealBasisRate)))")
+											.font(.title)
 									}
-									.transition(.move(edge: .bottom).combined(with: .opacity))
+									
+//										.onAppear {
+//											if let balance = Int(item.balance) {
+//												dayTotal += balance
+//											}
+//										}
+									
+									Text("\(item.timestamp, format: Date.FormatStyle(date: .none, time: .shortened))")
+										.foregroundColor(.gray)
+										.font(.title2)
 								}
-								.onDelete(perform: { indexSet in
-									deleteItems(offsets: indexSet)
-									dayTotal = itemsInDate.reduce(0) { $0 + Int($1.balance)! }
-								})
+								.transition(.move(edge: .bottom).combined(with: .opacity))
+//									.onDelete(perform: { indexSet in
+//										deleteItems(offsets: indexSet)
+//										dayTotal = itemsInDate.reduce(0) { $0 + Int($1.balance)! }
+//									})
 							}
 							Divider()
 						}
@@ -63,37 +70,35 @@ struct ContentView: View {
 				}
 			}.padding()
 				.toolbar {
-//					ToolbarItem(placement: .navigationBarTrailing) {
-//						EditButton()
-//					}
+					//	ToolbarItem(placement: .navigationBarTrailing) {
+					//		EditButton()
+					//	}
 					ToolbarItem {
 						Button(action: addItem) {
 							Label("Add Item", systemImage: "plus")
 						}
 					}
 					
-// dev only
-//					ToolbarItem(placement: .navigationBarLeading) {
-//						Button(action: deleteAll) {
-//							Label("delete All", systemImage:"trash")
-//						}
-//					}
+					//					dev only
+					ToolbarItem(placement: .navigationBarLeading) {
+						Button(action: deleteAll) {
+							Label("delete All", systemImage:"trash")
+						}
+					}
 				}
 				.onAppear {
-					print("Loading Exchange rate data...")
-//	Disabled for now
-//					fetchData()
+//					print("Loading Exchange rate data...")
+					fetchData()
 				}
 		} detail: {
 			
 		}
 		VStack {
+			Divider()
 			HStack {
 				Text("¥")
 				Spacer()
 				Text(string)
-				
-				
 			}
 			.contentShape(Rectangle())
 			.padding([.leading, .trailing])
@@ -111,10 +116,8 @@ struct ContentView: View {
 						}
 						
 						if trans.height < minDistance {
-							if string != "0" {
-								addItem()
-								UISelectionFeedbackGenerator().selectionChanged()
-							}
+							addItem()
+							UISelectionFeedbackGenerator().selectionChanged()
 						}
 						
 					}
@@ -137,12 +140,12 @@ struct ContentView: View {
 		.padding()
 	}
 	
-	
-	
 	private func addItem() {
-		let newItem = Item(timestamp: Date(), balance: string)
-		modelContext.insert(newItem)
-		string = "0"
+		if string != "0" {
+			let newItem = Item(timestamp: Date(), balance: string)
+			modelContext.insert(newItem)
+			string = "0"
+		}
 	}
 	
 	private func deleteItems(offsets: IndexSet) {
@@ -161,33 +164,39 @@ struct ContentView: View {
 	
 	// for dev only
 	private func deleteAll() {
-		do {
-			try? modelContext.fetch(FetchDescriptor<Item>()).forEach { modelContext.delete($0)}
-			try? modelContext.save()
-		} catch {
-			fatalError(error.localizedDescription)
-		}
+		try? modelContext.fetch(FetchDescriptor<Item>()).forEach { modelContext.delete($0)}
+		try? modelContext.save()
 	}
-	private func fetchData() {
-		guard items.isEmpty else {
-			print("Previous data already exists.")
-			return
-		}
 		
-		request(url: exchangeURL.url!.absoluteString, method: .get) { result in
-			switch result {
-			case .success(let data):
-				print("Received data: \(data)")
+	
+		private func fetchData() {
+			let exchangeURL = ExchangeURL(authKey: authKey, theDateBefore: getCurrentYYYYMMDD())
+			if let lastFetchTime = UserDefaults.standard.value(forKey: "LastFetchTime") as? Date,
+			   calendar.isDateInToday(lastFetchTime) {
+				print("maybe tomorrow")
+			} else {
+			UserDefaults.standard.set(Date(), forKey: "LastFetchTime")
 				
-			case .failure(let error):
-				print("Error: \(error)")
+			if let AM11 = calendar.date(from: AM11), Date() > AM11 {
+//				guard items.isEmpty else {
+//					print("Previous data already exists.")
+//					return
+//				}
+				request(url: exchangeURL.url!.absoluteString, method: .get) { result in
+					switch result {
+					case .success(let data):
+						print("Received data: \(data)")
+						
+					case .failure(let error):
+						print("Error: \(error)")
+						
+					}
+				}
 			}
 		}
 	}
 }
 
-
-	
 
 #Preview {
     ContentView()
