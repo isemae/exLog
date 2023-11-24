@@ -10,6 +10,7 @@ import SwiftData
 
 @main
 struct spndLogApp: App {
+	
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
@@ -26,9 +27,10 @@ struct spndLogApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-				
+			
         }
         .modelContainer(sharedModelContainer)
+		
     }
 	
 }

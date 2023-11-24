@@ -34,6 +34,7 @@ struct ExchangeURL {
 
 
 func request(url: String, method: HTTPMethod, param: [String: Any]? = nil, completionHandler: @escaping (Result<Int, Error>) -> Void) {
+	
 	guard let url = URL(string: url) else {
 		print("Error: Cannot create URL")
 		completionHandler(.failure(NSError(domain: "URLCreationError", code: 0, userInfo: nil)))
@@ -92,4 +93,28 @@ func request(url: String, method: HTTPMethod, param: [String: Any]? = nil, compl
 		}
 	}.resume()
 	
+}
+
+func fetchData() {
+	let exchangeURL = ExchangeURL(authKey: authKey, theDateBefore: dateFormat("yyyymmdd"))
+	
+	UserDefaults.standard.set(Date(), forKey: "LastFetchTime")
+	
+	if let AM11 = calendar.date(from: AM11), Date() > AM11 {
+//		if let lastFetchTime = UserDefaults.standard.value(forKey: "LastFetchTime") as? Date,
+//		   calendar.isDateInToday(lastFetchTime) {
+//			print("maybe tomorrow")
+//		} else {
+			request(url: exchangeURL.url!.absoluteString, method: .get) { result in
+				switch result {
+				case .success(let data):
+					print("Received data: \(data)")
+					
+				case .failure(let error):
+					print("Error: \(error)")
+					
+//				}
+			}
+		}
+	}
 }
