@@ -43,7 +43,7 @@ struct ContentView: View {
 										Text("₩")
 											.font(.title2)
 										Spacer()
-										Text("\(Int(round(balance * dealBasisRate)))")
+										Text("\(item.calculatedBalance)")
 											.font(.title)
 									}
 									
@@ -95,7 +95,7 @@ struct ContentView: View {
 			HStack {
 				Text("¥")
 				Spacer()
-				Text(string)
+				Text(formatNumber(string))
 			}
 			.contentShape(Rectangle())
 			.padding([.leading, .trailing])
@@ -143,10 +143,12 @@ struct ContentView: View {
 	
 	
 	private func addItem() {
-		if string != "0" {
-			let newItem = Item(timestamp: Date(), balance: string)
-			modelContext.insert(newItem)
-			string = "0"
+		if let balance = Double(string) {
+			if string != "0" {
+				let newItem = Item(timestamp: Date(), balance: String(balance))
+				modelContext.insert(newItem)
+				string = "0"
+			}
 		}
 	}
 	
@@ -170,6 +172,14 @@ struct ContentView: View {
 		try? modelContext.save()
 	}
 	
+	private func formatNumber(_ number: String) -> String {
+		if let doubleValue = Double(number) {
+			let formatter = NumberFormatter()
+			formatter.numberStyle = .decimal
+			return formatter.string(from: NSNumber(value: doubleValue)) ?? ""
+		}
+		return ""
+	}
 }
 
 
