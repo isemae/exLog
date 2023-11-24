@@ -31,9 +31,6 @@ extension Array where Element == Item {
 	}
 }
 
-//extension Int {
-//	private func rateCalculated() -> Int {
-//		let rate
-//		return self * rate
-//	}
-//}
+extension Int {
+	
+}
