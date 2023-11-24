@@ -29,14 +29,14 @@ struct ContentView: View {
 				ForEach(groupedItems, id: \.0) { date, itemsInDate in
 					HStack(alignment: .top) {
 						VStack {
-							Text("\(date, format: Date.FormatStyle(date: .numeric, time: .none))")
-								.font(.title2)
-								.foregroundColor(.blue)
+							Text("\(dateFormat("mm/dd"))")
+								.font(.title)
+								.foregroundColor(dayColor())
 							
 						}
 						Divider()
 						VStack(alignment: .trailing) {
-//							Text(dealBasisRate ?? "0")
+							//							Text(dealBasisRate ?? "0")
 							ForEach(itemsInDate, id: \.id) { item in
 								HStack {
 									if let balance = Double(item.balance) {
@@ -47,21 +47,21 @@ struct ContentView: View {
 											.font(.title)
 									}
 									
-//										.onAppear {
-//											if let balance = Int(item.balance) {
-//												dayTotal += balance
-//											}
-//										}
+									//										.onAppear {
+									//											if let balance = Int(item.balance) {
+									//												dayTotal += balance
+									//											}
+									//										}
 									
 									Text("\(item.timestamp, format: Date.FormatStyle(date: .none, time: .shortened))")
 										.foregroundColor(.gray)
 										.font(.title2)
 								}
 								.transition(.move(edge: .bottom).combined(with: .opacity))
-//									.onDelete(perform: { indexSet in
-//										deleteItems(offsets: indexSet)
-//										dayTotal = itemsInDate.reduce(0) { $0 + Int($1.balance)! }
-//									})
+								//									.onDelete(perform: { indexSet in
+								//										deleteItems(offsets: indexSet)
+								//										dayTotal = itemsInDate.reduce(0) { $0 + Int($1.balance)! }
+								//									})
 							}
 							Divider()
 						}
@@ -86,10 +86,7 @@ struct ContentView: View {
 						}
 					}
 				}
-				.onAppear {
-//					print("Loading Exchange rate data...")
-					fetchData()
-				}
+		
 		} detail: {
 			
 		}
@@ -137,8 +134,13 @@ struct ContentView: View {
 				.transition(.move(edge: .bottom))
 		}
 		.font(.largeTitle)
-		.padding()
+		.padding()	
+		.onAppear {
+			// print("Loading Exchange rate data...")
+//					 fetchData()
+				 }
 	}
+	
 	
 	private func addItem() {
 		if string != "0" {
@@ -167,34 +169,7 @@ struct ContentView: View {
 		try? modelContext.fetch(FetchDescriptor<Item>()).forEach { modelContext.delete($0)}
 		try? modelContext.save()
 	}
-		
 	
-		private func fetchData() {
-			let exchangeURL = ExchangeURL(authKey: authKey, theDateBefore: getCurrentYYYYMMDD())
-			if let lastFetchTime = UserDefaults.standard.value(forKey: "LastFetchTime") as? Date,
-			   calendar.isDateInToday(lastFetchTime) {
-				print("maybe tomorrow")
-			} else {
-			UserDefaults.standard.set(Date(), forKey: "LastFetchTime")
-				
-			if let AM11 = calendar.date(from: AM11), Date() > AM11 {
-//				guard items.isEmpty else {
-//					print("Previous data already exists.")
-//					return
-//				}
-				request(url: exchangeURL.url!.absoluteString, method: .get) { result in
-					switch result {
-					case .success(let data):
-						print("Received data: \(data)")
-						
-					case .failure(let error):
-						print("Error: \(error)")
-						
-					}
-				}
-			}
-		}
-	}
 }
 
 

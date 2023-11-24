@@ -16,7 +16,7 @@ struct Keypad: View {
 			KeypadRow(keys: ["1","2","3"])
 			KeypadRow(keys: ["4","5","6"])
 			KeypadRow(keys: ["7","8","9"])
-			KeypadRow(keys: [".","0","<"])
+			KeypadRow(keys: [".","0","⌫"])
 		}.environment(\.keypadButtonAction, self.keyPressed(_:))
 			.disabled(isFocused)
 			.onAppear() {
@@ -28,7 +28,7 @@ struct Keypad: View {
 		switch key {
 		case "." where string.contains("."): break
 		case "." where string == "0" : string += key
-		case "<": string.removeLast()
+		case "⌫": string.removeLast()
 			if string.isEmpty { string = "0" }
 		case _ where string == "0": string = key
 		default: string += key
