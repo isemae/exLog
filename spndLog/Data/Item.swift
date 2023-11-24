@@ -18,5 +18,11 @@ final class Item {
 		self.balance = balance
 		self.id = UUID()
     }
-	
+	var calculatedBalance: Int {
+			if let balance = Double(balance) {
+				return Int(round(balance * dealBasisRate))
+			}
+			return 0
+		}
+	let dealBasisRate = (Double(filteredResponse?.deal_bas_r ?? "1000") ?? 1.0) / 1000
 }
