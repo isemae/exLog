@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import Foundation
 
 struct ContentView: View {
 	@Environment(\.modelContext) private var modelContext
@@ -27,11 +28,13 @@ struct ContentView: View {
 		NavigationSplitView {
 			ScrollView {
 				ForEach(groupedItems, id: \.0) { date, itemsInDate in
+					let dateFormatter = DateFormatter()
 					HStack(alignment: .top) {
 						VStack {
-							Text("\(dateFormat("mm/dd"))")
+							Text("\(dateFormat(for: date, format: "mm/dd"))")
+//							Text("\(dateFormatter.string(from: date))")
 								.font(.title)
-								.foregroundColor(dayColor())
+								.foregroundColor(dayColor(for: date))
 							
 						}
 						Divider()
@@ -80,11 +83,11 @@ struct ContentView: View {
 					}
 					
 					//					dev only
-					ToolbarItem(placement: .navigationBarLeading) {
-						Button(action: deleteAll) {
-							Label("delete All", systemImage:"trash")
-						}
-					}
+//					ToolbarItem(placement: .navigationBarLeading) {
+//						Button(action: deleteAll) {
+//							Label("delete All", systemImage:"trash")
+//						}
+//					}
 				}
 		
 		} detail: {
@@ -108,21 +111,21 @@ struct ContentView: View {
 				DragGesture()
 					.onChanged { orientation in
 						let trans = orientation.translation
+						
+						// on swipe up
+						if trans.height < minDistance {
+							addItem()
+						}
+						
+						// restricts swipe directions
 						if abs(trans.width) > abs(trans.height) {
 							return
 						}
-						
-						if trans.height < minDistance {
-							addItem()
-							UISelectionFeedbackGenerator().selectionChanged()
-						}
-						
 					}
 					.onEnded { orientation in
 						let trans = orientation.translation
 						if (trans.height > minDistance) {
 							deleteFirst()
-							UISelectionFeedbackGenerator().selectionChanged()
 						}
 					}
 			)
@@ -147,6 +150,7 @@ struct ContentView: View {
 			if string != "0" {
 				let newItem = Item(timestamp: Date(), balance: String(balance))
 				modelContext.insert(newItem)
+				UISelectionFeedbackGenerator().selectionChanged()
 				string = "0"
 			}
 		}
@@ -163,6 +167,7 @@ struct ContentView: View {
 		if let firstGroup = items.sortedByDate().first,
 		   let recentItem = firstGroup.1.first {
 			modelContext.delete(recentItem)
+			UISelectionFeedbackGenerator().selectionChanged()
 		}
 	}
 	
