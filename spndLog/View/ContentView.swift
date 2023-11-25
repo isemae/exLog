@@ -12,7 +12,7 @@ import Foundation
 struct ContentView: View {
 	@Environment(\.modelContext) private var modelContext
 	@Query private var items: [Item]
-	@State private var frames: [CGRect] = []
+	@State var dateFrames: [CGRect] = []
 	@State private var string = "0"
 	@State private var isShowingKeypad = false
 	
@@ -20,17 +20,16 @@ struct ContentView: View {
 
 	var body: some View {
 		let bounds = UIScreen.main.bounds
-		var width = bounds.size.width
-		var height = bounds.size.height
+		var screenWidth = bounds.size.width
+		var screenHeight = bounds.size.height
 		let groupedItems = items.sortedByDate()
 		//			var dayTotal: Int = 0
 		
-		let dealBasisRate = (Double(filteredResponse?.deal_bas_r ?? "1000") ?? 1.0) / 1000
+		let dealBasisRate = (Double(filteredResponse?.basePrice ?? 1000.0) ?? 1.0) / 1000
 		
 		NavigationSplitView {
 			ScrollView {
-				ForEach(groupedItems, id: \.0) { date, itemsInDate in
-					let dateFormatter = DateFormatter()
+				ForEach(groupedItems.sorted(by: { $0.0 > $1.0}), id: \.0) { date, itemsInDate in
 					VStack(alignment: .leading, spacing: 0) {
 						Group {
 							HStack {
@@ -44,28 +43,33 @@ struct ContentView: View {
 							}
 							Divider()
 						}
-		
-						.sticky(frames)
+						.sticky(dateFrames)
+						.padding(.top, 10)
+					
+						let sortedItems = itemsInDate.sorted { $0.timestamp > $1.timestamp }
 						
-						VStack(alignment: .leading) {
-							ForEach(itemsInDate, id: \.id) { item in
-								HStack {
+						ForEach(sortedItems, id: \.id) { item in
+							HStack (alignment: .top){
+								VStack(alignment: .leading) {
 									Text("\(item.timestamp, format: Date.FormatStyle(date: .none, time: .shortened))")
 										.foregroundColor(.gray)
 										.font(.title2)
-									if let balance = Double(item.balance) {
-										Text("¥ →")
-											.font(.title2)
+									
+									Text("¥ → ₩")
+										.font(.title2)
+								}
+								VStack {
+									HStack {
 										Spacer()
 										Text("₩\(item.calculatedBalance)")
 											.font(.title)
 										//										.opacity(opacityForItem(item))
 									}
-								}
+								}.padding([.top, .bottom], 5)
 							}
 						}
-						.padding([.top, .trailing], 10)
-						.padding([.leading], 5)
+						
+						.padding([.top, .leading, .trailing], 10)
 						//						Divider()
 						//						VStack(alignment: .trailing) {
 						//							Text(dealBasisRate ?? "0")
@@ -78,25 +82,23 @@ struct ContentView: View {
 						//										}
 					}
 					.padding([.bottom], 20)
-						//								.transition(.move(edge: .bottom).combined(with: .opacity))
-						//									.onDelete(perform: { indexSet in
-						//										deleteItems(offsets: indexSet)
-						//										dayTotal = itemsInDate.reduce(0) { $0 + Int($1.balance)! }
-						//									})
-//					}
-//					Divider()
-//				}
-//			}
-		}
+					.transition(.move(edge: .top).combined(with: .opacity))
+					//					.onDelete(perform: { indexSet in
+					//						deleteItems(offsets: indexSet)
+					//						dayTotal = itemsInDate.reduce(0) { $0 + Int($1.balance)! }
+					//					})
+					//					}
+					//					Divider()
+					//				}
+					//			}
+				}
 				.padding([.leading, .trailing], 10)
+				.frame(width: screenWidth)
 				
 			}
-		
-
 			.coordinateSpace(name: "container")
 			.onPreferenceChange(FramePreference.self, perform: {
-				frames = $0.sorted(by: { $0.minY < $1.minY
-				})
+				dateFrames = $0.sorted(by: { $0.minY < $1.minY })
 			})
 //				.toolbar {
 //					//	ToolbarItem(placement: .navigationBarTrailing) {
@@ -107,13 +109,13 @@ struct ContentView: View {
 //							Label("Add Item", systemImage: "plus")
 //						}
 //					}
-					
-					//					dev only
-//					ToolbarItem(placement: .navigationBarLeading) {
-//						Button(action: deleteAll) {
-//							Label("delete All", systemImage:"trash")
-//						}
-//					}
+//					
+////										dev only
+////					ToolbarItem(placement: .navigationBarLeading) {
+////						Button(action: deleteAll) {
+////							Label("delete All", systemImage:"trash")
+////						}
+////					}
 //				}
 		} detail: {
 		}
@@ -153,9 +155,9 @@ struct ContentView: View {
 						}
 					}
 					.onEnded { orientation in
-						let trans = orientation.translation
-						if (trans.height > minDistance) {
-							deleteFirst()
+							let trans = orientation.translation
+							if (trans.height > minDistance) {
+								deleteFirst()
 						}
 					}
 			)
@@ -163,9 +165,9 @@ struct ContentView: View {
 			VStack(spacing: 0) {
 				Divider()
 				Keypad(string: $string)
-					.frame(height: isShowingKeypad ? height / 3.5 : 0)
+					.frame(height: isShowingKeypad ? screenHeight / 3.5 : 0)
 					.opacity(isShowingKeypad ? 1 : 0)
-					.offset(y: isShowingKeypad ? 0 : height)
+					.offset(y: isShowingKeypad ? 0 : screenHeight)
 					.transition(.move(edge: .bottom))
 			}
 		}
@@ -173,35 +175,40 @@ struct ContentView: View {
 		.padding()	
 		.onAppear {
 			// print("Loading Exchange rate data...")
-			// fetchData()
+			 fetchData()
 		}
 						
 	}
 	
 	
 	private func addItem() {
-		if let balance = Double(string) {
-			if string != "0" {
-				let newItem = Item(timestamp: Date(), balance: String(balance))
-				modelContext.insert(newItem)
-				UISelectionFeedbackGenerator().selectionChanged()
-				string = "0"
+		withAnimation(.easeInOut(duration: 0.2)) {
+			if let balance = Double(string) {
+				if string != "0" {
+					let newItem = Item(timestamp: Date(), balance: String(balance))
+					modelContext.insert(newItem)
+					UISelectionFeedbackGenerator().selectionChanged()
+					string = "0"
+				}
 			}
 		}
 	}
 	
 	private func deleteItems(offsets: IndexSet) {
-		
-		for index in offsets {
-			modelContext.delete(items[index])
+		withAnimation() {
+			for index in offsets {
+				modelContext.delete(items[index])
+			}
 		}
 	}
 	
 	private func deleteFirst() {
-		if let firstGroup = items.sortedByDate().first,
-		   let recentItem = firstGroup.1.first {
-			modelContext.delete(recentItem)
-			UISelectionFeedbackGenerator().selectionChanged()
+		withAnimation() {
+			if let firstGroup = items.sortedByDate().first,
+			   let recentItem = firstGroup.1.first {
+				modelContext.delete(recentItem)
+				UISelectionFeedbackGenerator().selectionChanged()
+			}
 		}
 	}
 	

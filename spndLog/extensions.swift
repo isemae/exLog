@@ -7,6 +7,35 @@
 
 import SwiftUI
 
+extension Int {
+	
+}
+extension String {
+	
+}
+extension Array where Element == Item {
+	func sortedByDate() -> [(Date, [Item])] {
+		let groupedDictionary = Dictionary(grouping: self) { item in
+			Calendar.current.startOfDay(for: item.timestamp)
+		}
+		
+		let sortedGroups = groupedDictionary.sorted { $0.key > $1.key }
+		
+		let sortedItemsInGroups = sortedGroups.map { (date, items) in
+			(date, items.sorted(by: { $0.timestamp > $1.timestamp }))
+		}
+		
+		return sortedItemsInGroups
+	}
+	
+//	func sortedByTime() -> [Item] {
+//		let groupedDictionary = Dirtionary(grouping: self) { item in
+//			calendar.current.startOfDay(for: item.timestamp)
+//		}
+//		return sortedItemsInGroups
+//	}
+}
+
 struct FramePreference: PreferenceKey {
 	static var defaultValue: [CGRect] = []
 	
@@ -35,12 +64,10 @@ struct Sticky: ViewModifier {
 		
 	func body(content: Content) -> some View {
 		content
-			.offset(y: isSticking ? -frame.minY : 0)
+			.offset(y: offset)
 			.zIndex(isSticking ? .infinity : 0)
-			.overlay(GeometryReader {
-				geo in
-				let f = geo.frame(in:
-						.named("container"))
+			.overlay(GeometryReader { geo in
+				let f = geo.frame(in: .named("container"))
 				Color.clear
 					.onAppear { frame = f }
 					.onChange(of: f) { frame = $0 }
@@ -55,44 +82,40 @@ extension View {
 	}
 }
 
-extension String {
-	
-}
 
-extension Array where Element == Item {
-	func sortedByDate() -> [(Date, [Item])] {
-		let groupedDictionary = Dictionary(grouping: self) { item in
-			Calendar.current.startOfDay(for: item.timestamp)
+
+
+struct StickyView: View {
+	@State private var frames: [CGRect] = []
+	
+	var body: some View {
+		ScrollView {
+			contents
 		}
+		.coordinateSpace(name: "container")
+		.onPreferenceChange(FramePreference.self, perform: {
+			frames = $0.sorted(by: { $0.minY < $1.minY })
+		})
+}
+	@ViewBuilder var contents: some View {
+		Image(systemName: "globe")
+			.imageScale(.large)
+			.foregroundColor(.accentColor)
+			.padding()
 		
-		let sortedGroups = groupedDictionary.sorted { $0.key > $1.key }
-		
-		let sortedItemsInGroups = sortedGroups.map { (date, items) in
-			(date, items.sorted(by: { $0.timestamp > $1.timestamp }))
+		ForEach(0..<50) { ix in
+			Text("Heading \(ix)")
+				.font(.headline)
+				.frame(maxWidth: .infinity)
+				.background(.regularMaterial)
+				.sticky(frames)
+			
+			Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut turpis tempor, porta diam ut, iaculis leo. Phasellus condimentum euismod enim fringilla vulputate. Suspendisse sed quam mattis, suscipit ipsum vel, volutpat quam. Donec sagittis felis nec nulla viverra, et interdum enim sagittis. Nunc egestas scelerisque enim ac feugiat.")
+				.padding()
 		}
-		
-		return sortedItemsInGroups
 	}
-	
-//	func sortedByTime() -> [Item] {
-//		let groupedDictionary = Dirtionary(grouping: self) { item in
-//			calendar.current.startOfDay(for: item.timestamp)
-//		}
-//		return sortedItemsInGroups
-//	}
-}
-
-extension Int {
-	
 }
 
 #Preview {
-	ScrollView {
-		VStack {
-			Text("1")
-//				.sticky()
-		Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
-		}
-	}
-	.coordinateSpace(name:"container")
+	StickyView()
 }

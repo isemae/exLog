@@ -13,25 +13,33 @@ enum HTTPMethod: String {
 	case get = "GET"
 	case post = "POST"
 }
-
+var currencyCode = "JPY"
 struct ExchangeURL {
 	var urlComponents = URLComponents()
 	var url: URL? {
 		return urlComponents.url
 	}
 
-	init(authKey: String, date: String) {
+	init() {
 		urlComponents.scheme = "https"
-		urlComponents.host = "www.koreaexim.go.kr"
-		urlComponents.path = "/site/program/financial/exchangeJSON"
+		urlComponents.host = "quotation-api-cdn.dunamu.com"
+		urlComponents.path = "/v1/forex/recent"
 		urlComponents.queryItems = [
-			URLQueryItem(name: "authkey", value: authKey),
-			URLQueryItem(name: "searchdate", value: date),
-			URLQueryItem(name: "data", value: "AP01"),
+			URLQueryItem(name: "codes", value: "FRX.KRWJPY"),
 		]
 	}
+//	init(authKey: String, date: String) {
+//		urlComponents.scheme = "https"
+//		urlComponents.host = "www.koreaexim.go.kr"
+//		urlComponents.path = "/site/program/financial/exchangeJSON"
+//		urlComponents.queryItems = [
+//			URLQueryItem(name: "authkey", value: authKey),
+//			URLQueryItem(name: "searchdate", value: date),
+//			URLQueryItem(name: "data", value: "AP01"),
+//		]
+//	}
+	
 }
-
 
 func request(url: String, method: HTTPMethod, param: [String: Any]? = nil, completionHandler: @escaping (Result<Int, Error>) -> Void) {
 	
@@ -58,35 +66,35 @@ func request(url: String, method: HTTPMethod, param: [String: Any]? = nil, compl
 			completionHandler(.failure(error!))
 			return
 		}
-
+		
 		guard let data = data else {
 			print("Error: Could not receive data")
 			completionHandler(.failure(NSError(domain: "NoDataError", code: 0, userInfo: nil)))
 			return
 		}
-
+		
 		guard let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode else {
 			print("Error: HTTP request failed")
 			completionHandler(.failure(NSError(domain: "HTTPError", code: 0, userInfo: nil)))
 			return
 		}
-
+		
 		do {
 			let decoder = JSONDecoder()
 			let output = try decoder.decode([Response].self, from: data)
 			
-			let currencyNameToFind = "일본 옌"
-			filteredResponse = output.first { $0.cur_nm == currencyNameToFind }!
+			let currencyCodeToFind = "JPY"
+			filteredResponse = output.first { $0.currencyCode == currencyCodeToFind }
 			
 			if let response = filteredResponse {
-				let curNmValue = response.cur_nm
-				let dealBasR = response.deal_bas_r
+				let curNmValue = response.currencyCode
+				let dealBasR = response.basePrice
 				print("cur_nm Value: \(curNmValue)")
 				print("deal_bar_r: \(dealBasR)")
 			} else {
-				print("No result found for \(currencyNameToFind)")
+				print("No result found for \(currencyCodeToFind)")
 			}
-			completionHandler(.success(filteredResponse?.result ?? 0))
+			completionHandler(.success(filteredResponse?.id ?? 0))
 		} catch {
 			print("Error: JSON Data Parsing failed")
 			completionHandler(.failure(error))
@@ -96,37 +104,26 @@ func request(url: String, method: HTTPMethod, param: [String: Any]? = nil, compl
 }
 
 func fetchData() {
-	let isAfter11AM = calendar.date(from: AM11).map { Date() > $0 } ?? false
-	UserDefaults.standard.set(Date(), forKey: "LastFetchTime")
+	let exchangeURL = ExchangeURL()
+//	let exchangeURL = ExchangeURL(authKey: authKey, date: dateFormat(for: Date(), format: "default"))
+//	for key in UserDefaults.standard.dictionaryRepresentation().keys {
+//		UserDefaults.standard.removeObject(forKey: key.description)
+//	}
+//	UserDefaults.standard.set(Date(), forKey: "LastFetchTime")
 	
-	if isAfter11AM {
-		if let lastFetchTime = UserDefaults.standard.value(forKey: "LastFetchTime") as? Date,
-		   calendar.isDateInToday(lastFetchTime) {
-			print("Already fetched the data for today")
-		} else {
-			fetchDataForDate(date: Date())
-		}
-	} else {
-		let yesterdayDate = yesterday()
-		fetchDataForDate(date: yesterdayDate)
-		print("not 11am yet")
-	}
-	print(filteredResponse?.result)
-}
-
-func fetchDataForDate(date: Date) {
-	let exchangeURL = ExchangeURL(authKey: authKey, date: dateFormat(for: date, format: "yyyymmdd"))
+//	if let AM11 = calendar.date(from: AM11), Date() > AM11 {
+//		if let lastFetchTime = UserDefaults.standard.value(forKey: "LastFetchTime") as? Date,
+//		   calendar.isDateInToday(lastFetchTime) {
+//			print("maybe tomorrow")
+//		} else {
 	request(url: exchangeURL.url!.absoluteString, method: .get) { result in
-		switch result {
-		case .success(let data):
-			print("Received data: \(data)")
-		case .failure(let error):
-			print("Error: \(error)")
+				switch result {
+				case .success(let data):
+					print("Received data: \(data)")
+					
+				case .failure(let error):
+					print("Error: \(error)")
+				}
+			}
 		}
-	}
-}
 
-func yesterday() -> Date {
-	let calendar = Calendar.current
-	return calendar.date(byAdding: .day, value: -1, to: Date()) ?? Date()
-}
