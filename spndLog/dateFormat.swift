@@ -36,7 +36,7 @@ func dayColor(for date: Date) -> Color {
 	case 7:
 		return Color.blue
 	default:
-		return Color.gray
+		return Color.primary
 	}
 }
 
