@@ -24,5 +24,5 @@ final class Item {
 			}
 			return 0
 		}
-	let dealBasisRate = (Double(filteredResponse?.deal_bas_r ?? "1000") ?? 1.0) / 1000
+	let dealBasisRate = (Double(filteredResponse?.basePrice ?? 1000.0) ) / 1000
 }
