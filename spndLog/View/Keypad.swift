@@ -53,7 +53,6 @@ struct KeypadButton: View {
 	var body: some View {
 		Button(action: {
 			self.action(self.key)
-//			UISelectionFeedbackGenerator().selectionChanged()
 			UIImpactFeedbackGenerator().impactOccurred(intensity: 0.7)
 		}) {
 			Color.clear
@@ -61,6 +60,7 @@ struct KeypadButton: View {
 					.stroke(Color.accentColor)
 				)
 				.overlay(Text(key))
+				.contentShape(Rectangle())
 		}
 	}
 	
