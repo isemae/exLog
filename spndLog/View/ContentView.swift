@@ -15,8 +15,10 @@ struct ContentView: View {
 	@State var dateFrames: [CGRect] = []
 	@State private var string = "0"
 	@State private var isShowingKeypad = false
+	@State private var currentCurrency = "¥"
 	
 	let minDistance = 10.0
+	
 
 	var body: some View {
 		let bounds = UIScreen.main.bounds
@@ -25,11 +27,12 @@ struct ContentView: View {
 		let groupedItems = items.sortedByDate()
 		//			var dayTotal: Int = 0
 		
-		let dealBasisRate = (Double(filteredResponse?.basePrice ?? 1000.0) ?? 1.0) / 1000
-		
 		NavigationSplitView {
 			ScrollView {
 				ForEach(groupedItems.sorted(by: { $0.0 > $1.0}), id: \.0) { date, itemsInDate in
+					let sortedItems = itemsInDate.sorted { $0.timestamp > $1.timestamp }
+					let sumForDate = sortedItems.reduce(0) { $0 + $1.calculatedBalance }
+
 					VStack(alignment: .leading, spacing: 0) {
 						Group {
 							HStack {
@@ -37,7 +40,8 @@ struct ContentView: View {
 									.font(.title)
 									.foregroundColor(dayColor(for: date))
 								Spacer()
-								Text("₩sum")
+								
+								Text("₩\(sumForDate)")
 									.font(.title2)
 									.foregroundColor(.gray)
 							}
@@ -46,7 +50,6 @@ struct ContentView: View {
 						.sticky(dateFrames)
 						.padding(.top, 10)
 					
-						let sortedItems = itemsInDate.sorted { $0.timestamp > $1.timestamp }
 						
 						ForEach(sortedItems, id: \.id) { item in
 							HStack (alignment: .top){
@@ -55,7 +58,7 @@ struct ContentView: View {
 										.foregroundColor(.gray)
 										.font(.title2)
 									
-									Text("¥ → ₩")
+									Text("\(currentCurrency) → ₩")
 										.font(.title2)
 								}
 								VStack {
@@ -100,35 +103,34 @@ struct ContentView: View {
 			.onPreferenceChange(FramePreference.self, perform: {
 				dateFrames = $0.sorted(by: { $0.minY < $1.minY })
 			})
-//				.toolbar {
-//					//	ToolbarItem(placement: .navigationBarTrailing) {
-//					//		EditButton()
-//					//	}
-//					ToolbarItem {
-//						Button(action: addItem) {
-//							Label("Add Item", systemImage: "plus")
+				.toolbar {
+					//	ToolbarItem(placement: .navigationBarTrailing) {
+					//		EditButton()
+					//	}
+					ToolbarItem {
+						Button(action: addItem) {
+							Label("Add Item", systemImage: "plus")
+						}
+					}
+					
+//										dev only
+//					ToolbarItem(placement: .navigationBarLeading) {
+//						Button(action: deleteAll) {
+//							Label("delete All", systemImage:"trash")
 //						}
 //					}
-//					
-////										dev only
-////					ToolbarItem(placement: .navigationBarLeading) {
-////						Button(action: deleteAll) {
-////							Label("delete All", systemImage:"trash")
-////						}
-////					}
-//				}
+				}
 		} detail: {
 		}
 		
 		VStack {
 			Divider()
 			HStack {
-				Text("¥")
+				Text(currentCurrency)
 					.contentShape(Rectangle())
 					.onLongPressGesture(perform: {
 						UIImpactFeedbackGenerator().impactOccurred()
 					})
-				
 				Spacer()
 				Text(formatNumber(string))
 			}
@@ -163,16 +165,15 @@ struct ContentView: View {
 			)
 			
 			VStack(spacing: 0) {
-				Divider()
 				Keypad(string: $string)
 					.frame(height: isShowingKeypad ? screenHeight / 3.5 : 0)
 					.opacity(isShowingKeypad ? 1 : 0)
 					.offset(y: isShowingKeypad ? 0 : screenHeight)
 					.transition(.move(edge: .bottom))
+					.padding()
 			}
 		}
 		.font(.largeTitle)
-		.padding()	
 		.onAppear {
 			// print("Loading Exchange rate data...")
 			 fetchData()
