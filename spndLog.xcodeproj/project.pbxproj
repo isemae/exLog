@@ -138,7 +138,7 @@
 				08EBE7FE2B105D2400552A3F /* Theme.swift */,
 				08AB637D2B0E706600F03C64 /* extensions.swift */,
 				0882EAF12B12F29700755E42 /* Handler */,
-				08AB63852B0E7F0E00F03C64 /* Data */,
+				08AB63852B0E7F0E00F03C64 /* Model */,
 				08B8C2152B1156B2008734A8 /* View */,
 				08EBE7FC2B104D6B00552A3F /* dateFormat.swift */,
 				082177A52B0DFDC400D46518 /* Assets.xcassets */,
@@ -183,7 +183,7 @@
 			path = ../../../../../.Trash/Handler;
 			sourceTree = "<group>";
 		};
-		08AB63852B0E7F0E00F03C64 /* Data */ = {
+		08AB63852B0E7F0E00F03C64 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				08AB63832B0E7EAA00F03C64 /* authkey.swift */,
@@ -194,16 +194,16 @@
 				08DC521F2B12701F005ED804 /* Currency.swift */,
 				082177A32B0DFDC300D46518 /* Item.swift */,
 			);
-			path = Data;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		08B8C2152B1156B2008734A8 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				082177A12B0DFDC300D46518 /* ContentView.swift */,
-				08DC52252B12D8C6005ED804 /* InputArea.swift */,
 				08DC52232B12D7DA005ED804 /* DateTitle.swift */,
 				08DC52212B12D65E005ED804 /* SpendingItem.swift */,
+				08DC52252B12D8C6005ED804 /* InputArea.swift */,
 				08B8C2132B1156A1008734A8 /* CategoryMenuView.swift */,
 				082177CB2B0DFE7800D46518 /* CountryMenuView.swift */,
 				082177CD2B0DFE9300D46518 /* Keypad.swift */,

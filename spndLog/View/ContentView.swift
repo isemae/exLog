@@ -16,6 +16,8 @@ struct ContentView: View {
 	@State private var string = "0"
 	@State private var currentCurrency = "¥"
 	@State private var isShowingKeypad = false
+	@State private var foldedDates: [Date: Bool] = [:]
+	@State private var ampm: Bool = false
 	
 	@State var dateFrames: [CGRect] = []
 	
@@ -23,30 +25,45 @@ struct ContentView: View {
 		let bounds = UIScreen.main.bounds
 		var screenWidth = bounds.size.width
 		var screenHeight = bounds.size.height
-		let groupedItems = items.sortedByDate()
+		let groupedByDate = items.sortedByDate()
 		//			var dayTotal: Int = 0
 		
 		NavigationSplitView {
 			ScrollView {
-				ForEach(groupedItems.sorted(by: { $0.0 > $1.0}), id: \.0) { date, itemsInDate in
+				ForEach(groupedByDate.sorted(by: { $0.0 > $1.0}), id: \.0) { date, itemsInDate in
 					let sortedItems = itemsInDate.sorted { $0.timestamp > $1.timestamp }
 					let sumForDate = sortedItems.reduce(0) { $0 + $1.calculatedBalance }
 					
 					VStack(alignment: .leading, spacing: 0) {
 						DateTitle(date: date, sumForDate: sumForDate, dateFrames: dateFrames)
-						
-						ForEach(sortedItems, id: \.id) { item in
-							SpendingItem(currentCurrency: $currentCurrency, item: item)
+							.padding(.bottom, 15)
+							.transition(.move(edge: .top).combined(with: .opacity))
+							.onTapGesture {
+								withAnimation(.easeInOut(duration: 0.3)) {
+									foldedDates[date, default: false].toggle()
+									try? modelContext.save()
+
+								}
+							}
+						if !foldedDates[date, default: false] {
+							VStack(alignment: .center) {
+								ForEach(sortedItems, id: \.id) { item in
+									SpendingItem(currentCurrency: $currentCurrency, ampm: $ampm, item: item)
+										.opacity(opacityForItem(item))
+								}
+							}
+							.padding([.bottom], 25)
 						}
-						.padding([.top, .leading, .trailing], 10)
 					}
-					.padding([.bottom], 20)
-					.transition(.move(edge: .top).combined(with: .opacity))
 				}
-				.padding([.leading, .trailing], 10)
 				.frame(width: screenWidth)
 				
 			}
+			.onTapGesture(perform: {
+				withAnimation(.spring(response: 0.2, dampingFraction: 1.0)) {
+					isShowingKeypad = false
+				}
+			})
 			.coordinateSpace(name: "container")
 			.onPreferenceChange(FramePreference.self, perform: {
 				dateFrames = $0.sorted(by: { $0.minY < $1.minY })
@@ -84,32 +101,30 @@ struct ContentView: View {
 					self.deleteFirst()
 				}
 			)
-			VStack(spacing: 0) {
-				Keypad(string: $string)
-					.frame(height: isShowingKeypad ? screenHeight / 3.5 : 0)
-					.opacity(isShowingKeypad ? 1 : 0)
-					.offset(y: isShowingKeypad ? 0 : screenHeight)
-					.transition(.move(edge: .bottom))
-					.padding()
-			}
+			Keypad(string: $string)
+				.frame(height: isShowingKeypad ? screenHeight / 3.5 : 0)
+				.opacity(isShowingKeypad ? 1 : 0)
+				.offset(y: isShowingKeypad ? 0 : screenHeight)
+				.transition(.move(edge: .bottom))
+				.padding()
 		}
 		.font(.largeTitle)
 		.onAppear {
 			// print("Loading Exchange rate data...")
-			//			 fetchData()
+						 fetchData()
 		}
 		
 	}
 	
-//	func opacityForItem(_ item: Item) -> Double {
-//		let minOpacity: Double = 0.7
-//		
-//		if let index = items.firstIndex(of: item) {
-//			let Opacity = Double(index + 1) / Double(items.count)
-//			return max(Opacity, minOpacity)
-//		}
-//		return 1.0
-//	}
+	func opacityForItem(_ item: Item) -> Double {
+		let minOpacity: Double = 0.5
+		
+		if let index = items.firstIndex(of: item) {
+			let opacity = Double(index + 1) / Double(items.count)
+			return max(opacity, minOpacity)
+		}
+		return 1.0
+	}
 	
 	func addItem() {
 		withAnimation(.easeInOut(duration: 0.2)) {
@@ -122,12 +137,14 @@ struct ContentView: View {
 				}
 			}
 		}
+		try? modelContext.save()
 	}
 	
 	func deleteItems(offsets: IndexSet) {
 		withAnimation() {
 			for index in offsets {
 				modelContext.delete(items[index])
+				try? modelContext.save()
 			}
 		}
 	}
@@ -138,6 +155,7 @@ struct ContentView: View {
 			   let recentItem = firstGroup.1.first {
 				modelContext.delete(recentItem)
 				UISelectionFeedbackGenerator().selectionChanged()
+				try? modelContext.save()
 			}
 		}
 	}
@@ -146,7 +164,6 @@ struct ContentView: View {
 	func deleteAll() {
 		try? modelContext.fetch(FetchDescriptor<Item>()).forEach { modelContext.delete($0)}
 		try? modelContext.save()
-		
 	}
 }
 

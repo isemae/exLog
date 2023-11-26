@@ -8,26 +8,34 @@
 import SwiftUI
 
 struct DateTitle: View {
+	@State private var isFolded = false
 	var date: Date
 	var sumForDate: Int
 	var dateFrames: [CGRect]
 	
     var body: some View {
-		Group {
-			HStack {
-				Text("\(dateFormat(for: date, format: "mm/dd"))")
-					.font(.title)
-					.foregroundColor(dayColor(for: date))
-				Spacer()
-				Text("₩\(sumForDate)")
-					.font(.title2)
-					.foregroundColor(.gray)
+			ZStack {
+				Color.primary.colorInvert()
+				VStack (spacing: 5) {
+					HStack {
+						Text("\(dateFormat(for: date, format: "mm/dd"))")
+							.font(.largeTitle)
+							.foregroundColor(dayColor(for: date))
+						Spacer()
+						Text("₩\(sumForDate)")
+							.font(.title2)
+							.foregroundColor(.gray)
+					}
+					.padding([.leading, .trailing], 15)
+					.padding([.top, .bottom], 10)
+					Divider()
+						.background(Color.gray)
+				}
 			}
-			Rectangle()
-				.foregroundColor(.gray)
-				.frame(height: 1)
-		}
 		.sticky(dateFrames)
-		.padding(.top, 10)
     }
+}
+
+#Preview {
+	DateTitle(date: Date(), sumForDate: 1000, dateFrames: [])
 }
