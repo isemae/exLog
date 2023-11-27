@@ -12,9 +12,9 @@ import Foundation
 struct ContentView: View {
 	@Environment(\.modelContext) private var modelContext
 	@Query private var items: [Item]
-	
+
+	@StateObject private var currentCurrency = CurrencySettings()
 	@State private var string = "0"
-	@State private var currentCurrency = "¥"
 	@State private var isShowingKeypad = false
 	@State private var foldedDates: [Date: Bool] = [:]
 	@State private var ampm: Bool = false
@@ -26,7 +26,6 @@ struct ContentView: View {
 		var screenWidth = bounds.size.width
 		var screenHeight = bounds.size.height
 		let groupedByDate = items.sortedByDate()
-		//			var dayTotal: Int = 0
 		
 		NavigationSplitView {
 			ScrollView {
@@ -48,7 +47,7 @@ struct ContentView: View {
 						if !foldedDates[date, default: false] {
 							VStack(alignment: .center) {
 								ForEach(sortedItems, id: \.id) { item in
-									SpendingItem(currentCurrency: $currentCurrency, ampm: $ampm, item: item)
+									SpendingItem(ampm: $ampm, item: item)
 										.opacity(opacityForItem(item))
 								}
 							}
@@ -91,9 +90,7 @@ struct ContentView: View {
 		VStack {
 			Divider()
 			InputArea(
-				currentCurrency: currentCurrency,
-				string: string.formatNumber(),
-				isShowingKeypad: $isShowingKeypad,
+				isShowingKeypad: $isShowingKeypad, string: string.formatNumber(),
 				onSwipeUp: {
 					self.addItem()
 				},
@@ -101,6 +98,8 @@ struct ContentView: View {
 					self.deleteFirst()
 				}
 			)
+			.environmentObject(currentCurrency)
+
 			Keypad(string: $string)
 				.frame(height: isShowingKeypad ? screenHeight / 3.5 : 0)
 				.opacity(isShowingKeypad ? 1 : 0)
@@ -109,11 +108,6 @@ struct ContentView: View {
 				.padding()
 		}
 		.font(.largeTitle)
-		.onAppear {
-			// print("Loading Exchange rate data...")
-						 fetchData()
-		}
-		
 	}
 	
 	func opacityForItem(_ item: Item) -> Double {
@@ -130,7 +124,7 @@ struct ContentView: View {
 		withAnimation(.easeInOut(duration: 0.2)) {
 			if let balance = Double(string) {
 				if string != "0" {
-					let newItem = Item(timestamp: Date(), balance: String(balance))
+					let newItem = Item(timestamp: Date(), balance: String(balance), currency: currentCurrency.currentCurrency.symbol)
 					modelContext.insert(newItem)
 					UISelectionFeedbackGenerator().selectionChanged()
 					string = "0"
@@ -170,4 +164,5 @@ struct ContentView: View {
 #Preview {
     ContentView()
         .modelContainer(for: Item.self, inMemory: true)
+
 }

@@ -13,19 +13,19 @@ enum HTTPMethod: String {
 	case get = "GET"
 	case post = "POST"
 }
-var currencyCode = "JPY"
+
 struct ExchangeURL {
 	var urlComponents = URLComponents()
 	var url: URL? {
 		return urlComponents.url
 	}
 
-	init() {
+	init(currencySettings: CurrencySettings) {
 		urlComponents.scheme = "https"
 		urlComponents.host = "quotation-api-cdn.dunamu.com"
 		urlComponents.path = "/v1/forex/recent"
 		urlComponents.queryItems = [
-			URLQueryItem(name: "codes", value: "FRX.KRWJPY"),
+			URLQueryItem(name: "codes", value: "FRX.KRW\(currencySettings.getCurrentCurrencyCode())"),
 		]
 	}
 //	init(authKey: String, date: String) {
@@ -41,7 +41,7 @@ struct ExchangeURL {
 	
 }
 
-func request(url: String, method: HTTPMethod, param: [String: Any]? = nil, completionHandler: @escaping (Result<Int, Error>) -> Void) {
+func request(url: String, method: HTTPMethod, currencySettings: CurrencySettings, param: [String: Any]? = nil, completionHandler: @escaping (Result<Int, Error>) -> Void) {
 	
 	guard let url = URL(string: url) else {
 		print("Error: Cannot create URL")
@@ -83,7 +83,7 @@ func request(url: String, method: HTTPMethod, param: [String: Any]? = nil, compl
 			let decoder = JSONDecoder()
 			let output = try decoder.decode([Response].self, from: data)
 			
-			let currencyCodeToFind = "JPY"
+			let currencyCodeToFind = currencySettings.getCurrentCurrencyCode()
 			filteredResponse = output.first { $0.currencyCode == currencyCodeToFind }
 			
 			if let response = filteredResponse {
@@ -103,27 +103,27 @@ func request(url: String, method: HTTPMethod, param: [String: Any]? = nil, compl
 	
 }
 
-func fetchData() {
-	let exchangeURL = ExchangeURL()
-//	let exchangeURL = ExchangeURL(authKey: authKey, date: dateFormat(for: Date(), format: "default"))
-//	for key in UserDefaults.standard.dictionaryRepresentation().keys {
-//		UserDefaults.standard.removeObject(forKey: key.description)
-//	}
-//	UserDefaults.standard.set(Date(), forKey: "LastFetchTime")
+func fetchData(currencySettings: CurrencySettings) {
+	let exchangeURL = ExchangeURL(currencySettings: currencySettings)
+	//	let exchangeURL = ExchangeURL(authKey: authKey, date: dateFormat(for: Date(), format: "default"))
+	//	for key in UserDefaults.standard.dictionaryRepresentation().keys {
+	//		UserDefaults.standard.removeObject(forKey: key.description)
+	//	}
+	//	UserDefaults.standard.set(Date(), forKey: "LastFetchTime")
 	
-//	if let AM11 = calendar.date(from: AM11), Date() > AM11 {
-//		if let lastFetchTime = UserDefaults.standard.value(forKey: "LastFetchTime") as? Date,
-//		   calendar.isDateInToday(lastFetchTime) {
-//			print("maybe tomorrow")
-//		} else {
-	request(url: exchangeURL.url!.absoluteString, method: .get) { result in
-				switch result {
-				case .success(let data):
-					print("Received data: \(data)")
-					
-				case .failure(let error):
-					print("Error: \(error)")
-				}
-			}
+	//	if let AM11 = calendar.date(from: AM11), Date() > AM11 {
+	//		if let lastFetchTime = UserDefaults.standard.value(forKey: "LastFetchTime") as? Date,
+	//		   calendar.isDateInToday(lastFetchTime) {
+	//			print("maybe tomorrow")
+	//		} else {
+	request(url: exchangeURL.url!.absoluteString, method: .get, currencySettings: currencySettings) { result in
+		switch result {
+		case .success(let data):
+			print("Received data: \(data)")
+			
+		case .failure(let error):
+			print("Error: \(error)")
 		}
+	}
+}
 

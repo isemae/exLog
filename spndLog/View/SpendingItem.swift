@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct SpendingItem: View {
-	@Binding var currentCurrency: String
 	@Binding var ampm: Bool
 	var item: Item
 	
 	var body: some View {
+		
 		HStack (alignment: .center) {
 			Text(ampm ? "\(dateFormat(for: item.timestamp, format: "hhmm"))" : "\(item.timestamp, format: Date.FormatStyle(date: .none, time: .shortened))")
-				.font(.title2)
+				.font(.callout)
 				.frame(maxWidth: .infinity)
 				.fixedSize(horizontal: true, vertical: false)
 				.onTapGesture {
@@ -29,14 +29,14 @@ struct SpendingItem: View {
 				RoundedRectangle(cornerRadius: 10)
 					.foregroundColor(.secondary)
 					.frame(maxWidth: .infinity)
-				Text("\(currentCurrency) → ₩")
+				Text("\(item.currency) → ₩")
 					.font(.headline)
 					.padding(5)
 			}
 			.fixedSize()
 			Spacer()
 			Text("₩\(item.calculatedBalance)")
-				.font(.title)
+				.font(.title2)
 		}
 		.padding([.leading, .trailing], 20)
 	}

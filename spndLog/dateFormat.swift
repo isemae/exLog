@@ -17,6 +17,8 @@ func dateFormat(for date: Date, format: String) -> String {
 			dateFormatter.dateFormat = "yyMMdd"
 		case "mm/dd":
 			dateFormatter.dateFormat = "MM/dd"
+		case "mm":
+			dateFormatter.dateFormat = "MM"
 		case "dd":
 			dateFormatter.dateFormat = "dd"
 		case "aahhmm":

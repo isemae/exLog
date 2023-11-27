@@ -13,9 +13,11 @@ final class Item {
 	var id: UUID
     var timestamp: Date
 	var balance: String
-	init(timestamp: Date, balance: String) {
+	var currency: String
+	init(timestamp: Date, balance: String, currency: String) {
         self.timestamp = timestamp
 		self.balance = balance
+		self.currency = currency
 		self.id = UUID()
     }
 	
@@ -26,5 +28,5 @@ final class Item {
 			return 0
 		}
 	
-	let dealBasisRate = (Double(filteredResponse?.basePrice ?? 100.0) ) / 100
+	let dealBasisRate = (Double(filteredResponse?.basePrice ?? 100) ) / Double(filteredResponse?.currencyUnit ?? 100)
 }

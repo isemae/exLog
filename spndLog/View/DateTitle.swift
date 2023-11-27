@@ -17,10 +17,15 @@ struct DateTitle: View {
 			ZStack {
 				Color.primary.colorInvert()
 				VStack (spacing: 5) {
+					Divider()
+						.background(Color.gray)
 					HStack {
-						Text("\(dateFormat(for: date, format: "mm/dd"))")
-							.font(.largeTitle)
-							.foregroundColor(dayColor(for: date))
+						HStack(spacing: 0) {
+							Text("\(dateFormat(for: date, format: "mm"))/")
+							Text("\(dateFormat(for: date, format: "dd"))")
+								.foregroundColor(dayColor(for: date))
+						}
+						.font(.title)
 						Spacer()
 						Text("₩\(sumForDate)")
 							.font(.title2)

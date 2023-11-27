@@ -24,15 +24,15 @@
 		0882EAF72B12F29700755E42 /* StickyModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0882EAF42B12F29700755E42 /* StickyModifier.swift */; };
 		08AB637E2B0E706600F03C64 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AB637D2B0E706600F03C64 /* extensions.swift */; };
 		08AB63822B0E7E6E00F03C64 /* EXCRateJSON.json in Sources */ = {isa = PBXBuildFile; fileRef = 08AB63812B0E7E6E00F03C64 /* EXCRateJSON.json */; };
-		08AB63842B0E7EAA00F03C64 /* authkey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AB63832B0E7EAA00F03C64 /* authkey.swift */; };
 		08B8C2142B1156A1008734A8 /* CategoryMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B8C2132B1156A1008734A8 /* CategoryMenuView.swift */; };
-		08DC52202B12701F005ED804 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DC521F2B12701F005ED804 /* Currency.swift */; };
+		08DC52202B12701F005ED804 /* Currencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DC521F2B12701F005ED804 /* Currencies.swift */; };
 		08DC52222B12D65E005ED804 /* SpendingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DC52212B12D65E005ED804 /* SpendingItem.swift */; };
 		08DC52242B12D7DA005ED804 /* DateTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DC52232B12D7DA005ED804 /* DateTitle.swift */; };
 		08DC52262B12D8C6005ED804 /* InputArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DC52252B12D8C6005ED804 /* InputArea.swift */; };
 		08EBE7FD2B104D6B00552A3F /* dateFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EBE7FC2B104D6B00552A3F /* dateFormat.swift */; };
 		08EBE7FF2B105D2400552A3F /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EBE7FE2B105D2400552A3F /* Theme.swift */; };
 		08F2B37C2B0E82AA00371E49 /* EXCRateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F2B37B2B0E82AA00371E49 /* EXCRateRequest.swift */; };
+		08F6E9AB2B144305005BC5F0 /* authkey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F6E9AA2B144305005BC5F0 /* authkey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,15 +74,15 @@
 		0882EAF42B12F29700755E42 /* StickyModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickyModifier.swift; sourceTree = "<group>"; };
 		08AB637D2B0E706600F03C64 /* extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 		08AB63812B0E7E6E00F03C64 /* EXCRateJSON.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = EXCRateJSON.json; sourceTree = "<group>"; };
-		08AB63832B0E7EAA00F03C64 /* authkey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = authkey.swift; sourceTree = "<group>"; };
 		08B8C2132B1156A1008734A8 /* CategoryMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryMenuView.swift; sourceTree = "<group>"; };
-		08DC521F2B12701F005ED804 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
+		08DC521F2B12701F005ED804 /* Currencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currencies.swift; sourceTree = "<group>"; };
 		08DC52212B12D65E005ED804 /* SpendingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingItem.swift; sourceTree = "<group>"; };
 		08DC52232B12D7DA005ED804 /* DateTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTitle.swift; sourceTree = "<group>"; };
 		08DC52252B12D8C6005ED804 /* InputArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputArea.swift; sourceTree = "<group>"; };
 		08EBE7FC2B104D6B00552A3F /* dateFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dateFormat.swift; sourceTree = "<group>"; };
 		08EBE7FE2B105D2400552A3F /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		08F2B37B2B0E82AA00371E49 /* EXCRateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXCRateRequest.swift; sourceTree = "<group>"; };
+		08F6E9AA2B144305005BC5F0 /* authkey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = authkey.swift; path = spndLog/authkey.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,12 +186,12 @@
 		08AB63852B0E7F0E00F03C64 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				08AB63832B0E7EAA00F03C64 /* authkey.swift */,
+				08F6E9AA2B144305005BC5F0 /* authkey.swift */,
 				08AB63812B0E7E6E00F03C64 /* EXCRateJSON.json */,
 				0857C6C32B11C4E60012C698 /* EXCRateJSONdnm.json */,
 				08F2B37B2B0E82AA00371E49 /* EXCRateRequest.swift */,
 				087ADE812B0F951200E1BFD8 /* ResponseData.swift */,
-				08DC521F2B12701F005ED804 /* Currency.swift */,
+				08DC521F2B12701F005ED804 /* Currencies.swift */,
 				082177A32B0DFDC300D46518 /* Item.swift */,
 			);
 			path = Model;
@@ -342,16 +342,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				082177A22B0DFDC300D46518 /* ContentView.swift in Sources */,
-				08AB63842B0E7EAA00F03C64 /* authkey.swift in Sources */,
 				087ADE822B0F951200E1BFD8 /* ResponseData.swift in Sources */,
 				0882EAF52B12F29700755E42 /* DataIO.swift in Sources */,
 				08DC52242B12D7DA005ED804 /* DateTitle.swift in Sources */,
+				08F6E9AB2B144305005BC5F0 /* authkey.swift in Sources */,
 				082177A42B0DFDC300D46518 /* Item.swift in Sources */,
 				08DC52262B12D8C6005ED804 /* InputArea.swift in Sources */,
 				08DC52222B12D65E005ED804 /* SpendingItem.swift in Sources */,
 				0857C6C42B11C4E60012C698 /* EXCRateJSONdnm.json in Sources */,
 				08AB63822B0E7E6E00F03C64 /* EXCRateJSON.json in Sources */,
-				08DC52202B12701F005ED804 /* Currency.swift in Sources */,
+				08DC52202B12701F005ED804 /* Currencies.swift in Sources */,
 				0882EAF72B12F29700755E42 /* StickyModifier.swift in Sources */,
 				082177A02B0DFDC300D46518 /* spndLogApp.swift in Sources */,
 				082177CE2B0DFE9300D46518 /* Keypad.swift in Sources */,
