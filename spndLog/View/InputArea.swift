@@ -8,19 +8,25 @@
 import SwiftUI
 
 struct InputArea: View {
-	var currentCurrency: String
-	var string: String
+	@EnvironmentObject var currencies: CurrencySettings
 	@Binding var isShowingKeypad: Bool
+	var string: String
 	var onSwipeUp: () -> Void
 	var onSwipeDown: () -> Void
-	
+	@State private var selectedCurrency: Currency = .USD
+
 	var body: some View {
 		HStack {
-			Text(currentCurrency)
+			Text(currencies.currentCurrency.symbol)
 				.contentShape(Rectangle())
-				.onLongPressGesture(perform: {
-					UIImpactFeedbackGenerator().impactOccurred()
-				})
+				.contextMenu(ContextMenu(menuItems: {
+					ForEach(Currency.allCases, id:\.self) { curr in
+						Button("\(curr.symbol) \(curr.name)") {
+							currencies.currentCurrency = curr
+							fetchData(currencySettings: currencies)
+						}
+					}
+				}))
 			Spacer()
 			Text(string)
 		}

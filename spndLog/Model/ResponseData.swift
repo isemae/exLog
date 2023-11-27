@@ -11,6 +11,7 @@ import SwiftData
 struct ResponseArray: Codable {
 	var data: [Response] = []
 }
+
 struct Response: Codable {
 	var id: Int
 //	var date: Date
@@ -18,7 +19,7 @@ struct Response: Codable {
 	var currencyCode: String
 	var currencyName: String
 	var basePrice: Double
-
+	var currencyUnit: Int
 }
 
 var filteredResponse: Response?
