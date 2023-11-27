@@ -34,11 +34,11 @@ struct ContentView: View {
 					let sumForDate = sortedItems.reduce(0) { $0 + $1.calculatedBalance }
 					
 					VStack(alignment: .leading, spacing: 0) {
-						DateTitle(date: date, sumForDate: sumForDate, dateFrames: dateFrames)
+						DateTitle(foldedDates: $foldedDates, date: date, sumForDate: sumForDate, dateFrames: dateFrames)
 							.padding(.bottom, 15)
 							.transition(.move(edge: .top).combined(with: .opacity))
 							.onTapGesture {
-								withAnimation(.easeInOut(duration: 0.3)) {
+								withAnimation(.easeOut(duration: 0.25)) {
 									foldedDates[date, default: false].toggle()
 									try? modelContext.save()
 
@@ -68,15 +68,14 @@ struct ContentView: View {
 				dateFrames = $0.sorted(by: { $0.minY < $1.minY })
 			})
 			.toolbar {
-				//	ToolbarItem(placement: .navigationBarTrailing) {
-				//		EditButton()
-				//	}
-				ToolbarItem {
+				ToolbarItem(placement: .navigationBarLeading) {
 					Button(action: addItem) {
 						Label("Add Item", systemImage: "plus")
 					}
 				}
-				
+				//	ToolbarItem(placement: .navigationBarTrailing) {
+				//		EditButton()
+				//	}
 				//										dev only
 				//					ToolbarItem(placement: .navigationBarLeading) {
 				//						Button(action: deleteAll) {
@@ -130,6 +129,8 @@ struct ContentView: View {
 					string = "0"
 				}
 			}
+			let currentDate = Calendar.current.startOfDay(for: Date())
+				foldedDates[currentDate] = false
 		}
 		try? modelContext.save()
 	}

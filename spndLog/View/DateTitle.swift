@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DateTitle: View {
-	@State private var isFolded = false
+	@Binding var foldedDates: [Date: Bool]
 	var date: Date
 	var sumForDate: Int
 	var dateFrames: [CGRect]
@@ -24,6 +24,12 @@ struct DateTitle: View {
 							Text("\(dateFormat(for: date, format: "mm"))/")
 							Text("\(dateFormat(for: date, format: "dd"))")
 								.foregroundColor(dayColor(for: date))
+							Image(systemName: foldedDates[date, default: false] ? "chevron.right" : "chevron.down")
+								.font(.title3)
+								.foregroundColor(.gray)
+								.frame(minWidth: 20)
+								.padding([.leading, .trailing], 10)
+							
 						}
 						.font(.title)
 						Spacer()
@@ -40,7 +46,7 @@ struct DateTitle: View {
 		.sticky(dateFrames)
     }
 }
-
-#Preview {
-	DateTitle(date: Date(), sumForDate: 1000, dateFrames: [])
-}
+//
+//#Preview {
+//	DateTitle(date: Date(), sumForDate: 1000, dateFrames: [])
+//}
