@@ -8,11 +8,22 @@
 import Foundation
 
 class CurrencySettings: ObservableObject {
-	@Published var currentCurrency: Currency = .USD
+	private var currencyKey = "selectedCurrency"
+
+	@Published var currentCurrency: Currency = .USD {
+		didSet {
+			UserDefaults.standard.set(currentCurrency.rawValue, forKey: currencyKey)
+		}
+	}
 	
 	init() {
 		fetchData(currencySettings: self)
+		if let savedCurrencyCode = UserDefaults.standard.string(forKey: currencyKey),
+		   let savedCurrency = Currency(rawValue: savedCurrencyCode) {
+			currentCurrency = savedCurrency
+		}
 	}
+	
 	func getCurrentCurrencyCode() -> String {
 		return currentCurrency.rawValue
 	}
@@ -56,7 +67,7 @@ enum Currency: String, CaseIterable {
 		case .KRW: return "대한민국 원"
 		case .USD: return "미국 달러"
 		case .EUR: return "유로"
-		case .JPY: return "일본 옌"
+		case .JPY: return "일본 엔"
 		case .GBP: return "영국 파운드"
 		case .AUD: return "호주 달러"
 		case .CAD: return "캐나다 달러"
