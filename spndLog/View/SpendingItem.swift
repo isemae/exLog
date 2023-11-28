@@ -14,7 +14,7 @@ struct SpendingItem: View {
 	
 	var body: some View {
 		VStack(alignment: .leading) {
-			if shouldDisplayTimeDifference() {
+			if !shouldGroupByMinute() {
 				Text(ampm ? "\(dateFormat(for: item.timestamp, format: "hhmm"))" : "\(item.timestamp, format: Date.FormatStyle(date: .none, time: .shortened))")
 					.font(.callout)
 					.frame(maxWidth: .infinity)
@@ -45,13 +45,12 @@ struct SpendingItem: View {
 		.padding([.leading, .trailing], 30)
 	}
 	
-	private func shouldDisplayTimeDifference() -> Bool {
+	private func shouldGroupByMinute() -> Bool {
 		guard let prevItem = prevItem else {
-			return true
+			return false
 		}
-		
-		let isMinuteDifferent = !Calendar.current.isDate(item.timestamp, equalTo: prevItem.timestamp, toGranularity: .minute)
-		return isMinuteDifferent
+		let isMinuteSame = Calendar.current.isDate(item.timestamp, equalTo: prevItem.timestamp, toGranularity: .minute)
+		return isMinuteSame
 	}
 }
 
