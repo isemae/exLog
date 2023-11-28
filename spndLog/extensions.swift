@@ -8,7 +8,11 @@
 import SwiftUI
 
 extension Int {}
-
+extension Color {
+	static var primaryColor: Color {
+		Color(UIColor { $0.userInterfaceStyle == .dark ? .white : .black })
+	}
+}
 extension String {
 	// formats keypad num
 	func formatNumber() -> String {

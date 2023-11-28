@@ -17,11 +17,15 @@ class CurrencySettings: ObservableObject {
 	}
 	
 	init() {
-		fetchData(currencySettings: self)
-		if let savedCurrencyCode = UserDefaults.standard.string(forKey: currencyKey),
-		   let savedCurrency = Currency(rawValue: savedCurrencyCode) {
-			currentCurrency = savedCurrency
-		}
+//		fetchData(currencySettings: self)
+//		DispatchQueue.global().async {
+//			if let savedCurrencyCode = UserDefaults.standard.string(forKey: self.currencyKey),
+//			   let savedCurrency = Currency(rawValue: savedCurrencyCode) {
+//				DispatchQueue.main.async {
+//					self.currentCurrency = savedCurrency
+//				}
+//			}
+//		}
 	}
 	
 	func getCurrentCurrencyCode() -> String {
@@ -29,7 +33,9 @@ class CurrencySettings: ObservableObject {
 	}
 }
 
-enum Currency: String, CaseIterable {
+enum Currency: String, CaseIterable, Identifiable {
+	var id: Currency { self }
+
 	case KRW
 	case USD
 	case EUR

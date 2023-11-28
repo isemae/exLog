@@ -20,12 +20,12 @@ struct ContentView: View {
 	@State private var ampm: Bool = false
 	
 	@State var dateFrames: [CGRect] = []
-	
 	var body: some View {
 		let bounds = UIScreen.main.bounds
 		var screenWidth = bounds.size.width
 		var screenHeight = bounds.size.height
 		let groupedByDate = items.sortedByDate()
+		
 		
 		NavigationSplitView {
 			ScrollView {
@@ -35,23 +35,25 @@ struct ContentView: View {
 					
 					VStack(alignment: .leading, spacing: 0) {
 						DateTitle(foldedDates: $foldedDates, date: date, sumForDate: sumForDate, dateFrames: dateFrames)
-							.padding(.bottom, 15)
 							.transition(.move(edge: .top).combined(with: .opacity))
 							.onTapGesture {
 								withAnimation(.easeOut(duration: 0.25)) {
 									foldedDates[date, default: false].toggle()
 									try? modelContext.save()
-
 								}
 							}
+							.padding()
 						if !foldedDates[date, default: false] {
-							VStack(alignment: .center) {
-								ForEach(sortedItems, id: \.id) { item in
-									SpendingItem(ampm: $ampm, item: item)
+							VStack(alignment: .center, spacing: 10) {
+								ForEach(sortedItems, id: \.self) { item in
+									let currentIndex = sortedItems.firstIndex(of: item)!
+									let previousItem = currentIndex > 0 ? sortedItems[currentIndex - 1] : nil
+									SpendingItem(ampm: $ampm, item: item, prevItem: previousItem)
 										.opacity(opacityForItem(item))
 								}
 							}
-							.padding([.bottom], 25)
+//							.padding(.top, 5)
+							.padding(.bottom, 25)
 						}
 					}
 				}
@@ -87,7 +89,6 @@ struct ContentView: View {
 		}
 		
 		VStack {
-			Divider()
 			InputArea(
 				isShowingKeypad: $isShowingKeypad, string: string.formatNumber(),
 				onSwipeUp: {

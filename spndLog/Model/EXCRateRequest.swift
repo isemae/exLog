@@ -104,7 +104,21 @@ func request(url: String, method: HTTPMethod, currencySettings: CurrencySettings
 }
 
 func fetchData(currencySettings: CurrencySettings) {
+	guard shouldFetchData() else {
+		print("skipping fetch")
+		return
+	}
+	
 	let exchangeURL = ExchangeURL(currencySettings: currencySettings)
+	request(url: exchangeURL.url!.absoluteString, method: .get, currencySettings: currencySettings) { result in
+		switch result {
+		case .success(let data):
+			print("Received data: \(data)")
+			
+		case .failure(let error):
+			print("Error: \(error)")
+		}
+	}
 	//	let exchangeURL = ExchangeURL(authKey: authKey, date: dateFormat(for: Date(), format: "default"))
 	//	for key in UserDefaults.standard.dictionaryRepresentation().keys {
 	//		UserDefaults.standard.removeObject(forKey: key.description)
@@ -116,14 +130,12 @@ func fetchData(currencySettings: CurrencySettings) {
 	//		   calendar.isDateInToday(lastFetchTime) {
 	//			print("maybe tomorrow")
 	//		} else {
-	request(url: exchangeURL.url!.absoluteString, method: .get, currencySettings: currencySettings) { result in
-		switch result {
-		case .success(let data):
-			print("Received data: \(data)")
-			
-		case .failure(let error):
-			print("Error: \(error)")
-		}
+	func shouldFetchData() -> Bool {
+		return true
+	}
+	
+	func timer() {
+		
 	}
 }
 

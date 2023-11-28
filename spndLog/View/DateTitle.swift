@@ -15,10 +15,14 @@ struct DateTitle: View {
 	
     var body: some View {
 			ZStack {
-				Color.primary.colorInvert()
-				VStack (spacing: 5) {
-					Divider()
-						.background(Color.gray)
+				Rectangle()
+					.ignoresSafeArea()
+					.foregroundColor(Color(uiColor: UIColor.systemBackground))
+				.overlay(
+					Rectangle()
+						.frame(width: nil, height: 1, alignment: .bottom)
+						.foregroundColor(Color.gray),
+					alignment: .bottom)
 					HStack {
 						HStack(spacing: 0) {
 							Text("\(dateFormat(for: date, format: "mm"))/")
@@ -37,12 +41,10 @@ struct DateTitle: View {
 							.font(.title2)
 							.foregroundColor(.gray)
 					}
-					.padding([.leading, .trailing], 15)
-					.padding([.top, .bottom], 10)
-					Divider()
-						.background(Color.gray)
-				}
+					.padding(10)
+//					.padding([.top, .bottom], 10)
 			}
+//			.padding([.leading, .trailing], 15)
 		.sticky(dateFrames)
     }
 }

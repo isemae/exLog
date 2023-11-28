@@ -204,9 +204,9 @@
 				08DC52232B12D7DA005ED804 /* DateTitle.swift */,
 				08DC52212B12D65E005ED804 /* SpendingItem.swift */,
 				08DC52252B12D8C6005ED804 /* InputArea.swift */,
+				082177CD2B0DFE9300D46518 /* Keypad.swift */,
 				08B8C2132B1156A1008734A8 /* CategoryMenuView.swift */,
 				082177CB2B0DFE7800D46518 /* CountryMenuView.swift */,
-				082177CD2B0DFE9300D46518 /* Keypad.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
