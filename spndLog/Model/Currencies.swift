@@ -16,6 +16,7 @@ class CurrencySettings: ObservableObject {
 		}
 	}
 	
+	
 	init() {
 //		fetchData(currencySettings: self)
 //		DispatchQueue.global().async {
@@ -38,21 +39,21 @@ enum Currency: String, CaseIterable, Identifiable {
 
 	case KRW
 	case USD
-	case EUR
-	case JPY
-	case GBP
-	case AUD
 	case CAD
+	case AUD
+	case EUR
+	case GBP
+	case JPY
 	
 	var symbol: String {
 		switch self {
 		case .KRW: return "₩"
 		case .USD: return "$"
-		case .EUR: return "€"
-		case .JPY: return "¥"
-		case .GBP: return "£"
-		case .AUD: return "$"
 		case .CAD: return "$"
+		case .AUD: return "$"
+		case .EUR: return "€"
+		case .GBP: return "£"
+		case .JPY: return "¥"
 		}
 	}
 	
@@ -60,11 +61,11 @@ enum Currency: String, CaseIterable, Identifiable {
 		switch self {
 		case .KRW: return "KRW"
 		case .USD: return "USD"
-		case .EUR: return "EUR"
-		case .JPY: return "JPY"
-		case .GBP: return "GBP"
-		case .AUD: return "AUD"
 		case .CAD: return "CAD"
+		case .AUD: return "AUD"
+		case .EUR: return "EUR"
+		case .GBP: return "GBP"
+		case .JPY: return "JPY"
 		}
 	}
 	
@@ -72,11 +73,11 @@ enum Currency: String, CaseIterable, Identifiable {
 		switch self {
 		case .KRW: return "대한민국 원"
 		case .USD: return "미국 달러"
-		case .EUR: return "유로"
-		case .JPY: return "일본 엔"
-		case .GBP: return "영국 파운드"
-		case .AUD: return "호주 달러"
 		case .CAD: return "캐나다 달러"
+		case .AUD: return "호주 달러"
+		case .EUR: return "유로"
+		case .GBP: return "영국 파운드"
+		case .JPY: return "일본 엔"
 		}
 	}
 }

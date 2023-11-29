@@ -104,19 +104,22 @@ func request(url: String, method: HTTPMethod, currencySettings: CurrencySettings
 }
 
 func fetchData(currencySettings: CurrencySettings) {
-	guard shouldFetchData() else {
-		print("skipping fetch")
-		return
-	}
-	
-	let exchangeURL = ExchangeURL(currencySettings: currencySettings)
-	request(url: exchangeURL.url!.absoluteString, method: .get, currencySettings: currencySettings) { result in
-		switch result {
-		case .success(let data):
-			print("Received data: \(data)")
-			
-		case .failure(let error):
-			print("Error: \(error)")
+	DispatchQueue.global().async {
+		
+//		guard shouldFetchData() else {
+//			print("skipping fetch")
+//			return
+//		}
+		
+		let exchangeURL = ExchangeURL(currencySettings: currencySettings)
+		request(url: exchangeURL.url!.absoluteString, method: .get, currencySettings: currencySettings) { result in
+			switch result {
+			case .success(let data):
+				print("Received data: \(data)")
+				
+			case .failure(let error):
+				print("Error: \(error)")
+			}
 		}
 	}
 	//	let exchangeURL = ExchangeURL(authKey: authKey, date: dateFormat(for: Date(), format: "default"))
@@ -130,12 +133,13 @@ func fetchData(currencySettings: CurrencySettings) {
 	//		   calendar.isDateInToday(lastFetchTime) {
 	//			print("maybe tomorrow")
 	//		} else {
-	func shouldFetchData() -> Bool {
-		return true
-	}
 	
-	func timer() {
-		
-	}
+//	func shouldFetchData() -> Bool {
+//		return true
+//	}
+//	
+//	func timer() {
+//		
+//	}
 }
 
