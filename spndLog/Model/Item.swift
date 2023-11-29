@@ -15,11 +15,11 @@ final class Item {
 	var balance: String
 	var currency: String
 	init(timestamp: Date, balance: String, currency: String) {
-        self.timestamp = timestamp
+		self.timestamp = timestamp
 		self.balance = balance
 		self.currency = currency
 		self.id = UUID()
-    }
+	}
 	
 	var calculatedBalance: Int {
 			if let balance = Double(balance) {

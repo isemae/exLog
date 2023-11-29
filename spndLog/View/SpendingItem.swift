@@ -13,36 +13,37 @@ struct SpendingItem: View {
 	var prevItem: Item?
 	
 	var body: some View {
-		VStack(alignment: .leading) {
+		VStack(alignment: .leading, spacing: 0) {
 			if !shouldGroupByMinute() {
 				Text(ampm ? "\(dateFormat(for: item.timestamp, format: "hhmm"))" : "\(item.timestamp, format: Date.FormatStyle(date: .none, time: .shortened))")
-					.font(.callout)
+					.font(.title3)
 					.frame(maxWidth: .infinity)
 					.fixedSize(horizontal: true, vertical: false)
-//					.padding(.top, 5)
 					.onTapGesture {
 						withAnimation(.linear(duration: 0.2)) {
 							ampm.toggle()
 						}
 					}
+					.padding(.top, 10)
 			}
 			HStack (alignment: .center) {
 				ZStack {
-					RoundedRectangle(cornerRadius: 10)
+					RoundedRectangle(cornerRadius: 12)
 						.foregroundColor(.secondary)
-					Text("\(item.currency) → ₩")
+					Text("\(item.currency) →")
 						.font(.headline)
 						.foregroundColor(.primary)
 						.padding(5)
 				}
-						.fixedSize()
+				.fixedSize()
 				Spacer()
 				Text("₩\(item.calculatedBalance)")
 					.font(.title2)
 			}
-			
+			.padding([.top], 5)
+			Divider()
 		}
-		.padding([.leading, .trailing], 30)
+		.padding([.leading, .trailing], 25)
 	}
 	
 	private func shouldGroupByMinute() -> Bool {

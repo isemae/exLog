@@ -40,11 +40,11 @@ struct DateTitle: View {
 						Text("₩\(sumForDate)")
 							.font(.title2)
 							.foregroundColor(.gray)
+							.padding(.trailing, 10)
 					}
-					.padding(10)
-//					.padding([.top, .bottom], 10)
+					.padding([.top, .bottom], 10)
 			}
-//			.padding([.leading, .trailing], 15)
+			.padding([.leading, .trailing], 15)
 		.sticky(dateFrames)
     }
 }

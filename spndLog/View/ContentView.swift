@@ -37,23 +37,24 @@ struct ContentView: View {
 						DateTitle(foldedDates: $foldedDates, date: date, sumForDate: sumForDate, dateFrames: dateFrames)
 							.transition(.move(edge: .top).combined(with: .opacity))
 							.onTapGesture {
-								withAnimation(.easeOut(duration: 0.25)) {
-									foldedDates[date, default: false].toggle()
-									try? modelContext.save()
+								DispatchQueue.main.async {
+									withAnimation(.easeOut(duration: 0.25)) {
+										foldedDates[date, default: false].toggle()
+										try? modelContext.save()
+									}
 								}
 							}
-							.padding()
+//							.padding()
 						if !foldedDates[date, default: false] {
-							VStack(alignment: .center, spacing: 10) {
+							VStack(alignment: .center, spacing: 0) {
 								ForEach(sortedItems, id: \.self) { item in
 									let currentIndex = sortedItems.firstIndex(of: item)!
 									let previousItem = currentIndex > 0 ? sortedItems[currentIndex - 1] : nil
 									SpendingItem(ampm: $ampm, item: item, prevItem: previousItem)
 										.opacity(opacityForItem(item))
 								}
+								.onDelete(perform: deleteItems)
 							}
-//							.padding(.top, 5)
-							.padding(.bottom, 25)
 						}
 					}
 				}
@@ -62,7 +63,9 @@ struct ContentView: View {
 			}
 			.onTapGesture(perform: {
 				withAnimation(.spring(response: 0.2, dampingFraction: 1.0)) {
-					isShowingKeypad = false
+					DispatchQueue.main.async {
+						isShowingKeypad = false
+					}
 				}
 			})
 			.coordinateSpace(name: "container")
@@ -75,9 +78,9 @@ struct ContentView: View {
 						Label("Add Item", systemImage: "plus")
 					}
 				}
-				//	ToolbarItem(placement: .navigationBarTrailing) {
-				//		EditButton()
-				//	}
+					ToolbarItem(placement: .navigationBarTrailing) {
+						EditButton()
+					}
 				//										dev only
 				//					ToolbarItem(placement: .navigationBarLeading) {
 				//						Button(action: deleteAll) {
@@ -121,41 +124,48 @@ struct ContentView: View {
 	}
 	
 	func addItem() {
-		withAnimation(.easeInOut(duration: 0.2)) {
+		withAnimation(.easeOut(duration: 0.2)) {
 			if let balance = Double(string) {
 				if string != "0" {
 					let newItem = Item(timestamp: Date(), balance: String(balance), currency: currentCurrency.currentCurrency.symbol)
-					modelContext.insert(newItem)
+					DispatchQueue.main.async {
+						modelContext.insert(newItem)
+						try? modelContext.save()
+					}
 					UISelectionFeedbackGenerator().selectionChanged()
 					string = "0"
+					
+					let currentDate = Calendar.current.startOfDay(for: Date())
+					foldedDates[currentDate] = false
 				}
-			}
-			let currentDate = Calendar.current.startOfDay(for: Date())
-				foldedDates[currentDate] = false
-		}
-		try? modelContext.save()
-	}
-	
-	func deleteItems(offsets: IndexSet) {
-		withAnimation() {
-			for index in offsets {
-				modelContext.delete(items[index])
-				try? modelContext.save()
 			}
 		}
 	}
 	
 	func deleteFirst() {
-		withAnimation() {
-			if let firstGroup = items.sortedByDate().first,
-			   let recentItem = firstGroup.1.first {
-				modelContext.delete(recentItem)
+		if let firstGroup = items.sortedByDate().first,
+		   let recentItem = firstGroup.1.first {
+			DispatchQueue.main.async {
+				withAnimation() {
+					modelContext.delete(recentItem)
+					try? modelContext.save()
+				}
 				UISelectionFeedbackGenerator().selectionChanged()
-				try? modelContext.save()
 			}
 		}
 	}
 	
+	func deleteItems(offsets: IndexSet) {
+		DispatchQueue.global().async {
+			withAnimation() {
+				for index in offsets {
+					modelContext.delete(items[index])
+					try? modelContext.save()
+				}
+			}
+		}
+	}
+
 	// for dev only
 	func deleteAll() {
 		try? modelContext.fetch(FetchDescriptor<Item>()).forEach { modelContext.delete($0)}

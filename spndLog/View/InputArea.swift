@@ -21,38 +21,40 @@ struct InputArea: View {
 				.foregroundColor(Color(uiColor: UIColor.systemBackground))
 				.frame(maxHeight: 100)
 				.overlay(
-					Rectangle()
-						.foregroundColor(Color.gray)
-						.frame(width: nil, height: 1, alignment: .top),
-					alignment: .top)
+					Divider().frame(alignment: .top), alignment: .top)
 			HStack {
-				Text(currencies.currentCurrency.symbol)
-					.contentShape(Rectangle())
+					Text(currencies.currentCurrency.symbol)
+					.frame(maxWidth: 50, maxHeight: 50)
+					.background(RoundedRectangle(cornerRadius: 15)
+						.foregroundColor(Color(uiColor: UIColor.systemBackground)))
+					.contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 15))
 					.contextMenu(ContextMenu(menuItems: {
 						ForEach(Currency.allCases) { curr in
 							Button("\(curr.symbol) \(curr.name)") {
 								currencies.currentCurrency = curr
-								DispatchQueue.main.async {
+								DispatchQueue.global().async {
 									fetchData(currencySettings: currencies)
 								}
 							}
 						}
 					}))
+					.padding(.leading)
 				Spacer()
 				Text(string)
+					.padding(.trailing, 25)
 			}
-			.contentShape(Rectangle())
-			.padding([.leading, .trailing], 20)
-			.onTapGesture(perform: {
+		}
+		.onTapGesture(perform: {
+			DispatchQueue.main.async {
 				withAnimation(.spring(response: 0.2, dampingFraction: 1.0)) {
 					isShowingKeypad.toggle()
 				}
-			})
-			.GestureHandler(
-				onSwipeUp: onSwipeUp,
-				onSwipeDown: onSwipeDown
-			)
-		}
+			}
+		})
+		.GestureHandler(
+			onSwipeUp: onSwipeUp,
+			onSwipeDown: onSwipeDown
+		)
 	}
 }
 //
