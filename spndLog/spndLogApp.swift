@@ -27,7 +27,7 @@ struct spndLogApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-				.environmentObject(CurrencySettings())
+				.environmentObject(DataModel())
         }
         .modelContainer(sharedModelContainer)
     }

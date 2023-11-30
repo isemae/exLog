@@ -11,8 +11,8 @@ struct Keypad: View {
 	@Binding var string: String
 	@FocusState private var isFocused: Bool
 	
-    var body: some View {
-		VStack {
+	var body: some View {
+		LazyVStack {
 			KeypadRow(keys: ["1","2","3"])
 			KeypadRow(keys: ["4","5","6"])
 			KeypadRow(keys: ["7","8","9"])
@@ -22,7 +22,7 @@ struct Keypad: View {
 			.onAppear() {
 				isFocused = true
 			}
-    }
+	}
 	
 	private func keyPressed(_ key: String) {
 		switch key {
@@ -57,10 +57,10 @@ struct KeypadButton: View {
 		}) {
 			Color.clear
 				.overlay(RoundedRectangle(cornerRadius: 10)
-					.stroke(Color.accentColor)
 				)
+				.foregroundColor(Color(uiColor: UIColor.systemBackground))
 				.overlay(Text(key))
-				.contentShape(Rectangle())
+				.frame(minHeight: 50)
 		}
 	}
 	

@@ -30,3 +30,12 @@ final class Item {
 	
 	let dealBasisRate = (Double(filteredResponse?.basePrice ?? 100) ) / Double(filteredResponse?.currencyUnit ?? 100)
 }
+
+extension Item: Equatable {
+	static func ==(lhs: Item, rhs: Item) -> Bool {
+		return lhs.timestamp == rhs.timestamp &&
+			   lhs.balance == rhs.balance &&
+			   lhs.currency == rhs.currency
+	}
+}
+
