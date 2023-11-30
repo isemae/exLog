@@ -13,6 +13,7 @@ extension Color {
 		Color(UIColor { $0.userInterfaceStyle == .dark ? .white : .black })
 	}
 }
+
 extension String {
 	// formats keypad num
 	func formatNumber() -> String {

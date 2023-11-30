@@ -7,9 +7,10 @@
 
 import Foundation
 
-class CurrencySettings: ObservableObject {
+class DataModel: ObservableObject {
 	private var currencyKey = "selectedCurrency"
-
+	
+	@Published var foldedItems: [Date: Bool] = [:]
 	@Published var currentCurrency: Currency = .USD {
 		didSet {
 			UserDefaults.standard.set(currentCurrency.rawValue, forKey: currencyKey)
@@ -20,11 +21,11 @@ class CurrencySettings: ObservableObject {
 	init() {
 //		fetchData(currencySettings: self)
 //		DispatchQueue.global().async {
-//			if let savedCurrencyCode = UserDefaults.standard.string(forKey: self.currencyKey),
-//			   let savedCurrency = Currency(rawValue: savedCurrencyCode) {
+			if let savedCurrencyCode = UserDefaults.standard.string(forKey: self.currencyKey),
+			   let savedCurrency = Currency(rawValue: savedCurrencyCode) {
 //				DispatchQueue.main.async {
-//					self.currentCurrency = savedCurrency
-//				}
+					self.currentCurrency = savedCurrency
+				}
 //			}
 //		}
 	}
@@ -33,6 +34,7 @@ class CurrencySettings: ObservableObject {
 		return currentCurrency.rawValue
 	}
 }
+
 
 enum Currency: String, CaseIterable, Identifiable {
 	var id: Currency { self }
@@ -81,4 +83,27 @@ enum Currency: String, CaseIterable, Identifiable {
 		}
 	}
 }
+
+enum Category {
+	case shopping
+	case drink
+	case food
+	case liquor
+	case entertainment
+	case transportation
+	case accommodation
+
+	var symbol: String {
+		switch self {
+		case .shopping: return "🛒"
+		case .drink: return "🍹"
+		case .food: return "🥘"
+		case .liquor: return "🍻"
+		case .entertainment: return "🥳"
+		case .transportation: return "🚋"
+		case .accommodation: return "🛌🏻"
+		}
+	}
+}
+
 

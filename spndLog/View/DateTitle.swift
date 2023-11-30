@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct DateTitle: View {
-	@Binding var foldedDates: [Date: Bool]
+	let dataModel: DataModel
 	var date: Date
 	var sumForDate: Int
-	var dateFrames: [CGRect]
-	
+//	var dateFrames: [CGRect]
+	var onTap: () -> Void
     var body: some View {
 			ZStack {
 				Rectangle()
@@ -24,11 +24,11 @@ struct DateTitle: View {
 						.foregroundColor(Color.gray),
 					alignment: .bottom)
 					HStack {
-						HStack(spacing: 0) {
+						LazyHStack(spacing: 0) {
 							Text("\(dateFormat(for: date, format: "mm"))/")
 							Text("\(dateFormat(for: date, format: "dd"))")
 								.foregroundColor(dayColor(for: date))
-							Image(systemName: foldedDates[date, default: false] ? "chevron.right" : "chevron.down")
+							Image(systemName: dataModel.foldedItems[date, default: false] ? "chevron.right" : "chevron.down")
 								.font(.title3)
 								.foregroundColor(.gray)
 								.frame(minWidth: 20)
@@ -44,10 +44,21 @@ struct DateTitle: View {
 					}
 					.padding([.top, .bottom], 10)
 			}
+			.transition(.move(edge: .top).combined(with: .opacity))
 			.padding([.leading, .trailing], 15)
-		.sticky(dateFrames)
+			.onTapGesture {
+				DispatchQueue.main.async {
+					withAnimation(.easeOut(duration: 0.25)) {
+							onTap()
+							dataModel.foldedItems[date, default: false].toggle()
+						}
+//						try? modelContext.save()
+					}
+				}
+			}
+//		.sticky(dateFrames)
     }
-}
+
 //
 //#Preview {
 //	DateTitle(date: Date(), sumForDate: 1000, dateFrames: [])

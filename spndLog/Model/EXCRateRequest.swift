@@ -20,12 +20,12 @@ struct ExchangeURL {
 		return urlComponents.url
 	}
 
-	init(currencySettings: CurrencySettings) {
+	init(dataModel: DataModel) {
 		urlComponents.scheme = "https"
 		urlComponents.host = "quotation-api-cdn.dunamu.com"
 		urlComponents.path = "/v1/forex/recent"
 		urlComponents.queryItems = [
-			URLQueryItem(name: "codes", value: "FRX.KRW\(currencySettings.getCurrentCurrencyCode())"),
+			URLQueryItem(name: "codes", value: "FRX.KRW\(dataModel.getCurrentCurrencyCode())"),
 		]
 	}
 //	init(authKey: String, date: String) {
@@ -41,7 +41,7 @@ struct ExchangeURL {
 	
 }
 
-func request(url: String, method: HTTPMethod, currencySettings: CurrencySettings, param: [String: Any]? = nil, completionHandler: @escaping (Result<Int, Error>) -> Void) {
+func request(url: String, method: HTTPMethod, dataModel: DataModel, param: [String: Any]? = nil, completionHandler: @escaping (Result<Int, Error>) -> Void) {
 	
 	guard let url = URL(string: url) else {
 		print("Error: Cannot create URL")
@@ -83,7 +83,7 @@ func request(url: String, method: HTTPMethod, currencySettings: CurrencySettings
 			let decoder = JSONDecoder()
 			let output = try decoder.decode([Response].self, from: data)
 			
-			let currencyCodeToFind = currencySettings.getCurrentCurrencyCode()
+			let currencyCodeToFind = dataModel.getCurrentCurrencyCode()
 			filteredResponse = output.first { $0.currencyCode == currencyCodeToFind }
 			
 			if let response = filteredResponse {
@@ -103,7 +103,7 @@ func request(url: String, method: HTTPMethod, currencySettings: CurrencySettings
 	
 }
 
-func fetchData(currencySettings: CurrencySettings) {
+func fetchData(dataModel: DataModel) {
 	DispatchQueue.global().async {
 		
 //		guard shouldFetchData() else {
@@ -111,8 +111,8 @@ func fetchData(currencySettings: CurrencySettings) {
 //			return
 //		}
 		
-		let exchangeURL = ExchangeURL(currencySettings: currencySettings)
-		request(url: exchangeURL.url!.absoluteString, method: .get, currencySettings: currencySettings) { result in
+		let exchangeURL = ExchangeURL(dataModel: dataModel)
+		request(url: exchangeURL.url!.absoluteString, method: .get, dataModel: dataModel) { result in
 			switch result {
 			case .success(let data):
 				print("Received data: \(data)")

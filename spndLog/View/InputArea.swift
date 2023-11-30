@@ -8,32 +8,35 @@
 import SwiftUI
 
 struct InputArea: View {
-	@EnvironmentObject var currencies: CurrencySettings
+	@EnvironmentObject var dataModel: DataModel
 	@Binding var isShowingKeypad: Bool
 	var string: String
 	var onSwipeUp: () -> Void
 	var onSwipeDown: () -> Void
-	@State private var selectedCurrency: Currency = .USD
+//	@State private var selectedCurrency: Currency
 
 	var body: some View {
 		ZStack {
 			Rectangle()
 				.foregroundColor(Color(uiColor: UIColor.systemBackground))
-				.frame(maxHeight: 100)
 				.overlay(
-					Divider().frame(alignment: .top), alignment: .top)
+						Divider().frame(alignment: .bottom)
+				, alignment: .top)
+				.overlay(
+						Divider().frame(alignment: .top)
+					, alignment: .bottom)
 			HStack {
-					Text(currencies.currentCurrency.symbol)
-					.frame(maxWidth: 50, maxHeight: 50)
+					Text(dataModel.currentCurrency.symbol)
+					.frame(maxWidth: 60, maxHeight: 60)
 					.background(RoundedRectangle(cornerRadius: 15)
 						.foregroundColor(Color(uiColor: UIColor.systemBackground)))
 					.contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 15))
 					.contextMenu(ContextMenu(menuItems: {
 						ForEach(Currency.allCases) { curr in
 							Button("\(curr.symbol) \(curr.name)") {
-								currencies.currentCurrency = curr
+								dataModel.currentCurrency = curr
 								DispatchQueue.global().async {
-									fetchData(currencySettings: currencies)
+									fetchData(dataModel: dataModel)
 								}
 							}
 						}
@@ -44,6 +47,8 @@ struct InputArea: View {
 					.padding(.trailing, 25)
 			}
 		}
+		.font(.largeTitle)
+		.frame(maxHeight: 80)
 		.onTapGesture(perform: {
 			DispatchQueue.main.async {
 				withAnimation(.spring(response: 0.2, dampingFraction: 1.0)) {

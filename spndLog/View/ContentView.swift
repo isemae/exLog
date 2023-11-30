@@ -13,121 +13,60 @@ struct ContentView: View {
 	@Environment(\.modelContext) private var modelContext
 	@Query private var items: [Item]
 
-	@StateObject private var currentCurrency = CurrencySettings()
+	@StateObject private var dataModel = DataModel()
 	@State private var string = "0"
-	@State private var isShowingKeypad = false
-	@State private var foldedDates: [Date: Bool] = [:]
-	@State private var ampm: Bool = false
+	@State private var isShowingKeypad = true
+//	@State private var foldedDates: [Date: Bool] = [:]
+	
 	
 	@State var dateFrames: [CGRect] = []
 	var body: some View {
 		let bounds = UIScreen.main.bounds
 		var screenWidth = bounds.size.width
 		var screenHeight = bounds.size.height
-		let groupedByDate = items.sortedByDate()
 		
 		
 		NavigationSplitView {
-			ScrollView {
-				ForEach(groupedByDate.sorted(by: { $0.0 > $1.0}), id: \.0) { date, itemsInDate in
-					let sortedItems = itemsInDate.sorted { $0.timestamp > $1.timestamp }
-					let sumForDate = sortedItems.reduce(0) { $0 + $1.calculatedBalance }
-					
-					VStack(alignment: .leading, spacing: 0) {
-						DateTitle(foldedDates: $foldedDates, date: date, sumForDate: sumForDate, dateFrames: dateFrames)
-							.transition(.move(edge: .top).combined(with: .opacity))
-							.onTapGesture {
-								DispatchQueue.main.async {
-									withAnimation(.easeOut(duration: 0.25)) {
-										foldedDates[date, default: false].toggle()
-										try? modelContext.save()
-									}
-								}
-							}
-//							.padding()
-						if !foldedDates[date, default: false] {
-							VStack(alignment: .center, spacing: 0) {
-								ForEach(sortedItems, id: \.self) { item in
-									let currentIndex = sortedItems.firstIndex(of: item)!
-									let previousItem = currentIndex > 0 ? sortedItems[currentIndex - 1] : nil
-									SpendingItem(ampm: $ampm, item: item, prevItem: previousItem)
-										.opacity(opacityForItem(item))
-								}
-								.onDelete(perform: deleteItems)
-							}
+			SpendingList(items: items, onTap: {/*try? modelContext.save()*/} )
+				.environmentObject(dataModel)
+				.onTapGesture(perform: {
+					DispatchQueue.global().async {
+						withAnimation(.spring(response: 0.2, dampingFraction: 1.0)) {
+							isShowingKeypad = false
+						}
+					}
+				})
+				.toolbar {
+					ToolbarItem(placement: .navigationBarLeading) {
+						Button(action: addItem) {
+							Label("Add Item", systemImage: "plus")
 						}
 					}
 				}
-				.frame(width: screenWidth)
-				
-			}
-			.onTapGesture(perform: {
-				withAnimation(.spring(response: 0.2, dampingFraction: 1.0)) {
-					DispatchQueue.main.async {
-						isShowingKeypad = false
-					}
-				}
-			})
-			.coordinateSpace(name: "container")
-			.onPreferenceChange(FramePreference.self, perform: {
-				dateFrames = $0.sorted(by: { $0.minY < $1.minY })
-			})
-			.toolbar {
-				ToolbarItem(placement: .navigationBarLeading) {
-					Button(action: addItem) {
-						Label("Add Item", systemImage: "plus")
-					}
-				}
-					ToolbarItem(placement: .navigationBarTrailing) {
-						EditButton()
-					}
-				//										dev only
-				//					ToolbarItem(placement: .navigationBarLeading) {
-				//						Button(action: deleteAll) {
-				//							Label("delete All", systemImage:"trash")
-				//						}
-				//					}
-			}
-		} detail: {
-		}
+		} detail: {}
 		
-		VStack {
-			InputArea(
-				isShowingKeypad: $isShowingKeypad, string: string.formatNumber(),
-				onSwipeUp: {
-					self.addItem()
-				},
-				onSwipeDown: {
-					self.deleteFirst()
-				}
-			)
-			.environmentObject(currentCurrency)
-
+		InputArea(
+			isShowingKeypad: $isShowingKeypad,
+			string: string.formatNumber(),
+			onSwipeUp: { self.addItem()	},
+			onSwipeDown: { self.deleteFirst() })
+		.environmentObject(dataModel)
+		
+		LazyVStack{
 			Keypad(string: $string)
-				.frame(height: isShowingKeypad ? screenHeight / 3.5 : 0)
 				.opacity(isShowingKeypad ? 1 : 0)
+				.padding([.leading, .trailing])
 				.offset(y: isShowingKeypad ? 0 : screenHeight)
-				.transition(.move(edge: .bottom))
-				.padding()
+				.frame(height: isShowingKeypad ? screenHeight / 3 : 0)
+				.font(.largeTitle)
 		}
-		.font(.largeTitle)
-	}
-	
-	func opacityForItem(_ item: Item) -> Double {
-		let minOpacity: Double = 0.5
-		
-		if let index = items.firstIndex(of: item) {
-			let opacity = Double(index + 1) / Double(items.count)
-			return max(opacity, minOpacity)
-		}
-		return 1.0
 	}
 	
 	func addItem() {
 		withAnimation(.easeOut(duration: 0.2)) {
 			if let balance = Double(string) {
 				if string != "0" {
-					let newItem = Item(timestamp: Date(), balance: String(balance), currency: currentCurrency.currentCurrency.symbol)
+					let newItem = Item(timestamp: Date(), balance: String(balance), currency: dataModel.currentCurrency.symbol)
 					DispatchQueue.main.async {
 						modelContext.insert(newItem)
 						try? modelContext.save()
@@ -136,7 +75,7 @@ struct ContentView: View {
 					string = "0"
 					
 					let currentDate = Calendar.current.startOfDay(for: Date())
-					foldedDates[currentDate] = false
+					dataModel.foldedItems[currentDate] = false
 				}
 			}
 		}
@@ -170,6 +109,16 @@ struct ContentView: View {
 	func deleteAll() {
 		try? modelContext.fetch(FetchDescriptor<Item>()).forEach { modelContext.delete($0)}
 		try? modelContext.save()
+	}
+	
+	func opacityForItem(_ item: Item) -> Double {
+		let minOpacity: Double = 0.5
+		
+		if let index = items.firstIndex(of: item) {
+			let opacity = Double(index + 1) / Double(items.count)
+			return max(opacity, minOpacity)
+		}
+		return 1.0
 	}
 }
 
