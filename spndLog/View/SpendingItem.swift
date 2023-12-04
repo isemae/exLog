@@ -14,60 +14,67 @@ struct SpendingItem: View {
 	
 	var body: some View {
 		VStack(alignment: .leading, spacing: 0) {
-				if showCurrency() || showMinute() {
-				HStack {
-					if showMinute() {
-						Text(ampm ? "\(item.date, format: Date.FormatStyle(date: .none, time: .shortened))" : "\(dateFormat(for: item.date, format: "hhmm"))" )
-							.font(.title3)
-							.foregroundColor(.gray)
-							.frame(maxWidth: .infinity)
-							.fixedSize(horizontal: true, vertical: false)
-							.onTapGesture {
-								ampm.toggle()
-								UserDefaults.standard.set(ampm, forKey: "ampm")}
-					}
-					Spacer()
-//					if showCurrency() {
-						ZStack {
-							RoundedRectangle(cornerRadius: 12)
-								.stroke(Color(uiColor: UIColor.secondarySystemBackground))
-							Text("\(item.currency) → ₩")
-								.font(.headline)
-								.foregroundColor(.primary)
-								.padding(5)
-							//					.opacity(opacityForItem(item))
-						}
-						.fixedSize()
-//					}
-				}
-				.padding(.top, 10)
-			
-					Divider()
-						.padding(.bottom, 10)
-				}
-				HStack (alignment: .center) {
-					//				ZStack {
-					//					RoundedRectangle(cornerRadius: 12)
-					//						.foregroundColor(.secondary)
-					//					Text("category")
-					//						.font(.headline)
-					//						.foregroundColor(.primary)
-					//						.padding(5)
-					//				}
-					//				.fixedSize()
-					
-					Spacer()
-					Text("₩\(item.calculatedBalance)")
-						.font(.title2)
-				}
-				.padding([.top, .bottom], 5)
-			
-//			.background(.blue)
-			
+			if showCurrency() || showMinute() {
+				ItemMinuteView()
+				Divider()
+					.padding(.bottom, 10)
+			}
+			HStack (alignment: .center) {
+//				CategoryIcon()
+//				if showCurrency() {
+					CurrencyIconView()
+//				}
+				Spacer()
+				Text("₩\(item.calculatedBalance)")
+					.font(.title2)
+			}
+			.padding([.top, .bottom], 5)
 		}
 //		.padding(.top, 10)
 		.padding([.leading, .trailing], 25)
 		
+	}
+	
+	func ItemMinuteView() -> some View {
+		HStack {
+			if showMinute() {
+				Text(ampm ? "\(item.date, format: Date.FormatStyle(date: .none, time: .shortened))" : "\(dateFormat(for: item.date, format: "hhmm"))" )
+					.font(.title3)
+					.frame(maxWidth: .infinity)
+					.fixedSize(horizontal: true, vertical: false)
+					.onTapGesture {
+						ampm.toggle()
+						UserDefaults.standard.set(ampm, forKey: "ampm")}
+			}
+			Spacer()
+
+		}
+		.padding(.top, 10)
+	}
+	
+	func CategoryIconView() -> some View {
+		ZStack {
+			RoundedRectangle(cornerRadius: 12)
+				.foregroundColor(.secondary)
+			Text("category")
+				.font(.headline)
+				.foregroundColor(.primary)
+				.padding(5)
+		}
+		.fixedSize()
+	}
+	
+	func CurrencyIconView() -> some View {
+		ZStack {
+			RoundedRectangle(cornerRadius: 12)
+				.stroke(Color(uiColor: UIColor.secondarySystemBackground))
+			Text("\(item.currency) → ₩")
+				.font(.headline)
+				.foregroundColor(.gray)
+				.padding(5)
+			//					.opacity(opacityForItem(item))
+		}
+		.fixedSize()
 	}
 	
 	func shouldGroupByDay() -> Bool {
