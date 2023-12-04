@@ -9,36 +9,38 @@ import SwiftUI
 
 struct SpendingList: View {
 	@EnvironmentObject private var dataModel: DataModel
-	@State private var ampm: Bool = false
+	@State private var ampm: Bool = UserDefaults.standard.bool(forKey: "ampm")
 	var items: [Item]
 	var onTap: () -> Void
-
-
-    var body: some View {
+	
+	
+	var body: some View {
 		let groupedByDate = items.sortedByDate()
-		
-		ScrollView {
-			ForEach(groupedByDate.sorted(by: { $0.0 > $1.0}), id: \.0) { date, itemsInDate in
-				let sortedItems = itemsInDate.sorted { $0.date > $1.date }
-				let sumForDate = sortedItems.reduce(0) { $0 + $1.calculatedBalance }
-				
-				LazyVStack(alignment: .leading, spacing: 0) {
-					DateTitle(dataModel: dataModel, date: date, sumForDate: sumForDate, onTap: onTap)
-					if !dataModel.foldedItems[date, default: false] {
-						LazyVStack(alignment: .center, spacing: 0) {
-							ForEach(sortedItems, id: \.self) { item in
-								let currentIndex = sortedItems.firstIndex(of: item)!
-								let previousItem = currentIndex > 0 ? sortedItems[currentIndex - 1] : nil
-								SpendingItem(ampm: $ampm, item: item, prevItem: previousItem)
+			
+		ScrollViewReader { proxy in
+			ScrollView {
+				ForEach(groupedByDate.sorted(by: { $0.0 > $1.0}), id: \.0) { date, itemsInDate in
+					let sortedItems = itemsInDate.sorted { $0.date > $1.date }
+					let sumForDate = sortedItems.reduce(0) { $0 + $1.calculatedBalance }
+					
+					LazyVStack(alignment: .leading, spacing: 0) {
+						DateTitle(dataModel: dataModel, date: date, sumForDate: sumForDate, onTap: onTap)
+						if !dataModel.foldedItems[date, default: false] {
+							LazyVStack(alignment: .center, spacing: 0) {
+								ForEach(sortedItems, id: \.self) { item in
+									let currentIndex = sortedItems.firstIndex(of: item)!
+									let previousItem = currentIndex > 0 ? sortedItems[currentIndex - 1] : nil
+									SpendingItem(ampm: $ampm, item: item, prevItem: previousItem)
+								}
 							}
+							.padding([.top, .bottom])
 						}
-						.padding([.top, .bottom])
 					}
 				}
+				.frame(width: UIScreen.main.bounds.width)
 			}
-			.frame(width: UIScreen.main.bounds.width)
 		}
-    }
+	}
 }
 
 #Preview {

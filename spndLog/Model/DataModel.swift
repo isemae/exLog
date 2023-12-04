@@ -8,8 +8,13 @@
 import Foundation
 
 class DataModel: ObservableObject {
+	private let foldedItemsKey = "foldedItemsKey"
 	private var currencyKey = "selectedCurrency"
-	@Published var foldedItems: [Date: Bool] = [:]
+	@Published var foldedItems: [Date: Bool] {
+			didSet {
+				UserDefaults.standard.set(try? PropertyListEncoder().encode(foldedItems), forKey: foldedItemsKey)
+			}
+		}
 	@Published var currentCurrency: Currency = .USD {
 		didSet {
 			UserDefaults.standard.set(currentCurrency.rawValue, forKey: currencyKey)
@@ -18,15 +23,22 @@ class DataModel: ObservableObject {
 	
 	
 	init() {
-//		fetchData(currencySettings: self)
-//		DispatchQueue.global().async {
-			if let savedCurrencyCode = UserDefaults.standard.string(forKey: self.currencyKey),
-			   let savedCurrency = Currency(rawValue: savedCurrencyCode) {
-//				DispatchQueue.main.async {
-					self.currentCurrency = savedCurrency
-				}
-//			}
-//		}
+		if let savedFoldedItemsData = UserDefaults.standard.data(forKey: foldedItemsKey),
+		   let savedFoldedItems = try? PropertyListDecoder().decode([Date: Bool].self, from: savedFoldedItemsData) {
+			self.foldedItems = savedFoldedItems
+		} else {
+			self.foldedItems = [:]
+		}
+		
+		//		fetchData(currencySettings: self)
+		//		DispatchQueue.global().async {
+		if let savedCurrencyCode = UserDefaults.standard.string(forKey: self.currencyKey),
+		   let savedCurrency = Currency(rawValue: savedCurrencyCode) {
+			//				DispatchQueue.main.async {
+			self.currentCurrency = savedCurrency
+		}
+		//			}
+		//		}
 	}
 	
 	func getCurrentCurrencyCode() -> String {
