@@ -13,19 +13,21 @@ struct SpendingItem: View {
 	var prevItem: Item?
 	
 	var body: some View {
-		LazyVStack(alignment: .leading, spacing: 0) {
+		VStack(alignment: .leading, spacing: 0) {
+				if showCurrency() || showMinute() {
 				HStack {
-			if !shouldGroupByMinute() {
-					Text(ampm ? "\(dateFormat(for: item.timestamp, format: "hhmm"))" : "\(item.timestamp, format: Date.FormatStyle(date: .none, time: .shortened))")
-						.font(.title3)
-						.frame(maxWidth: .infinity)
-						.fixedSize(horizontal: true, vertical: false)
-						.onTapGesture {
-							withAnimation(.linear(duration: 0.2)) {
-								ampm.toggle()}}
-			}		
+					if showMinute() {
+						Text(ampm ? "\(item.date, format: Date.FormatStyle(date: .none, time: .shortened))" : "\(dateFormat(for: item.date, format: "hhmm"))" )
+							.font(.title3)
+							.foregroundColor(.gray)
+							.frame(maxWidth: .infinity)
+							.fixedSize(horizontal: true, vertical: false)
+							.onTapGesture {
+								ampm.toggle()
+								UserDefaults.standard.set(ampm, forKey: "ampm")}
+					}
 					Spacer()
-					if !shouldGroupByCurrency() {
+//					if showCurrency() {
 						ZStack {
 							RoundedRectangle(cornerRadius: 12)
 								.stroke(Color(uiColor: UIColor.secondarySystemBackground))
@@ -33,46 +35,62 @@ struct SpendingItem: View {
 								.font(.headline)
 								.foregroundColor(.primary)
 								.padding(5)
+							//					.opacity(opacityForItem(item))
 						}
-						//					.opacity(opacityForItem(item))
 						.fixedSize()
-					}
+//					}
 				}
+				.padding(.top, 10)
 			
-			HStack (alignment: .center) {
-				ZStack {
-					RoundedRectangle(cornerRadius: 12)
-						.foregroundColor(.secondary)
-					Text("category")
-						.font(.headline)
-						.foregroundColor(.primary)
-						.padding(5)
+					Divider()
+						.padding(.bottom, 10)
 				}
-				.fixedSize()
-				Spacer()
-				Text("₩\(item.calculatedBalance)")
-					.font(.title2)
-			}
-			.padding([.top], 5)
-			Divider()
+				HStack (alignment: .center) {
+					//				ZStack {
+					//					RoundedRectangle(cornerRadius: 12)
+					//						.foregroundColor(.secondary)
+					//					Text("category")
+					//						.font(.headline)
+					//						.foregroundColor(.primary)
+					//						.padding(5)
+					//				}
+					//				.fixedSize()
+					
+					Spacer()
+					Text("₩\(item.calculatedBalance)")
+						.font(.title2)
+				}
+				.padding([.top, .bottom], 5)
+			
+//			.background(.blue)
+			
 		}
 //		.padding(.top, 10)
 		.padding([.leading, .trailing], 25)
+		
 	}
 	
-	private func shouldGroupByMinute() -> Bool {
+	func shouldGroupByDay() -> Bool {
 		guard let prevItem = prevItem else {
-			return false
+			return true
 		}
-		let isMinuteSame = Calendar.current.isDate(item.timestamp, equalTo: prevItem.timestamp, toGranularity: .minute)
+		let isDaySame = !Calendar.current.isDate(item.date, equalTo: prevItem.date, toGranularity: .day)
+		return isDaySame
+	}
+	
+	private func showMinute() -> Bool {
+		guard let prevItem = prevItem else {
+			return true
+		}
+		let isMinuteSame = !Calendar.current.isDate(item.date, equalTo: prevItem.date, toGranularity: .minute)
 		return isMinuteSame
 	}
 	
-	private func shouldGroupByCurrency() -> Bool {
+	private func showCurrency() -> Bool {
 		guard let prevItem = prevItem else {
-			return false
+			return true
 		}
-		let isCurrencySame = item.currency == prevItem.currency
+		let isCurrencySame = item.currency != prevItem.currency
 		return isCurrencySame
 	}
 //	func opacityForItem(_ item: Item, _ items: [Item]) -> Double {

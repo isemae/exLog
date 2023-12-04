@@ -12,16 +12,17 @@ struct Keypad: View {
 	@FocusState private var isFocused: Bool
 	
 	var body: some View {
-		LazyVStack {
+		Divider()
+			.frame(alignment: .top)
+		LazyVStack(spacing: 0) {
 			KeypadRow(keys: ["1","2","3"])
 			KeypadRow(keys: ["4","5","6"])
 			KeypadRow(keys: ["7","8","9"])
 			KeypadRow(keys: [".","0","⌫"])
-		}.environment(\.keypadButtonAction, self.keyPressed(_:))
-			.disabled(isFocused)
-			.onAppear() {
-				isFocused = true
-			}
+		}
+		.disabled(isFocused)
+		.onAppear() { isFocused = true }
+		.environment(\.keypadButtonAction, self.keyPressed(_:))
 	}
 	
 	private func keyPressed(_ key: String) {
@@ -39,7 +40,7 @@ struct Keypad: View {
 struct KeypadRow: View {
 	var keys: [String]
 	var body: some View {
-		HStack {
+		HStack(spacing: 5) {
 			ForEach(keys, id: \.self) { key in
 				KeypadButton(key: key)
 					.buttonStyle(.plain)
@@ -60,7 +61,7 @@ struct KeypadButton: View {
 				)
 				.foregroundColor(Color(uiColor: UIColor.systemBackground))
 				.overlay(Text(key))
-				.frame(minHeight: 50)
+				.frame(minHeight: 60)
 		}
 	}
 	

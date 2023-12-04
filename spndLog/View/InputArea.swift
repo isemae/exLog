@@ -13,26 +13,22 @@ struct InputArea: View {
 	var string: String
 	var onSwipeUp: () -> Void
 	var onSwipeDown: () -> Void
-//	@State private var selectedCurrency: Currency
 
 	var body: some View {
 		ZStack {
 			Rectangle()
 				.foregroundColor(Color(uiColor: UIColor.systemBackground))
 				.overlay(
-						Divider().frame(alignment: .bottom)
-				, alignment: .top)
-				.overlay(
-						Divider().frame(alignment: .top)
-					, alignment: .bottom)
+						Divider().frame(alignment: .bottom), alignment: .top)
+		.frame(height: 80)
 			HStack {
 					Text(dataModel.currentCurrency.symbol)
-					.frame(maxWidth: 60, maxHeight: 60)
+					.frame(width: 60, height: 60)
 					.background(RoundedRectangle(cornerRadius: 15)
 						.foregroundColor(Color(uiColor: UIColor.systemBackground)))
 					.contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 15))
 					.contextMenu(ContextMenu(menuItems: {
-						ForEach(Currency.allCases) { curr in
+						ForEach(Currency.allCases, id: \.self) { curr in
 							Button("\(curr.symbol) \(curr.name)") {
 								dataModel.currentCurrency = curr
 								DispatchQueue.global().async {
@@ -48,7 +44,6 @@ struct InputArea: View {
 			}
 		}
 		.font(.largeTitle)
-		.frame(maxHeight: 80)
 		.onTapGesture(perform: {
 			DispatchQueue.main.async {
 				withAnimation(.spring(response: 0.2, dampingFraction: 1.0)) {

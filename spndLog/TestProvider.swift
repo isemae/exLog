@@ -13,8 +13,8 @@ func createTestItems() -> [Item] {
 
 	// Add test data
 	let currentDate = Date()
-	items.append(Item(timestamp: currentDate, balance: "100", currency: "¥"))
-	items.append(Item(timestamp: currentDate.addingTimeInterval(-3600), balance: "50", currency: "€"))
+	items.append(Item(date: currentDate, balance: "100", currency: "¥"))
+	items.append(Item(date: currentDate.addingTimeInterval(-3600), balance: "50", currency: "€"))
 	// Add more test items as needed
 
 	return items

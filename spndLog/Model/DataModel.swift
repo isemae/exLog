@@ -9,7 +9,6 @@ import Foundation
 
 class DataModel: ObservableObject {
 	private var currencyKey = "selectedCurrency"
-	
 	@Published var foldedItems: [Date: Bool] = [:]
 	@Published var currentCurrency: Currency = .USD {
 		didSet {
