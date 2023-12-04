@@ -21,7 +21,7 @@ struct DateTitle: View {
 				.overlay(
 					Rectangle()
 						.frame(width: nil, height: 1, alignment: .bottom)
-						.foregroundColor(Color.gray),
+						.foregroundColor(dataModel.foldedItems[date, default: false] ? Color(uiColor: UIColor.lightGray) : Color(uiColor: UIColor.darkGray)),
 					alignment: .bottom)
 					HStack {
 						LazyHStack(spacing: 0) {

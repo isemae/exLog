@@ -30,13 +30,13 @@ extension String {
 extension Array where Element == Item {
 	func sortedByDate() -> [(Date, [Item])] {
 		let groupedDictionary = Dictionary(grouping: self) { item in
-			Calendar.current.startOfDay(for: item.timestamp)
+			Calendar.current.startOfDay(for: item.date)
 		}
 		
 		let sortedGroups = groupedDictionary.sorted { $0.key > $1.key }
 		
 		let sortedItemsInGroups = sortedGroups.map { (date, items) in
-			(date, items.sorted(by: { $0.timestamp > $1.timestamp }))
+			(date, items.sorted(by: { $0.date > $1.date }))
 		}
 		
 		return sortedItemsInGroups

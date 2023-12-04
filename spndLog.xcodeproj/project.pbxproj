@@ -8,9 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0802FB632B18F495009A7E81 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0802FB622B18F495009A7E81 /* DataModel.swift */; };
-		0802FB652B18F4A9009A7E81 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0802FB642B18F4A9009A7E81 /* ListView.swift */; };
-		0802FB682B18F4CD009A7E81 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0802FB662B18F4CD009A7E81 /* ListViewModel.swift */; };
-		0802FB692B18F4CD009A7E81 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0802FB672B18F4CD009A7E81 /* ContentViewModel.swift */; };
+		0802FB652B18F4A9009A7E81 /* SpendingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0802FB642B18F4A9009A7E81 /* SpendingListView.swift */; };
 		0802FB6B2B18F500009A7E81 /* TestProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0802FB6A2B18F500009A7E81 /* TestProvider.swift */; };
 		082177A02B0DFDC300D46518 /* spndLogApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0821779F2B0DFDC300D46518 /* spndLogApp.swift */; };
 		082177A22B0DFDC300D46518 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177A12B0DFDC300D46518 /* ContentView.swift */; };
@@ -58,9 +56,7 @@
 
 /* Begin PBXFileReference section */
 		0802FB622B18F495009A7E81 /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
-		0802FB642B18F4A9009A7E81 /* ListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListView.swift; path = spndLog/View/ListView.swift; sourceTree = SOURCE_ROOT; };
-		0802FB662B18F4CD009A7E81 /* ListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListViewModel.swift; path = spndLog/ViewModel/ListViewModel.swift; sourceTree = SOURCE_ROOT; };
-		0802FB672B18F4CD009A7E81 /* ContentViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContentViewModel.swift; path = spndLog/ViewModel/ContentViewModel.swift; sourceTree = SOURCE_ROOT; };
+		0802FB642B18F4A9009A7E81 /* SpendingListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpendingListView.swift; path = spndLog/View/SpendingListView.swift; sourceTree = SOURCE_ROOT; };
 		0802FB6A2B18F500009A7E81 /* TestProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TestProvider.swift; path = spndLog/TestProvider.swift; sourceTree = SOURCE_ROOT; };
 		081379402B0EA0A1006AE972 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0821779C2B0DFDC300D46518 /* spndLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = spndLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -201,7 +197,6 @@
 				08F2B37B2B0E82AA00371E49 /* EXCRateRequest.swift */,
 				087ADE812B0F951200E1BFD8 /* ResponseData.swift */,
 				0802FB622B18F495009A7E81 /* DataModel.swift */,
-				0802FB642B18F4A9009A7E81 /* ListView.swift */,
 				082177A32B0DFDC300D46518 /* Item.swift */,
 			);
 			path = Model;
@@ -211,10 +206,9 @@
 			isa = PBXGroup;
 			children = (
 				082177A12B0DFDC300D46518 /* ContentView.swift */,
+				0802FB642B18F4A9009A7E81 /* SpendingListView.swift */,
 				08DC52232B12D7DA005ED804 /* DateTitle.swift */,
 				08DC52212B12D65E005ED804 /* SpendingItem.swift */,
-				0802FB672B18F4CD009A7E81 /* ContentViewModel.swift */,
-				0802FB662B18F4CD009A7E81 /* ListViewModel.swift */,
 				08DC52252B12D8C6005ED804 /* InputArea.swift */,
 				082177CD2B0DFE9300D46518 /* Keypad.swift */,
 				08B8C2132B1156A1008734A8 /* CategoryMenuView.swift */,
@@ -361,8 +355,7 @@
 				082177A42B0DFDC300D46518 /* Item.swift in Sources */,
 				08DC52262B12D8C6005ED804 /* InputArea.swift in Sources */,
 				08DC52222B12D65E005ED804 /* SpendingItem.swift in Sources */,
-				0802FB692B18F4CD009A7E81 /* ContentViewModel.swift in Sources */,
-				0802FB652B18F4A9009A7E81 /* ListView.swift in Sources */,
+				0802FB652B18F4A9009A7E81 /* SpendingListView.swift in Sources */,
 				0857C6C42B11C4E60012C698 /* EXCRateJSONdnm.json in Sources */,
 				08AB63822B0E7E6E00F03C64 /* EXCRateJSON.json in Sources */,
 				0882EAF72B12F29700755E42 /* StickyModifier.swift in Sources */,
@@ -374,7 +367,6 @@
 				08F2B37C2B0E82AA00371E49 /* EXCRateRequest.swift in Sources */,
 				08EBE7FF2B105D2400552A3F /* Theme.swift in Sources */,
 				082177CC2B0DFE7800D46518 /* CountryMenuView.swift in Sources */,
-				0802FB682B18F4CD009A7E81 /* ListViewModel.swift in Sources */,
 				08B8C2142B1156A1008734A8 /* CategoryMenuView.swift in Sources */,
 				08AB637E2B0E706600F03C64 /* extensions.swift in Sources */,
 				0802FB6B2B18F500009A7E81 /* TestProvider.swift in Sources */,

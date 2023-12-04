@@ -11,14 +11,14 @@ import SwiftData
 @Model
 final class Item {
 	var id: UUID
-    var timestamp: Date
+    var date: Date
 	var balance: String
 	var currency: String
-	init(timestamp: Date, balance: String, currency: String) {
-		self.timestamp = timestamp
+	init(date: Date, balance: String = "", currency: String = "") {
+		self.id = UUID()
+		self.date = Date()
 		self.balance = balance
 		self.currency = currency
-		self.id = UUID()
 	}
 	
 	var calculatedBalance: Int {
@@ -31,11 +31,9 @@ final class Item {
 	let dealBasisRate = (Double(filteredResponse?.basePrice ?? 100) ) / Double(filteredResponse?.currencyUnit ?? 100)
 }
 
-extension Item: Equatable {
-	static func ==(lhs: Item, rhs: Item) -> Bool {
-		return lhs.timestamp == rhs.timestamp &&
-			   lhs.balance == rhs.balance &&
-			   lhs.currency == rhs.currency
+extension Array where Element: Item {
+	subscript(id: Item.ID?) -> Item? {
+		first { $0.id == id}
 	}
 }
 

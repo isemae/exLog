@@ -9,22 +9,17 @@ import SwiftUI
 
 struct SpendingList: View {
 	@EnvironmentObject private var dataModel: DataModel
-	@ObservedObject private var viewModel: SpendingListViewModel
 	@State private var ampm: Bool = false
-
+	var items: [Item]
 	var onTap: () -> Void
-	
-	init(items: [Item], onTap: @escaping () -> Void) {
-		self.viewModel = SpendingListViewModel(items: items)
-		self.onTap = onTap
-	}
+
 
     var body: some View {
-		let groupedByDate = viewModel.items.sortedByDate()
+		let groupedByDate = items.sortedByDate()
 		
 		ScrollView {
 			ForEach(groupedByDate.sorted(by: { $0.0 > $1.0}), id: \.0) { date, itemsInDate in
-				let sortedItems = itemsInDate.sorted { $0.timestamp > $1.timestamp }
+				let sortedItems = itemsInDate.sorted { $0.date > $1.date }
 				let sumForDate = sortedItems.reduce(0) { $0 + $1.calculatedBalance }
 				
 				LazyVStack(alignment: .leading, spacing: 0) {
@@ -36,16 +31,13 @@ struct SpendingList: View {
 								let previousItem = currentIndex > 0 ? sortedItems[currentIndex - 1] : nil
 								SpendingItem(ampm: $ampm, item: item, prevItem: previousItem)
 							}
-						}.padding(.top)
+						}
+						.padding([.top, .bottom])
 					}
 				}
 			}
 			.frame(width: UIScreen.main.bounds.width)
 		}
-		//			.coordinateSpace(name: "container")
-		//			.onPreferenceChange(FramePreference.self, perform: {
-		//				dateFrames = $0.sorted(by: { $0.minY < $1.minY })
-		//			})
     }
 }
 
