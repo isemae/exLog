@@ -9,46 +9,47 @@ import SwiftUI
 
 struct DateTitle: View {
 	let dataModel: DataModel
-	var date: Date
-	var sumForDate: Int
-	//	var dateFrames: [CGRect]
+//	var items: [Item]
+	var item: Item
+	var prevItem: Item?
+//	var sumForDate: Int
 	var onTap: () -> Void
 	var body: some View {
-		ZStack {
-			HeaderBackground()
-			HeaderContent()
-		}
-		.padding([.leading, .trailing], 15)
-		.transition(.move(edge: .top).combined(with: .opacity))
-		.onTapGesture {
-			handleTapGesture()
+		if shouldGroupBy(.day, item: item) {
+			ZStack {
+				HeaderBackground()
+				HeaderContent()
+			}
+			.transition(.move(edge: .top).combined(with: .opacity))
+			.onTapGesture {
+				handleTapGesture()
+			}
 		}
 	}
-	//		.sticky(dateFrames)
 	
 	
 	private func HeaderContent() -> some View {
 		HStack {
 			HeaderDate()
 			Spacer()
-			Text("₩\(sumForDate)")
+//			Text("₩\(sumForDate)")
+			Text("test")
 				.font(.title2)
 				.foregroundColor(.gray)
 				.padding(.trailing, 10)
 		}
-		.padding([.top, .bottom], 10)
 	}
 	
 	private func HeaderDate() -> some View {
 		HStack(spacing: 0) {
-			Text("\(dateFormat(for: date, format: "mm"))/")
-			Text("\(dateFormat(for: date, format: "dd"))")
-				.foregroundColor(dayColor(for: date))
-			Image(systemName: dataModel.foldedItems[date, default: false] ? "chevron.right" : "chevron.down")
+			Text("\(dateFormat(for: item.date, format: "mm"))/")
+			Text("\(dateFormat(for: item.date, format: "dd"))")
+				.foregroundColor(dayColor(for: item.date))
+			Image(systemName: dataModel.foldedItems[item.date, default: false] ? "chevron.right" : "chevron.down")
 				.font(.title3)
 				.foregroundColor(.gray)
 				.frame(minWidth: 20)
-				.padding([.leading, .trailing], 10)
+				.padding(.horizontal, 10)
 		}
 		.font(.title)
 	}	
@@ -56,26 +57,35 @@ struct DateTitle: View {
 	private func HeaderBackground() -> some View {
 		Rectangle()
 			.ignoresSafeArea()
+			.padding(15)
 			.foregroundColor(Color(uiColor: UIColor.systemBackground))
 			.overlay(
 				Rectangle()
 					.frame(width: nil, height: 1, alignment: .bottom)
-					.foregroundColor(dataModel.foldedItems[date, default: false] ? Color(uiColor: UIColor.darkGray) : Color(uiColor: UIColor.darkGray)),
-				alignment: .bottom)
+					.foregroundColor(dataModel.foldedItems[item.date, default: false] ? Color(uiColor: UIColor.darkGray) : Color(uiColor: UIColor.lightGray))
+				, alignment: .bottom)
 	}
 	
 	private func handleTapGesture() {
 		   DispatchQueue.main.async {
 			   withAnimation(.easeOut(duration: 0.25)) {
 				   onTap()
-				   dataModel.foldedItems[date, default: false].toggle()
+				   dataModel.foldedItems[item.date, default: false].toggle()
 			   }
 		   }
 	   }
+	
+	func shouldGroupBy(_ time: Calendar.Component, item: Item) -> Bool {
+		guard let prevItem = prevItem else {
+			return true
+		}
+		let isDaySame = !Calendar.current.isDate(item.date, equalTo: prevItem.date, toGranularity: time)
+		return isDaySame
+	}
 }
 
 //
 //#Preview {
-//	DateTitle(date: Date(), sumForDate: 1000, dateFrames: [])
+//	DateTitle(dataModel: DataModel(), item: Item(), onTap: {print("hello")})
 //}
-
+//

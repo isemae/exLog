@@ -23,11 +23,10 @@
 		0857C6C42B11C4E60012C698 /* EXCRateJSONdnm.json in Sources */ = {isa = PBXBuildFile; fileRef = 0857C6C32B11C4E60012C698 /* EXCRateJSONdnm.json */; };
 		087ADE822B0F951200E1BFD8 /* ResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087ADE812B0F951200E1BFD8 /* ResponseData.swift */; };
 		0882EAF52B12F29700755E42 /* DataIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0882EAF22B12F29700755E42 /* DataIO.swift */; };
-		0882EAF62B12F29700755E42 /* GestureHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0882EAF32B12F29700755E42 /* GestureHandler.swift */; };
-		0882EAF72B12F29700755E42 /* StickyModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0882EAF42B12F29700755E42 /* StickyModifier.swift */; };
 		08AB637E2B0E706600F03C64 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AB637D2B0E706600F03C64 /* extensions.swift */; };
 		08AB63822B0E7E6E00F03C64 /* EXCRateJSON.json in Sources */ = {isa = PBXBuildFile; fileRef = 08AB63812B0E7E6E00F03C64 /* EXCRateJSON.json */; };
 		08B8C2142B1156A1008734A8 /* CategoryMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B8C2132B1156A1008734A8 /* CategoryMenuView.swift */; };
+		08BDD6332B1E99BD001861A3 /* GestureHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BDD6322B1E99BD001861A3 /* GestureHandler.swift */; };
 		08DC52222B12D65E005ED804 /* SpendingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DC52212B12D65E005ED804 /* SpendingItem.swift */; };
 		08DC52242B12D7DA005ED804 /* DateTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DC52232B12D7DA005ED804 /* DateTitle.swift */; };
 		08DC52262B12D8C6005ED804 /* InputArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DC52252B12D8C6005ED804 /* InputArea.swift */; };
@@ -75,11 +74,10 @@
 		0857C6C32B11C4E60012C698 /* EXCRateJSONdnm.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = EXCRateJSONdnm.json; sourceTree = "<group>"; };
 		087ADE812B0F951200E1BFD8 /* ResponseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseData.swift; sourceTree = "<group>"; };
 		0882EAF22B12F29700755E42 /* DataIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataIO.swift; sourceTree = "<group>"; };
-		0882EAF32B12F29700755E42 /* GestureHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GestureHandler.swift; sourceTree = "<group>"; };
-		0882EAF42B12F29700755E42 /* StickyModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickyModifier.swift; sourceTree = "<group>"; };
 		08AB637D2B0E706600F03C64 /* extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 		08AB63812B0E7E6E00F03C64 /* EXCRateJSON.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = EXCRateJSON.json; sourceTree = "<group>"; };
 		08B8C2132B1156A1008734A8 /* CategoryMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryMenuView.swift; sourceTree = "<group>"; };
+		08BDD6322B1E99BD001861A3 /* GestureHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GestureHandler.swift; path = ../../GestureHandler.swift; sourceTree = "<group>"; };
 		08DC52212B12D65E005ED804 /* SpendingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingItem.swift; sourceTree = "<group>"; };
 		08DC52232B12D7DA005ED804 /* DateTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTitle.swift; sourceTree = "<group>"; };
 		08DC52252B12D8C6005ED804 /* InputArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputArea.swift; sourceTree = "<group>"; };
@@ -180,9 +178,8 @@
 			isa = PBXGroup;
 			children = (
 				0802FB6A2B18F500009A7E81 /* TestProvider.swift */,
+				08BDD6322B1E99BD001861A3 /* GestureHandler.swift */,
 				0882EAF22B12F29700755E42 /* DataIO.swift */,
-				0882EAF32B12F29700755E42 /* GestureHandler.swift */,
-				0882EAF42B12F29700755E42 /* StickyModifier.swift */,
 			);
 			name = Handler;
 			path = ../../../../../.Trash/Handler;
@@ -358,17 +355,16 @@
 				0802FB652B18F4A9009A7E81 /* SpendingListView.swift in Sources */,
 				0857C6C42B11C4E60012C698 /* EXCRateJSONdnm.json in Sources */,
 				08AB63822B0E7E6E00F03C64 /* EXCRateJSON.json in Sources */,
-				0882EAF72B12F29700755E42 /* StickyModifier.swift in Sources */,
 				082177A02B0DFDC300D46518 /* spndLogApp.swift in Sources */,
 				0802FB632B18F495009A7E81 /* DataModel.swift in Sources */,
 				082177CE2B0DFE9300D46518 /* Keypad.swift in Sources */,
 				08EBE7FD2B104D6B00552A3F /* dateFormat.swift in Sources */,
-				0882EAF62B12F29700755E42 /* GestureHandler.swift in Sources */,
 				08F2B37C2B0E82AA00371E49 /* EXCRateRequest.swift in Sources */,
 				08EBE7FF2B105D2400552A3F /* Theme.swift in Sources */,
 				082177CC2B0DFE7800D46518 /* CountryMenuView.swift in Sources */,
 				08B8C2142B1156A1008734A8 /* CategoryMenuView.swift in Sources */,
 				08AB637E2B0E706600F03C64 /* extensions.swift in Sources */,
+				08BDD6332B1E99BD001861A3 /* GestureHandler.swift in Sources */,
 				0802FB6B2B18F500009A7E81 /* TestProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

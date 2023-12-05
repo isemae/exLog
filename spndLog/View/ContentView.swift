@@ -18,72 +18,81 @@ struct ContentView: View {
 	@State private var isShowingKeypad = false
 	@State private var scrollViewProxy: ScrollViewProxy? = nil
 	@State private var height = CGFloat.zero
+	@State private var topTrigger = false
 	
-	@State var dateFrames: [CGRect] = []
 	var body: some View {
 		var screenWidth = UIScreen.main.bounds.size.width
 		var screenHeight = UIScreen.main.bounds.size.height
-		GeometryReader { geo in
-			ZStack {
-				NavigationSplitView {
-					SpendingList(items: items, onTap: { try? modelContext.save() } )
-						.environmentObject(dataModel)
-						.onTapGesture(perform: {
-							isShowingKeypad = false
-						})
-					Color.clear.frame(height: height)
-											.toolbar {
-					//							ToolbarItem(placement: .navigationBarLeading) {
-					//								Button(action: addItem) {
-					//									Label("Add Item", systemImage: "plus")
-					//								}
-												}
-					//						}
-				} detail: {}
-				
-				LazyVStack(spacing: 0) {
-					InputArea(
-						isShowingKeypad: $isShowingKeypad,
-						string: string.formatNumber(),
-						onSwipeUp: { self.addItem()	},
-						onSwipeDown: { self.deleteFirst() })
-					.environmentObject(dataModel)
-					.background(GeometryReader {
-						Color.clear
-							.edgesIgnoringSafeArea(.bottom)
-							.preference(key: ViewHeightKey.self, value: $0.frame(in: .local).size.height)
-					})
-					.onPreferenceChange(ViewHeightKey.self) {
-						self.height = $0 + 10
+		ZStack {
+			NavigationSplitView {
+				SpendingList(
+					items: items,
+					onTap: {
+						try? modelContext.save()
 					}
-					Keypad(string: $string)
-						.opacity(isShowingKeypad ? 1 : 0)
-						.padding([.leading, .trailing])
-						.font(.largeTitle)
-						.background()
-					//			.frame(height: isShowingKeypad ? screenHeight / 3 : 0)
+				)
+				.environmentObject(dataModel)
+				.onTapGesture(perform: {
+					isShowingKeypad = false
+				})
+				.safeAreaInset(edge: .bottom, spacing: 0) {
+					VStack(spacing: 0) {
+						InputArea(
+							isShowingKeypad: $isShowingKeypad,
+							string: string.formatNumber(), 
+							onSwipeUp: { addItem() },
+							onSwipeDown: { deleteFirst() })
+						
+						.environmentObject(dataModel)
+						//							.background(GeometryReader {
+						//								Color.clear
+						//									.edgesIgnoringSafeArea(.bottom)
+						//									.preference(key: ViewHeightKey.self, value: $0.frame(in: .local).size.height)
+						//							})
+						//							.onPreferenceChange(ViewHeightKey.self) {
+						//								self.height = $0 + 10
+						//							}
+						if isShowingKeypad {
+							Keypad(string: $string,
+								   onSwipeUp: { self.addItem() },
+								   onSwipeDown: { self.deleteFirst() })
+								.padding([.leading, .trailing])
+								.font(.largeTitle)
+						}
+					}
+					.background()
 				}
-				.offset(y: isShowingKeypad ? screenHeight / 4 : screenHeight / 1.7)
-			}
-			
+				.toolbar {}
+			} detail: {}
 		}
-		
 	}
 	
-	struct ViewHeightKey: PreferenceKey {
-		typealias Value = CGFloat
-		static var defaultValue = CGFloat.zero
-		static func reduce(value: inout Value, nextValue: () -> Value) {
-			value += nextValue()
+	func scrollToTop() {
+		DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+			topTrigger.toggle()
 		}
 	}
+//	}
+	
+//	struct ViewHeightKey: PreferenceKey {
+//		typealias Value = CGFloat
+//		static var defaultValue = CGFloat.zero
+//		static func reduce(value: inout Value, nextValue: () -> Value) {
+//			value += nextValue()
+//		}
+//	}
 	
 	func addItem() {
 			if let balance = Double(string) {
 				if string != "0" {
 					let newItem = Item(date: Date(), balance: String(balance), currency: dataModel.currentCurrency.symbol)
-					DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+					let currentDate = Calendar.current.startOfDay(for: Date())
+					withAnimation(.easeOut(duration: 0.2)) {
+						dataModel.foldedItems[currentDate] = false
+					}
+					DispatchQueue.main.async {
 						modelContext.insert(newItem)
+						
 						withAnimation(.easeOut(duration: 0.2)) {
 							do {
 								try modelContext.save()
@@ -94,18 +103,16 @@ struct ContentView: View {
 						UISelectionFeedbackGenerator().selectionChanged()
 					}
 					string = "0"
-					
-					let currentDate = Calendar.current.startOfDay(for: Date())
-					dataModel.foldedItems[currentDate] = false
-					scrollViewProxy?.scrollTo(0)
+					scrollToTop()
 				}
 			}
 		}
 	
 	func deleteFirst() {
-		if let firstItem = items.first {
-			DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-					modelContext.delete(firstItem)
+		if let firstGroup = items.sortedByDate().first,
+		   let recentItem = firstGroup.1.first {
+			DispatchQueue.main.async {
+					modelContext.delete(recentItem)
 				withAnimation(.easeOut(duration: 0.2)) {
 					do {
 						try modelContext.save()
@@ -114,6 +121,7 @@ struct ContentView: View {
 					}
 				}
 				UISelectionFeedbackGenerator().selectionChanged()
+				print(items)
 			}
 		}
 	}
