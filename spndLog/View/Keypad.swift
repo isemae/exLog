@@ -10,11 +10,12 @@ import SwiftUI
 struct Keypad: View {
 	@Binding var string: String
 	@FocusState private var isFocused: Bool
-	
+	var onSwipeUp: () -> Void
+	var onSwipeDown: () -> Void
 	var body: some View {
+		LazyVStack(spacing: 0) {
 		Divider()
 			.frame(alignment: .top)
-		LazyVStack(spacing: 0) {
 			KeypadRow(keys: ["1","2","3"])
 			KeypadRow(keys: ["4","5","6"])
 			KeypadRow(keys: ["7","8","9"])
@@ -22,6 +23,23 @@ struct Keypad: View {
 		}
 		.disabled(isFocused)
 		.onAppear() { isFocused = true }
+		.contentShape(Rectangle())
+		.transition(.move(edge: .bottom))
+		.gesture(
+			DragGesture()
+				.onEnded { orientation in
+					
+					if orientation.translation.height > 10.0 {
+						self.onSwipeDown()
+					}
+					if abs(orientation.translation.width) > abs(orientation.translation.height) {
+						return
+					}
+					if orientation.translation.height < 10.0{
+						self.onSwipeUp()
+					}
+				}
+		)
 		.environment(\.keypadButtonAction, self.keyPressed(_:))
 	}
 	
@@ -51,11 +69,16 @@ struct KeypadRow: View {
 
 struct KeypadButton: View {
 	var key: String
+	var onLongPress: () -> Void = {}
+	var onLongPressRepeat: () -> Void = {}
+	
+	@State private var longPressTimer: Timer?
 	var body: some View {
 		Button(action: {
 			self.action(self.key)
 			UIImpactFeedbackGenerator().impactOccurred(intensity: 0.7)
-		}) {
+		})
+		 {
 			Color.clear
 				.overlay(RoundedRectangle(cornerRadius: 10)
 				)
@@ -63,6 +86,9 @@ struct KeypadButton: View {
 				.overlay(Text(key))
 				.frame(minHeight: 60)
 		}
+		 .buttonRepeatBehavior(.enabled)
+		 
+		
 	}
 	
 	enum ActionKey: EnvironmentKey {

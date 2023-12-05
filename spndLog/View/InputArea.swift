@@ -11,9 +11,9 @@ struct InputArea: View {
 	@EnvironmentObject var dataModel: DataModel
 	@Binding var isShowingKeypad: Bool
 	var string: String
-	var onSwipeUp: () -> Void
-	var onSwipeDown: () -> Void
-
+	let onSwipeUp: () -> Void
+	let onSwipeDown: () -> Void
+	
 	var body: some View {
 		ZStack {
 			Rectangle()
@@ -37,6 +37,7 @@ struct InputArea: View {
 							}
 						}
 					}))
+					
 					.padding(.leading)
 				Spacer()
 				Text(string)
@@ -51,10 +52,7 @@ struct InputArea: View {
 				}
 			}
 		})
-		.GestureHandler(
-			onSwipeUp: onSwipeUp,
-			onSwipeDown: onSwipeDown
-		)
+		.GestureHandler(onSwipeUp: onSwipeUp, onSwipeDown: onSwipeDown)
 	}
 }
 //

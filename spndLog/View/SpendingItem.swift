@@ -9,36 +9,39 @@ import SwiftUI
 
 struct SpendingItem: View {
 	@Binding var ampm: Bool
+	var date: Date
 	var item: Item
 	var prevItem: Item?
 	
 	var body: some View {
 		VStack(alignment: .leading, spacing: 0) {
-			if showCurrency() || showMinute() {
+			if /*showCurrency() ||*/ shouldGroupBy(.minute, item: item) {
 				ItemMinuteView()
 				Divider()
 					.padding(.bottom, 10)
 			}
-			HStack (alignment: .center) {
-//				CategoryIcon()
-//				if showCurrency() {
-					CurrencyIconView()
-//				}
-				Spacer()
-				Text("₩\(item.calculatedBalance)")
-					.font(.title2)
-			}
-			.padding([.top, .bottom], 5)
+			ItemContent()
 		}
 //		.padding(.top, 10)
-		.padding([.leading, .trailing], 25)
+		.padding(.horizontal, 10)
 		
+	}
+	func ItemContent() -> some View {
+		HStack (alignment: .center) {
+//				CategoryIcon()
+//				if showCurrency() {
+				CurrencyIconView()
+//				}
+			Spacer()
+			Text("₩\(item.calculatedBalance)")
+				.font(.title2)
+		}
 	}
 	
 	func ItemMinuteView() -> some View {
 		HStack {
-			if showMinute() {
-				Text(ampm ? "\(item.date, format: Date.FormatStyle(date: .none, time: .shortened))" : "\(dateFormat(for: item.date, format: "hhmm"))" )
+			if shouldGroupBy(.minute, item: item) {
+				Text(ampm ? "\(date, format: Date.FormatStyle(date: .none, time: .shortened))" : "\(dateFormat(for: date, format: "hhmm"))" )
 					.font(.title3)
 					.frame(maxWidth: .infinity)
 					.fixedSize(horizontal: true, vertical: false)
@@ -77,29 +80,24 @@ struct SpendingItem: View {
 		.fixedSize()
 	}
 	
-	func shouldGroupByDay() -> Bool {
+	func shouldGroupBy(_ time: Calendar.Component, item: Item) -> Bool {
 		guard let prevItem = prevItem else {
 			return true
 		}
-		let isDaySame = !Calendar.current.isDate(item.date, equalTo: prevItem.date, toGranularity: .day)
+		let isDaySame = !Calendar.current.isDate(date, equalTo: prevItem.date, toGranularity: time)
 		return isDaySame
 	}
 	
-	private func showMinute() -> Bool {
-		guard let prevItem = prevItem else {
-			return true
-		}
-		let isMinuteSame = !Calendar.current.isDate(item.date, equalTo: prevItem.date, toGranularity: .minute)
-		return isMinuteSame
-	}
 	
-	private func showCurrency() -> Bool {
-		guard let prevItem = prevItem else {
-			return true
-		}
-		let isCurrencySame = item.currency != prevItem.currency
-		return isCurrencySame
-	}
+	
+//	private func showCurrency() -> Bool {
+//		guard let prevItem = prevItem else {
+//			return true
+//		}
+//		let isCurrencySame = item.currency != prevItem.currency
+//		return isCurrencySame
+//	}
+	
 //	func opacityForItem(_ item: Item, _ items: [Item]) -> Double {
 //		let minOpacity: Double = 0.5
 //		
