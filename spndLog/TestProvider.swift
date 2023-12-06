@@ -12,9 +12,9 @@ func createTestItems() -> [Item] {
 	var items: [Item] = []
 
 	// Add test data
-	let currentDate = Date()
-	items.append(Item(date: currentDate, balance: "100", currency: "¥"))
-	items.append(Item(date: currentDate.addingTimeInterval(-3600), balance: "50", currency: "€"))
+	items.append(Item(date: Date(), balance: "100", currency: .JPY))
+	items.append(Item(date: Date().addingTimeInterval(-600), balance: "5000", currency: .AUD))
+	items.append(Item(date: Date().addingTimeInterval(-3600), balance: "50", currency: .CAD))
 	// Add more test items as needed
 
 	return items

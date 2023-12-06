@@ -104,8 +104,23 @@ extension EnvironmentValues {
 		set { self[KeypadButton.ActionKey.self] = newValue }
 	}
 }
-//
-//#Preview {
-//	Keypad(string: $string)
-//}
-//
+
+
+
+struct KpPreview: View {
+	@State var string: String = "0"
+	@State var testBool: Bool = true
+	var body: some View {
+		VStack {
+			InputArea(isShowingKeypad: $testBool, string: string, onSwipeUp: {}, onSwipeDown: {})
+				.environmentObject(DataModel())
+			Keypad(string: $string, onSwipeUp: { string = "0" }, onSwipeDown: {})
+		}
+		.font(.largeTitle)
+	}
+}
+
+#Preview {
+	KpPreview()
+}
+

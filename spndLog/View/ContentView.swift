@@ -12,13 +12,14 @@ import Foundation
 struct ContentView: View {
 	@Environment(\.modelContext) private var modelContext
 	@Query(sort: \Item.date, order: .reverse) private var items: [Item]
-
+//	@Query(filter: #Predicate<Items> { items in
+//		!items.isFolded
+//	})
 	@StateObject private var dataModel = DataModel()
 	@State private var string = "0"
 	@State private var isShowingKeypad = false
-	@State private var scrollViewProxy: ScrollViewProxy? = nil
 	@State private var height = CGFloat.zero
-	@State private var topTrigger = false
+
 	
 	var body: some View {
 		var screenWidth = UIScreen.main.bounds.size.width
@@ -27,65 +28,48 @@ struct ContentView: View {
 			NavigationSplitView {
 				SpendingList(
 					items: items,
-					onTap: {
-						try? modelContext.save()
-					}
-				)
+					onTap: { try? modelContext.save() })
 				.environmentObject(dataModel)
-				.onTapGesture(perform: {
-					isShowingKeypad = false
-				})
-				.safeAreaInset(edge: .bottom, spacing: 0) {
-					VStack(spacing: 0) {
-						InputArea(
-							isShowingKeypad: $isShowingKeypad,
-							string: string.formatNumber(), 
-							onSwipeUp: { addItem() },
-							onSwipeDown: { deleteFirst() })
-						
-						.environmentObject(dataModel)
-						//							.background(GeometryReader {
-						//								Color.clear
-						//									.edgesIgnoringSafeArea(.bottom)
-						//									.preference(key: ViewHeightKey.self, value: $0.frame(in: .local).size.height)
-						//							})
-						//							.onPreferenceChange(ViewHeightKey.self) {
-						//								self.height = $0 + 10
-						//							}
-						if isShowingKeypad {
-							Keypad(string: $string,
-								   onSwipeUp: { self.addItem() },
-								   onSwipeDown: { self.deleteFirst() })
-								.padding([.leading, .trailing])
-								.font(.largeTitle)
+				.onTapGesture(
+					perform: {
+						withAnimation {
+							isShowingKeypad = false
 						}
-					}
-					.background()
+					})
+				.safeAreaInset(edge: .bottom, spacing: 0) {
+					OverlayKeypad()
 				}
 				.toolbar {}
 			} detail: {}
 		}
 	}
 	
-	func scrollToTop() {
-		DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-			topTrigger.toggle()
+	func OverlayKeypad() -> some View {
+		VStack(spacing: 0) {
+			InputArea(
+				isShowingKeypad: $isShowingKeypad,
+				string: string.formatNumber(),
+				onSwipeUp: { addItem() },
+				onSwipeDown: { deleteFirst() }
+			)
+			.environmentObject(dataModel)
+			
+			if isShowingKeypad {
+				Keypad(string: $string,
+					   onSwipeUp: { self.addItem() },
+					   onSwipeDown: { self.deleteFirst() })
+				.padding(.horizontal)
+				.background()
+				.font(.largeTitle)
+			}
 		}
+		.safeAreaOverlay(alignment: .bottom, edges: .bottom)
 	}
-//	}
-	
-//	struct ViewHeightKey: PreferenceKey {
-//		typealias Value = CGFloat
-//		static var defaultValue = CGFloat.zero
-//		static func reduce(value: inout Value, nextValue: () -> Value) {
-//			value += nextValue()
-//		}
-//	}
 	
 	func addItem() {
 			if let balance = Double(string) {
 				if string != "0" {
-					let newItem = Item(date: Date(), balance: String(balance), currency: dataModel.currentCurrency.symbol)
+					let newItem = Item(date: Date(), balance: String(balance), currency: dataModel.currentCurrency)
 					let currentDate = Calendar.current.startOfDay(for: Date())
 					withAnimation(.easeOut(duration: 0.2)) {
 						dataModel.foldedItems[currentDate] = false
@@ -103,7 +87,6 @@ struct ContentView: View {
 						UISelectionFeedbackGenerator().selectionChanged()
 					}
 					string = "0"
-					scrollToTop()
 				}
 			}
 		}
@@ -121,7 +104,6 @@ struct ContentView: View {
 					}
 				}
 				UISelectionFeedbackGenerator().selectionChanged()
-				print(items)
 			}
 		}
 	}
@@ -142,6 +124,7 @@ struct ContentView: View {
 		try? modelContext.fetch(FetchDescriptor<Item>()).forEach { modelContext.delete($0)}
 		try? modelContext.save()
 	}
+
 	
 	func opacityForItem(_ item: Item) -> Double {
 		let minOpacity: Double = 0.5
@@ -155,8 +138,23 @@ struct ContentView: View {
 	
 }
 
+
+//	let fetchItemsDescriptor = FetchDescriptor<Items>(sortBy: [SortDescriptor(\.date, order: .reverse), SortDescriptor(\.isFolded)])
+//
+//	let unFoldedItems = FetchDescriptor<Item>(predicate: #Predicate { item in
+//		items.isFolded})
+//	do {
+//		let items = try modelContext.fetch(fetchItemsDescriptor)
+//		for item in items {
+//			print("Found \(item.balance)")
+//		}
+//	} catch {
+//		print("Failed to load Item model")
+//	}
+
+
 #Preview {
     ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+		.modelContainer(for: [Item.self], inMemory: true)
 
 }

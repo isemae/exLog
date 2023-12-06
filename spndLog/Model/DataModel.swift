@@ -11,10 +11,11 @@ class DataModel: ObservableObject {
 	private let foldedItemsKey = "foldedItemsKey"
 	private var currencyKey = "selectedCurrency"
 	@Published var foldedItems: [Date: Bool] {
-			didSet {
-				UserDefaults.standard.set(try? PropertyListEncoder().encode(foldedItems), forKey: foldedItemsKey)
-			}
+		didSet {
+			UserDefaults.standard.set(try? PropertyListEncoder().encode(foldedItems), forKey: foldedItemsKey)
 		}
+	}
+	
 	@Published var currentCurrency: Currency = .USD {
 		didSet {
 			UserDefaults.standard.set(currentCurrency.rawValue, forKey: currencyKey)
@@ -30,42 +31,42 @@ class DataModel: ObservableObject {
 			self.foldedItems = [:]
 		}
 		
-		//		fetchData(currencySettings: self)
-		//		DispatchQueue.global().async {
-		if let savedCurrencyCode = UserDefaults.standard.string(forKey: self.currencyKey),
-		   let savedCurrency = Currency(rawValue: savedCurrencyCode) {
-			//				DispatchQueue.main.async {
-			self.currentCurrency = savedCurrency
+		fetchData(dataModel: self)
+		DispatchQueue.global().async {
+			if let savedCurrencyCode = UserDefaults.standard.string(forKey: self.currencyKey),
+			   let savedCurrency = Currency(rawValue: savedCurrencyCode) {
+				//				DispatchQueue.main.async {
+				self.currentCurrency = savedCurrency
+			}
 		}
-		//			}
-		//		}
 	}
-	
+
+
 	func getCurrentCurrencyCode() -> String {
 		return currentCurrency.rawValue
 	}
 }
 
 
-enum Currency: String, CaseIterable, Identifiable {
+enum Currency: String, Identifiable, Hashable, CaseIterable, Codable {
 	var id: Currency { self }
 
 	case KRW
-	case USD
 	case CAD
 	case AUD
-	case EUR
 	case GBP
+	case EUR
+	case USD
 	case JPY
 	
 	var symbol: String {
 		switch self {
 		case .KRW: return "₩"
-		case .USD: return "$"
 		case .CAD: return "$"
 		case .AUD: return "$"
-		case .EUR: return "€"
 		case .GBP: return "£"
+		case .EUR: return "€"
+		case .USD: return "$"
 		case .JPY: return "¥"
 		}
 	}
@@ -73,11 +74,11 @@ enum Currency: String, CaseIterable, Identifiable {
 	var code: String {
 		switch self {
 		case .KRW: return "KRW"
-		case .USD: return "USD"
 		case .CAD: return "CAD"
 		case .AUD: return "AUD"
-		case .EUR: return "EUR"
 		case .GBP: return "GBP"
+		case .EUR: return "EUR"
+		case .USD: return "USD"
 		case .JPY: return "JPY"
 		}
 	}

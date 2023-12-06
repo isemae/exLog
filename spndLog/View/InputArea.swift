@@ -19,26 +19,28 @@ struct InputArea: View {
 			Rectangle()
 				.foregroundColor(Color(uiColor: UIColor.systemBackground))
 				.overlay(
-						Divider().frame(alignment: .bottom), alignment: .top)
-		.frame(height: 80)
+					Divider().frame(alignment: .bottom), alignment: .top)
+				.frame(height: 80)
 			HStack {
+				VStack {
 					Text(dataModel.currentCurrency.symbol)
-					.frame(width: 60, height: 60)
-					.background(RoundedRectangle(cornerRadius: 15)
-						.foregroundColor(Color(uiColor: UIColor.systemBackground)))
-					.contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 15))
-					.contextMenu(ContextMenu(menuItems: {
-						ForEach(Currency.allCases, id: \.self) { curr in
-							Button("\(curr.symbol) \(curr.name)") {
-								dataModel.currentCurrency = curr
-								DispatchQueue.global().async {
-									fetchData(dataModel: dataModel)
-								}
+					Text(dataModel.currentCurrency.code).font(.footnote)
+				}
+				.frame(width: 60, height: 60)
+				.background(RoundedRectangle(cornerRadius: 15)
+					.foregroundColor(Color(uiColor: UIColor.systemBackground)))
+				.contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 15))
+				.contextMenu(ContextMenu(menuItems: {
+					ForEach(Currency.allCases, id: \.self) { curr in
+						Button("\(curr.symbol) \(curr.name)") {
+							dataModel.currentCurrency = curr
+							DispatchQueue.global().async {
+								fetchData(dataModel: dataModel)
 							}
 						}
-					}))
-					
-					.padding(.leading)
+					}
+				}))
+				.padding(.leading)
 				Spacer()
 				Text(string)
 					.padding(.trailing, 25)
@@ -55,7 +57,3 @@ struct InputArea: View {
 		.GestureHandler(onSwipeUp: onSwipeUp, onSwipeDown: onSwipeDown)
 	}
 }
-//
-//#Preview {
-//    InputArea()
-//}

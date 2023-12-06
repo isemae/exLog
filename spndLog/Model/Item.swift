@@ -7,14 +7,29 @@
 
 import Foundation
 import SwiftData
+//
+//@Model
+//class FoldedItems {
+//	var date: Date
+//	var items: [Item]?
+//	var isFolded: Bool
+//	
+//	init(date: Date, item: Item, items: [Item], isFolded: Bool) {
+//		self.date = item.date
+//		self.isFolded = isFolded
+//	}
+//}
+//
 
 @Model
 final class Item {
 	var id: UUID
     var date: Date
 	var balance: String
-	var currency: String
-	init(date: Date, balance: String = "", currency: String = "") {
+	var currency: Currency
+	
+//	@Relationship(inverse: \FoldedItems.items)
+	init(date: Date, balance: String = "", currency: Currency) {
 		self.id = UUID()
 		self.date = Date()
 		self.balance = balance
@@ -36,4 +51,5 @@ extension Array where Element: Item {
 		first { $0.id == id}
 	}
 }
+
 
