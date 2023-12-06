@@ -14,6 +14,16 @@ extension Color {
 	}
 }
 
+extension View {
+	func safeAreaOverlay(alignment: Alignment, edges: Edge.Set) -> some View {
+		self.overlay(alignment: alignment) {
+				Color(uiColor: UIColor.systemBackground)
+				.ignoresSafeArea(edges: edges)
+					.frame(height: 0)
+			}
+		}
+}
+
 extension String {
 	// formats keypad num
 	func formatNumber() -> String {

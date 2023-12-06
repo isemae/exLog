@@ -89,8 +89,8 @@ func request(url: String, method: HTTPMethod, dataModel: DataModel, param: [Stri
 			if let response = filteredResponse {
 				let curNmValue = response.currencyCode
 				let dealBasR = response.basePrice
-				print("cur_nm Value: \(curNmValue)")
-				print("deal_bar_r: \(dealBasR)")
+				print("currency_name: \(curNmValue)")
+				print("deal_basis_rate: \(dealBasR)")
 			} else {
 				print("No result found for \(currencyCodeToFind)")
 			}
@@ -105,41 +105,16 @@ func request(url: String, method: HTTPMethod, dataModel: DataModel, param: [Stri
 
 func fetchData(dataModel: DataModel) {
 	DispatchQueue.global().async {
-		
-//		guard shouldFetchData() else {
-//			print("skipping fetch")
-//			return
-//		}
-		
 		let exchangeURL = ExchangeURL(dataModel: dataModel)
 		request(url: exchangeURL.url!.absoluteString, method: .get, dataModel: dataModel) { result in
 			switch result {
 			case .success(let data):
-				print("Received data: \(data)")
+				print("Data id: \(data)")
 				
 			case .failure(let error):
 				print("Error: \(error)")
 			}
 		}
 	}
-	//	let exchangeURL = ExchangeURL(authKey: authKey, date: dateFormat(for: Date(), format: "default"))
-	//	for key in UserDefaults.standard.dictionaryRepresentation().keys {
-	//		UserDefaults.standard.removeObject(forKey: key.description)
-	//	}
-	//	UserDefaults.standard.set(Date(), forKey: "LastFetchTime")
-	
-	//	if let AM11 = calendar.date(from: AM11), Date() > AM11 {
-	//		if let lastFetchTime = UserDefaults.standard.value(forKey: "LastFetchTime") as? Date,
-	//		   calendar.isDateInToday(lastFetchTime) {
-	//			print("maybe tomorrow")
-	//		} else {
-	
-//	func shouldFetchData() -> Bool {
-//		return true
-//	}
-//	
-//	func timer() {
-//		
-//	}
 }
 

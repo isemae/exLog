@@ -14,16 +14,15 @@ struct SpendingItem: View {
 	var prevItem: Item?
 	
 	var body: some View {
-		VStack(alignment: .leading, spacing: 0) {
+		VStack(spacing: 0) {
 			if /*showCurrency() ||*/ shouldGroupBy(.minute, item: item) {
 				ItemMinuteView()
 				Divider()
-					.padding(.bottom, 10)
+					.padding(.bottom, 15)
 			}
 			ItemContent()
 		}
-//		.padding(.top, 10)
-		.padding(.horizontal, 10)
+		.padding(.horizontal, 5)
 		
 	}
 	func ItemContent() -> some View {
@@ -36,22 +35,25 @@ struct SpendingItem: View {
 			Text("₩\(item.calculatedBalance)")
 				.font(.title2)
 		}
+		.padding(.horizontal, 5)
 	}
 	
 	func ItemMinuteView() -> some View {
 		HStack {
 			if shouldGroupBy(.minute, item: item) {
+				Image(systemName: "clock")
 				Text(ampm ? "\(date, format: Date.FormatStyle(date: .none, time: .shortened))" : "\(dateFormat(for: date, format: "hhmm"))" )
 					.font(.title3)
+					.foregroundColor(Color(uiColor: UIColor.systemGray))
 					.frame(maxWidth: .infinity)
 					.fixedSize(horizontal: true, vertical: false)
-					.onTapGesture {
-						ampm.toggle()
-						UserDefaults.standard.set(ampm, forKey: "ampm")}
 			}
 			Spacer()
-
 		}
+		.onTapGesture {
+			ampm.toggle()
+			UserDefaults.standard.set(ampm, forKey: "ampm")}
+		.padding(.vertical, 5)
 		.padding(.top, 10)
 	}
 	
@@ -71,7 +73,7 @@ struct SpendingItem: View {
 		ZStack {
 			RoundedRectangle(cornerRadius: 12)
 				.stroke(Color(uiColor: UIColor.secondarySystemBackground))
-			Text("\(item.currency) → ₩")
+			Text("\(item.currency.code)")
 				.font(.headline)
 				.foregroundColor(.gray)
 				.padding(5)
