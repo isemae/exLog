@@ -84,9 +84,10 @@ func request(url: String, method: HTTPMethod, dataModel: DataModel, param: [Stri
 			let output = try decoder.decode([Response].self, from: data)
 			
 			let currencyCodeToFind = dataModel.getCurrentCurrencyCode()
-			filteredResponse = output.first { $0.currencyCode == currencyCodeToFind }
-			
-			if let response = filteredResponse {
+			DispatchQueue.main.async {
+			DataManager.shared.filteredResponse = output.first { $0.currencyCode == currencyCodeToFind }
+			}
+			if let response = DataManager.shared.filteredResponse {
 				let curNmValue = response.currencyCode
 				let dealBasR = response.basePrice
 				print("currency_name: \(curNmValue)")
@@ -94,7 +95,7 @@ func request(url: String, method: HTTPMethod, dataModel: DataModel, param: [Stri
 			} else {
 				print("No result found for \(currencyCodeToFind)")
 			}
-			completionHandler(.success(filteredResponse?.id ?? 0))
+			completionHandler(.success(DataManager.shared.filteredResponse?.id ?? 0))
 		} catch {
 			print("Error: JSON Data Parsing failed")
 			completionHandler(.failure(error))

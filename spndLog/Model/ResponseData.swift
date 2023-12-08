@@ -7,7 +7,23 @@
 
 import Foundation
 import SwiftData
+import Combine
 
+class DataManager: ObservableObject {
+	static let shared = DataManager()
+	
+	@Published var filteredResponse: Response? {
+		didSet {
+				self.updateDealBasisRate()
+		}
+	}
+	
+	@Published var dealBasisRate : Double = 1.0
+	
+	func updateDealBasisRate() {
+		dealBasisRate = (Double(filteredResponse?.basePrice ?? 100) ) / Double(filteredResponse?.currencyUnit ?? 100)
+	}
+}
 struct ResponseArray: Codable {
 	var data: [Response] = []
 }
@@ -22,7 +38,7 @@ struct Response: Codable {
 	var currencyUnit: Int
 }
 
-var filteredResponse: Response?
+
 
 //struct Response: Codable {
 //	var result: Int

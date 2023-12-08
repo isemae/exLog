@@ -24,11 +24,11 @@ import SwiftData
 @Model
 final class Item {
 	var id: UUID
-    var date: Date
+	var date: Date
 	var balance: String
 	var currency: Currency
 	
-//	@Relationship(inverse: \FoldedItems.items)
+	//	@Relationship(inverse: \FoldedItems.items)
 	init(date: Date, balance: String = "", currency: Currency) {
 		self.id = UUID()
 		self.date = Date()
@@ -37,14 +37,27 @@ final class Item {
 	}
 	
 	var calculatedBalance: Int {
+			get {
+				if let storedValue = UserDefaults.standard.value(forKey: "calculatedBalance_\(id)") as? Int {
+					return storedValue
+				} else {
+					return calculateAndSaveBalance()
+				}
+			}
+			set {
+				UserDefaults.standard.setValue(newValue, forKey: "calculatedBalance_\(id)")
+			}
+		}
+
+		private func calculateAndSaveBalance() -> Int {
 			if let balance = Double(balance) {
-				return Int(round(balance * dealBasisRate))
+				let calculatedValue = Int(round(balance * DataManager.shared.dealBasisRate))
+				UserDefaults.standard.setValue(calculatedValue, forKey: "calculatedBalance_\(id)")
+				return calculatedValue
 			}
 			return 0
 		}
-	
-	let dealBasisRate = (Double(filteredResponse?.basePrice ?? 100) ) / Double(filteredResponse?.currencyUnit ?? 100)
-}
+	}
 
 extension Array where Element: Item {
 	subscript(id: Item.ID?) -> Item? {

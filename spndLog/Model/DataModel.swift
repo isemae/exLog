@@ -6,23 +6,31 @@
 //
 
 import Foundation
+import Combine
 
 class DataModel: ObservableObject {
 	private let foldedItemsKey = "foldedItemsKey"
 	private var currencyKey = "selectedCurrency"
 	@Published var foldedItems: [Date: Bool] {
 		didSet {
-			UserDefaults.standard.set(try? PropertyListEncoder().encode(foldedItems), forKey: foldedItemsKey)
+//			DispatchQueue.main.async {
+				UserDefaults.standard.set(try? PropertyListEncoder().encode(self.foldedItems), forKey: self.foldedItemsKey)
+//			}
 		}
 	}
 	
-	@Published var currentCurrency: Currency = .USD {
+		
+	@Published var currentCurrency: Currency = Currency(rawValue: (UserDefaults.standard.value(forKey: "selectedCurrency") as? String ?? "nullKey")) ?? .KRW {
 		didSet {
-			UserDefaults.standard.set(currentCurrency.rawValue, forKey: currencyKey)
+//			DispatchQueue.main.async {
+				UserDefaults.standard.set(self.currentCurrency.rawValue, forKey: self.currencyKey)
+//			}
 		}
 	}
 	
-	
+		
+	var cancellables: Set<AnyCancellable> = []
+
 	init() {
 		if let savedFoldedItemsData = UserDefaults.standard.data(forKey: foldedItemsKey),
 		   let savedFoldedItems = try? PropertyListDecoder().decode([Date: Bool].self, from: savedFoldedItemsData) {
@@ -31,15 +39,24 @@ class DataModel: ObservableObject {
 			self.foldedItems = [:]
 		}
 		
+		guard self.currentCurrency != .KRW else {
+			return
+		}
 		fetchData(dataModel: self)
-		DispatchQueue.global().async {
 			if let savedCurrencyCode = UserDefaults.standard.string(forKey: self.currencyKey),
 			   let savedCurrency = Currency(rawValue: savedCurrencyCode) {
 				//				DispatchQueue.main.async {
 				self.currentCurrency = savedCurrency
+				
+				self.$currentCurrency
+					.sink { newValue in
+						DataManager.shared.updateDealBasisRate()
+						print("Currency changed to \(newValue)")
+					}
+					.store(in: &self.cancellables)
 			}
-		}
 	}
+
 
 
 	func getCurrentCurrencyCode() -> String {
@@ -92,6 +109,18 @@ enum Currency: String, Identifiable, Hashable, CaseIterable, Codable {
 		case .EUR: return "유로"
 		case .GBP: return "영국 파운드"
 		case .JPY: return "일본 엔"
+		}
+	}
+	
+	var signName: String {
+		switch self {
+		case .KRW: return "won"
+		case .USD: return "dollar"
+		case .CAD: return "dollar"
+		case .AUD: return "australiandollar"
+		case .EUR: return "euro"
+		case .GBP: return "sterling"
+		case .JPY: return "yen"
 		}
 	}
 }

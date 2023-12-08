@@ -11,7 +11,7 @@ import Foundation
 
 struct ContentView: View {
 	@Environment(\.modelContext) private var modelContext
-	@Query(sort: \Item.date, order: .reverse) private var items: [Item]
+	@Query(sort: \Item.date) private var items: [Item]
 //	@Query(filter: #Predicate<Items> { items in
 //		!items.isFolded
 //	})
@@ -19,7 +19,6 @@ struct ContentView: View {
 	@State private var string = "0"
 	@State private var isShowingKeypad = false
 	@State private var height = CGFloat.zero
-
 	
 	var body: some View {
 		var screenWidth = UIScreen.main.bounds.size.width
@@ -36,6 +35,7 @@ struct ContentView: View {
 							isShowingKeypad = false
 						}
 					})
+				.padding(.horizontal, 10)
 				.safeAreaInset(edge: .bottom, spacing: 0) {
 					OverlayKeypad()
 				}
@@ -48,21 +48,26 @@ struct ContentView: View {
 		VStack(spacing: 0) {
 			InputArea(
 				isShowingKeypad: $isShowingKeypad,
-				string: string.formatNumber(),
+				string: string,
 				onSwipeUp: { addItem() },
 				onSwipeDown: { deleteFirst() }
 			)
 			.environmentObject(dataModel)
+			.onChange(of: string, perform: { newValue in
+				if string.count > 9 {
+					string = String(string.prefix(9))
+				}
+			})
 			
 			if isShowingKeypad {
 				Keypad(string: $string,
 					   onSwipeUp: { self.addItem() },
 					   onSwipeDown: { self.deleteFirst() })
 				.padding(.horizontal)
-				.background()
 				.font(.largeTitle)
 			}
 		}
+		.background()
 		.safeAreaOverlay(alignment: .bottom, edges: .bottom)
 	}
 	
@@ -74,12 +79,16 @@ struct ContentView: View {
 					withAnimation(.easeOut(duration: 0.2)) {
 						dataModel.foldedItems[currentDate] = false
 					}
+					
 					DispatchQueue.main.async {
 						modelContext.insert(newItem)
 						
 						withAnimation(.easeOut(duration: 0.2)) {
 							do {
 								try modelContext.save()
+								for (index, element) in items.enumerated() {
+									print("items: \(index) \(element.balance)")
+								}
 							} catch {
 								print("error saving context \(error)")
 							}
@@ -94,6 +103,12 @@ struct ContentView: View {
 	func deleteFirst() {
 		if let firstGroup = items.sortedByDate().first,
 		   let recentItem = firstGroup.1.first {
+			let currentDate = Calendar.current.startOfDay(for: Date())
+			if dataModel.foldedItems[currentDate] == true {
+				withAnimation(.easeOut(duration: 0.2)) {
+					dataModel.foldedItems[currentDate] = false
+				}
+			}
 			DispatchQueue.main.async {
 					modelContext.delete(recentItem)
 				withAnimation(.easeOut(duration: 0.2)) {
@@ -104,6 +119,7 @@ struct ContentView: View {
 					}
 				}
 				UISelectionFeedbackGenerator().selectionChanged()
+				print(items.last?.balance)
 			}
 		}
 	}
@@ -124,18 +140,6 @@ struct ContentView: View {
 		try? modelContext.fetch(FetchDescriptor<Item>()).forEach { modelContext.delete($0)}
 		try? modelContext.save()
 	}
-
-	
-	func opacityForItem(_ item: Item) -> Double {
-		let minOpacity: Double = 0.5
-		
-		if let index = items.firstIndex(of: item) {
-			let opacity = Double(index + 1) / Double(items.count)
-			return max(opacity, minOpacity)
-		}
-		return 1.0
-	}
-	
 }
 
 
