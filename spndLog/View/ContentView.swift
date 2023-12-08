@@ -11,7 +11,7 @@ import Foundation
 
 struct ContentView: View {
 	@Environment(\.modelContext) private var modelContext
-	@Query(sort: \Item.date) private var items: [Item]
+	@Query(sort: \Item.date, order: .reverse) private var items: [Item]
 //	@Query(filter: #Predicate<Items> { items in
 //		!items.isFolded
 //	})
@@ -23,25 +23,26 @@ struct ContentView: View {
 	var body: some View {
 		var screenWidth = UIScreen.main.bounds.size.width
 		var screenHeight = UIScreen.main.bounds.size.height
-		ZStack {
-			NavigationSplitView {
-				SpendingList(
-					items: items,
-					onTap: { try? modelContext.save() })
-				.environmentObject(dataModel)
-				.onTapGesture(
-					perform: {
-						withAnimation {
-							isShowingKeypad = false
-						}
-					})
-				.padding(.horizontal, 10)
-				.safeAreaInset(edge: .bottom, spacing: 0) {
-					OverlayKeypad()
-				}
-				.toolbar {}
-			} detail: {}
-		}
+//		ZStack {
+				DayListView(items: items, onTap: {})
+			.safeAreaInset(edge: .bottom, spacing: 0) {
+				OverlayKeypad()
+			}
+				//				SpendingList(
+				//					items: items,
+				//					onTap: { try? modelContext.save() })
+				//				.environmentObject(dataModel)
+				//				.onTapGesture(
+				//					perform: {
+				//						withAnimation {
+				//							isShowingKeypad = false
+				//						}
+				//					})
+				////				.padding(.horizontal, 10)
+				//				.toolbar {}
+				//			} detail: {}
+			
+//		}
 	}
 	
 	func OverlayKeypad() -> some View {
@@ -140,6 +141,8 @@ struct ContentView: View {
 		try? modelContext.fetch(FetchDescriptor<Item>()).forEach { modelContext.delete($0)}
 		try? modelContext.save()
 	}
+	
+	
 }
 
 

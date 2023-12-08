@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		080283A32B23B16C002C54F6 /* ListsInDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080283A22B23B16C002C54F6 /* ListsInDateView.swift */; };
+		080283A52B23C7D3002C54F6 /* TimeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080283A42B23C7D3002C54F6 /* TimeListView.swift */; };
 		0802FB632B18F495009A7E81 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0802FB622B18F495009A7E81 /* DataModel.swift */; };
-		0802FB652B18F4A9009A7E81 /* SpendingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0802FB642B18F4A9009A7E81 /* SpendingListView.swift */; };
+		0802FB652B18F4A9009A7E81 /* DayListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0802FB642B18F4A9009A7E81 /* DayListView.swift */; };
 		0802FB6B2B18F500009A7E81 /* TestProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0802FB6A2B18F500009A7E81 /* TestProvider.swift */; };
 		082177A02B0DFDC300D46518 /* spndLogApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0821779F2B0DFDC300D46518 /* spndLogApp.swift */; };
 		082177A22B0DFDC300D46518 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177A12B0DFDC300D46518 /* ContentView.swift */; };
@@ -21,7 +23,7 @@
 		082177CC2B0DFE7800D46518 /* CountryMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177CB2B0DFE7800D46518 /* CountryMenuView.swift */; };
 		082177CE2B0DFE9300D46518 /* Keypad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177CD2B0DFE9300D46518 /* Keypad.swift */; };
 		0857C6C42B11C4E60012C698 /* EXCRateJSONdnm.json in Sources */ = {isa = PBXBuildFile; fileRef = 0857C6C32B11C4E60012C698 /* EXCRateJSONdnm.json */; };
-		087ADE822B0F951200E1BFD8 /* ResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087ADE812B0F951200E1BFD8 /* ResponseData.swift */; };
+		087ADE822B0F951200E1BFD8 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087ADE812B0F951200E1BFD8 /* DataManager.swift */; };
 		0882EAF52B12F29700755E42 /* DataIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0882EAF22B12F29700755E42 /* DataIO.swift */; };
 		08AB637E2B0E706600F03C64 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AB637D2B0E706600F03C64 /* extensions.swift */; };
 		08AB63822B0E7E6E00F03C64 /* EXCRateJSON.json in Sources */ = {isa = PBXBuildFile; fileRef = 08AB63812B0E7E6E00F03C64 /* EXCRateJSON.json */; };
@@ -54,8 +56,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		080283A22B23B16C002C54F6 /* ListsInDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsInDateView.swift; sourceTree = "<group>"; };
+		080283A42B23C7D3002C54F6 /* TimeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeListView.swift; sourceTree = "<group>"; };
 		0802FB622B18F495009A7E81 /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
-		0802FB642B18F4A9009A7E81 /* SpendingListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpendingListView.swift; path = spndLog/View/SpendingListView.swift; sourceTree = SOURCE_ROOT; };
+		0802FB642B18F4A9009A7E81 /* DayListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DayListView.swift; path = spndLog/View/DayListView.swift; sourceTree = SOURCE_ROOT; };
 		0802FB6A2B18F500009A7E81 /* TestProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TestProvider.swift; path = spndLog/TestProvider.swift; sourceTree = SOURCE_ROOT; };
 		081379402B0EA0A1006AE972 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0821779C2B0DFDC300D46518 /* spndLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = spndLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,7 +76,7 @@
 		082177CB2B0DFE7800D46518 /* CountryMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryMenuView.swift; sourceTree = "<group>"; };
 		082177CD2B0DFE9300D46518 /* Keypad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keypad.swift; sourceTree = "<group>"; };
 		0857C6C32B11C4E60012C698 /* EXCRateJSONdnm.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = EXCRateJSONdnm.json; sourceTree = "<group>"; };
-		087ADE812B0F951200E1BFD8 /* ResponseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseData.swift; sourceTree = "<group>"; };
+		087ADE812B0F951200E1BFD8 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		0882EAF22B12F29700755E42 /* DataIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataIO.swift; sourceTree = "<group>"; };
 		08AB637D2B0E706600F03C64 /* extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 		08AB63812B0E7E6E00F03C64 /* EXCRateJSON.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = EXCRateJSON.json; sourceTree = "<group>"; };
@@ -115,6 +119,7 @@
 		082177932B0DFDC300D46518 = {
 			isa = PBXGroup;
 			children = (
+				080283A22B23B16C002C54F6 /* ListsInDateView.swift */,
 				0821779E2B0DFDC300D46518 /* spndLog */,
 				082177B12B0DFDC400D46518 /* spndLogTests */,
 				082177BB2B0DFDC400D46518 /* spndLogUITests */,
@@ -192,7 +197,7 @@
 				08AB63812B0E7E6E00F03C64 /* EXCRateJSON.json */,
 				0857C6C32B11C4E60012C698 /* EXCRateJSONdnm.json */,
 				08F2B37B2B0E82AA00371E49 /* EXCRateRequest.swift */,
-				087ADE812B0F951200E1BFD8 /* ResponseData.swift */,
+				087ADE812B0F951200E1BFD8 /* DataManager.swift */,
 				0802FB622B18F495009A7E81 /* DataModel.swift */,
 				082177A32B0DFDC300D46518 /* Item.swift */,
 			);
@@ -203,8 +208,9 @@
 			isa = PBXGroup;
 			children = (
 				082177A12B0DFDC300D46518 /* ContentView.swift */,
+				0802FB642B18F4A9009A7E81 /* DayListView.swift */,
+				080283A42B23C7D3002C54F6 /* TimeListView.swift */,
 				08DC52232B12D7DA005ED804 /* DateHeader.swift */,
-				0802FB642B18F4A9009A7E81 /* SpendingListView.swift */,
 				08DC52212B12D65E005ED804 /* SpendingItem.swift */,
 				08DC52252B12D8C6005ED804 /* InputArea.swift */,
 				082177CD2B0DFE9300D46518 /* Keypad.swift */,
@@ -345,14 +351,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				082177A22B0DFDC300D46518 /* ContentView.swift in Sources */,
-				087ADE822B0F951200E1BFD8 /* ResponseData.swift in Sources */,
+				087ADE822B0F951200E1BFD8 /* DataManager.swift in Sources */,
 				0882EAF52B12F29700755E42 /* DataIO.swift in Sources */,
+				080283A52B23C7D3002C54F6 /* TimeListView.swift in Sources */,
+				080283A32B23B16C002C54F6 /* ListsInDateView.swift in Sources */,
 				08DC52242B12D7DA005ED804 /* DateHeader.swift in Sources */,
 				08F6E9AB2B144305005BC5F0 /* authkey.swift in Sources */,
 				082177A42B0DFDC300D46518 /* Item.swift in Sources */,
 				08DC52262B12D8C6005ED804 /* InputArea.swift in Sources */,
 				08DC52222B12D65E005ED804 /* SpendingItem.swift in Sources */,
-				0802FB652B18F4A9009A7E81 /* SpendingListView.swift in Sources */,
+				0802FB652B18F4A9009A7E81 /* DayListView.swift in Sources */,
 				0857C6C42B11C4E60012C698 /* EXCRateJSONdnm.json in Sources */,
 				08AB63822B0E7E6E00F03C64 /* EXCRateJSON.json in Sources */,
 				082177A02B0DFDC300D46518 /* spndLogApp.swift in Sources */,

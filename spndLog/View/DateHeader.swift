@@ -8,49 +8,42 @@
 import SwiftUI
 
 struct DateHeader: View {
-	let dataModel: DataModel
+//	let dataModel: DataModel
 	var items: [Item]
 	var date: Date
 	var prevItem: Item?
-	var sumForDate: Int
-	var onTap: () -> Void
-	@State var isFolded: Bool
+//	var sumForDate: Int
+//	var onTap: () -> Void
+	@State var isFolded: Bool = false
 	
 	var body: some View {
-		
-		HeaderContent()
-			.onTapGesture {
-				isFolded.toggle()
-				handleTapGesture()
-			}
-			.background(Color(uiColor: UIColor.systemBackground))
+		HeaderContentView()
 			.transition(.move(edge: .top).combined(with: .opacity))
 	}
 	
-	private func HeaderContent() -> some View {
+	private func HeaderContentView() -> some View {
 		HStack {
-			HeaderDate()
+			HeaderDateView()
 			Spacer()
-			Text("₩\(sumForDate)")
+//			Text("₩\(sumForDate)")
 				.font(.title2)
 				.foregroundColor(.gray)
 		}
 		.padding(10)
-		.contentShape(Rectangle()
-		)
-		.overlay(
-			Divider()
-				.foregroundColor(dataModel.foldedItems[date, default: false] ? Color(uiColor: UIColor.secondaryLabel) : Color(uiColor: UIColor.tertiaryLabel))
-				.padding(.trailing, 10)
-			, alignment: .bottom)
-		
+		.contentShape(Rectangle())
+		.background()
+		.overlayDividers(state: isFolded, role: .main)
+		.onTapGesture {
+			isFolded.toggle()
+			handleTapGesture()
+		}
 	}
 	
-	private func HeaderDate() -> some View {
+	private func HeaderDateView() -> some View {
 		HStack(spacing: 0) {
-			Text("\(dateFormat(for: items.first!.date, format: "mm"))/")
+			Text("\(dateFormatString(for: items.first!.date, format: "mm"))/")
 				.foregroundColor(Color(uiColor: UIColor.label))
-			Text("\(dateFormat(for: items.first!.date, format: "dd"))")
+			Text("\(dateFormatString(for: items.first!.date, format: "dd"))")
 				.foregroundColor(dayColor(for: date))
 			Image(systemName: "chevron.right")
 				.font(.title3)
@@ -65,7 +58,7 @@ struct DateHeader: View {
 	private func handleTapGesture() {
 		   DispatchQueue.main.async {
 			   withAnimation(.easeOut(duration: 0.15)) {
-				   dataModel.foldedItems[date, default: false].toggle()
+//				   dataModel.foldedItems[date, default: false].toggle()
 //				   onTap()
 			   }
 		   }

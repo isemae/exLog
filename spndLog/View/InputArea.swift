@@ -17,27 +17,30 @@ struct InputArea: View {
 	
 	var body: some View {
 		VStack(spacing: 0) {
-			if isShowingKeypad {
-				ZStack {
-					Rectangle()
-						.foregroundColor(Color(uiColor: UIColor.secondarySystemBackground))
-						.overlay(
-							Divider().frame(alignment: .bottom),
-							alignment:.top)
-						.frame(height: 40)
-					HStack {
-						Text("₩ ")
-						Spacer()
-						Text("\(Int(round(Double(string) ?? 1.0) * sharedDataManager.dealBasisRate))")
-							.onChange(of: sharedDataManager.dealBasisRate) { newDealBasisRate in
-								let updatedValue = Int(round(Double(string) ?? 1.0) * newDealBasisRate)
-								//							print("Updated Value: \(updatedValue)")
-							}
-					}.foregroundColor(Color(uiColor: UIColor.secondaryLabel))
-						.padding(.horizontal, 35)
-						.transition(.opacity.combined(with: .move(edge: .bottom)))
-				}
-			}
+			
+//			if isShowingKeypad {
+//				ZStack {
+//					Rectangle()
+//						.foregroundColor(Color(uiColor: UIColor.secondarySystemBackground))
+//						.overlay(
+//							Divider().frame(alignment: .bottom),
+//							alignment:.top)
+//						.frame(height: 40)
+//					HStack {
+//						Text("₩ ")
+//						Spacer()
+//						Text("\(Int(round(Double(string) ?? 1.0) * sharedDataManager.dealBasisRate))")
+//							.onChange(of: sharedDataManager.dealBasisRate) { newDealBasisRate in
+//								let updatedValue = Int(round(Double(string) ?? 1.0) * newDealBasisRate)
+//								//							print("Updated Value: \(updatedValue)")
+//							}
+//					}.foregroundColor(Color(uiColor: UIColor.secondaryLabel))
+//						.padding(.horizontal, 35)
+//						.transition(.opacity.combined(with: .move(edge: .bottom)))
+//				}
+//			}
+			
+			
 			
 			ZStack {
 				Rectangle()

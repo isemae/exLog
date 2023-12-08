@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+enum UIRole: String {
+	case main
+	case secondary
+	case unknown
+}
+
 extension Int {}
 extension Color {
 	static var primaryColor: Color {
@@ -17,10 +23,24 @@ extension Color {
 extension View {
 	func safeAreaOverlay(alignment: Alignment, edges: Edge.Set) -> some View {
 		self.overlay(alignment: alignment) {
-				Color(uiColor: UIColor.systemBackground)
+			Color(uiColor: UIColor.systemBackground)
 				.ignoresSafeArea(edges: edges)
-					.frame(height: 0)
-			}
+				.frame(height: 0)
+		}
+	}
+	
+	func overlayDivider(alignment: Alignment, state: Bool?) -> some View {
+			self.overlay(
+				Divider()
+					.foregroundColor(state == true ? Color(uiColor: UIColor.tertiaryLabel) : Color(uiColor: UIColor.secondaryLabel) ),
+				alignment: alignment
+			)
+		}
+		
+		func overlayDividers(state: Bool? = nil, role: UIRole = .unknown) -> some View {
+			return self
+				.overlayDivider(alignment: .top, state: state)
+				.overlayDivider(alignment: .bottom, state: state)
 		}
 }
 
