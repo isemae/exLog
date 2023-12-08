@@ -9,51 +9,79 @@ import SwiftUI
 
 struct InputArea: View {
 	@EnvironmentObject var dataModel: DataModel
+	@ObservedObject private var sharedDataManager = DataManager.shared
 	@Binding var isShowingKeypad: Bool
 	var string: String
 	let onSwipeUp: () -> Void
 	let onSwipeDown: () -> Void
 	
 	var body: some View {
-		ZStack {
-			Rectangle()
-				.foregroundColor(Color(uiColor: UIColor.systemBackground))
-				.overlay(
-					Divider().frame(alignment: .bottom), alignment: .top)
-				.frame(height: 80)
-			HStack {
-				VStack {
-					Text(dataModel.currentCurrency.symbol)
-					Text(dataModel.currentCurrency.code).font(.footnote)
+		VStack(spacing: 0) {
+			if isShowingKeypad {
+				ZStack {
+					Rectangle()
+						.foregroundColor(Color(uiColor: UIColor.secondarySystemBackground))
+						.overlay(
+							Divider().frame(alignment: .bottom),
+							alignment:.top)
+						.frame(height: 40)
+					HStack {
+						Text("₩ ")
+						Spacer()
+						Text("\(Int(round(Double(string) ?? 1.0) * sharedDataManager.dealBasisRate))")
+							.onChange(of: sharedDataManager.dealBasisRate) { newDealBasisRate in
+								let updatedValue = Int(round(Double(string) ?? 1.0) * newDealBasisRate)
+								//							print("Updated Value: \(updatedValue)")
+							}
+					}.foregroundColor(Color(uiColor: UIColor.secondaryLabel))
+						.padding(.horizontal, 35)
+						.transition(.opacity.combined(with: .move(edge: .bottom)))
 				}
-				.frame(width: 60, height: 60)
-				.background(RoundedRectangle(cornerRadius: 15)
-					.foregroundColor(Color(uiColor: UIColor.systemBackground)))
-				.contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 15))
-				.contextMenu(ContextMenu(menuItems: {
-					ForEach(Currency.allCases, id: \.self) { curr in
-						Button("\(curr.symbol) \(curr.name)") {
-							dataModel.currentCurrency = curr
-							DispatchQueue.global().async {
-								fetchData(dataModel: dataModel)
+			}
+			
+			ZStack {
+				Rectangle()
+					.foregroundColor(Color(uiColor: UIColor.systemBackground))
+					.overlay(
+						Divider().frame(alignment: .bottom), alignment: .top)
+					.frame(height: 80)
+				HStack {
+					VStack(spacing: 0) {
+						Text(dataModel.currentCurrency.symbol)
+						Text(dataModel.currentCurrency.code).font(.footnote)
+					}
+					.frame(width: 60, height: 60)
+					.background(RoundedRectangle(cornerRadius: 10)
+						.foregroundColor(Color(uiColor: UIColor.systemBackground)))
+					.contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 15))
+					.contextMenu(menuItems: {
+						ForEach(Currency.allCases, id: \.self) { curr in
+							Button {
+								dataModel.currentCurrency = curr
+								DispatchQueue.global().async {
+									fetchData(dataModel: dataModel)
+								}
+							} label: {
+								Label("\(curr.name)", systemImage: "\(curr.signName)sign")
 							}
 						}
-					}
-				}))
-				.padding(.leading)
-				Spacer()
-				Text(string)
-					.padding(.trailing, 25)
+					})
+					Spacer()
+					Text(string.formatNumber())
+						.padding(.trailing, 20)
+				}
+						.padding(.horizontal, 10)
 			}
+			.font(.largeTitle)
 		}
-		.font(.largeTitle)
 		.onTapGesture(perform: {
 			DispatchQueue.main.async {
-				withAnimation(.spring(response: 0.2, dampingFraction: 1.0)) {
-					isShowingKeypad.toggle()
-				}
+				   withAnimation(.spring(response: 0.2, dampingFraction: 1.0)) {
+					   isShowingKeypad.toggle()
+				   }
 			}
-		})
-		.GestureHandler(onSwipeUp: onSwipeUp, onSwipeDown: onSwipeDown)
+			
+		   })
+			.GestureHandler(onSwipeUp: onSwipeUp, onSwipeDown: onSwipeDown)
 	}
 }

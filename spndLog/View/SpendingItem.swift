@@ -11,84 +11,51 @@ struct SpendingItem: View {
 	@Binding var ampm: Bool
 	var date: Date
 	var item: Item
-	var prevItem: Item?
 	
 	var body: some View {
-		VStack(spacing: 0) {
-			if /*showCurrency() ||*/ shouldGroupBy(.minute, item: item) {
-				ItemMinuteView()
-				Divider()
-					.padding(.bottom, 15)
-			}
-			ItemContent()
-		}
-		.padding(.horizontal, 5)
-		
+		ItemContent()
+			.padding(.horizontal, 10)
 	}
+	
 	func ItemContent() -> some View {
-		HStack (alignment: .center) {
-//				CategoryIcon()
-//				if showCurrency() {
-				CurrencyIconView()
-//				}
-			Spacer()
-			Text("₩\(item.calculatedBalance)")
-				.font(.title2)
-		}
-		.padding(.horizontal, 5)
-	}
-	
-	func ItemMinuteView() -> some View {
-		HStack {
-			if shouldGroupBy(.minute, item: item) {
-				Image(systemName: "clock")
-				Text(ampm ? "\(date, format: Date.FormatStyle(date: .none, time: .shortened))" : "\(dateFormat(for: date, format: "hhmm"))" )
-					.font(.title3)
-					.foregroundColor(Color(uiColor: UIColor.systemGray))
-					.frame(maxWidth: .infinity)
-					.fixedSize(horizontal: true, vertical: false)
+			HStack (alignment: .center) {
+				NativeCurrencyValue()
+				Spacer()
+				Text("₩ \(item.calculatedBalance)")
+					.font(.title2)
 			}
-			Spacer()
-		}
-		.onTapGesture {
-			ampm.toggle()
-			UserDefaults.standard.set(ampm, forKey: "ampm")}
-		.padding(.vertical, 5)
-		.padding(.top, 10)
+			.padding(.horizontal, 5)
+			.transition(.move(edge: .top))
 	}
 	
-	func CategoryIconView() -> some View {
-		ZStack {
-			RoundedRectangle(cornerRadius: 12)
-				.foregroundColor(.secondary)
-			Text("category")
-				.font(.headline)
-				.foregroundColor(.primary)
-				.padding(5)
-		}
-		.fixedSize()
-	}
+//	func CategoryIconView() -> some View {
+//		ZStack {
+//			RoundedRectangle(cornerRadius: 12)
+//				.foregroundColor(.secondary)
+//			Text("category")
+//				.font(.headline)
+//				.foregroundColor(.primary)
+//				.padding(5)
+//		}
+//		.fixedSize()
+//	}
 	
-	func CurrencyIconView() -> some View {
-		ZStack {
-			RoundedRectangle(cornerRadius: 12)
-				.stroke(Color(uiColor: UIColor.secondarySystemBackground))
-			Text("\(item.currency.code)")
+	func NativeCurrencyValue() -> some View {
+		HStack {
+//			RoundedRectangle(cornerRadius: 12)
+//				.stroke(Color(uiColor: UIColor.secondarySystemBackground))
+			Text("\(item.currency.symbol) \(item.balance.formatNumber())")
 				.font(.headline)
 				.foregroundColor(.gray)
-				.padding(5)
+			Image(systemName: "arrow.right.square.fill")
+			Spacer()
+				
 			//					.opacity(opacityForItem(item))
 		}
-		.fixedSize()
+//		.fixedSize()
 	}
 	
-	func shouldGroupBy(_ time: Calendar.Component, item: Item) -> Bool {
-		guard let prevItem = prevItem else {
-			return true
-		}
-		let isDaySame = !Calendar.current.isDate(date, equalTo: prevItem.date, toGranularity: time)
-		return isDaySame
-	}
+	
 	
 	
 	

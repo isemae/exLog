@@ -28,7 +28,7 @@
 		08B8C2142B1156A1008734A8 /* CategoryMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B8C2132B1156A1008734A8 /* CategoryMenuView.swift */; };
 		08BDD6332B1E99BD001861A3 /* GestureHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BDD6322B1E99BD001861A3 /* GestureHandler.swift */; };
 		08DC52222B12D65E005ED804 /* SpendingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DC52212B12D65E005ED804 /* SpendingItem.swift */; };
-		08DC52242B12D7DA005ED804 /* DateTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DC52232B12D7DA005ED804 /* DateTitle.swift */; };
+		08DC52242B12D7DA005ED804 /* DateHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DC52232B12D7DA005ED804 /* DateHeader.swift */; };
 		08DC52262B12D8C6005ED804 /* InputArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DC52252B12D8C6005ED804 /* InputArea.swift */; };
 		08EBE7FD2B104D6B00552A3F /* dateFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EBE7FC2B104D6B00552A3F /* dateFormat.swift */; };
 		08EBE7FF2B105D2400552A3F /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EBE7FE2B105D2400552A3F /* Theme.swift */; };
@@ -79,7 +79,7 @@
 		08B8C2132B1156A1008734A8 /* CategoryMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryMenuView.swift; sourceTree = "<group>"; };
 		08BDD6322B1E99BD001861A3 /* GestureHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GestureHandler.swift; path = ../../GestureHandler.swift; sourceTree = "<group>"; };
 		08DC52212B12D65E005ED804 /* SpendingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingItem.swift; sourceTree = "<group>"; };
-		08DC52232B12D7DA005ED804 /* DateTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTitle.swift; sourceTree = "<group>"; };
+		08DC52232B12D7DA005ED804 /* DateHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHeader.swift; sourceTree = "<group>"; };
 		08DC52252B12D8C6005ED804 /* InputArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputArea.swift; sourceTree = "<group>"; };
 		08EBE7FC2B104D6B00552A3F /* dateFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dateFormat.swift; sourceTree = "<group>"; };
 		08EBE7FE2B105D2400552A3F /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
@@ -203,8 +203,8 @@
 			isa = PBXGroup;
 			children = (
 				082177A12B0DFDC300D46518 /* ContentView.swift */,
+				08DC52232B12D7DA005ED804 /* DateHeader.swift */,
 				0802FB642B18F4A9009A7E81 /* SpendingListView.swift */,
-				08DC52232B12D7DA005ED804 /* DateTitle.swift */,
 				08DC52212B12D65E005ED804 /* SpendingItem.swift */,
 				08DC52252B12D8C6005ED804 /* InputArea.swift */,
 				082177CD2B0DFE9300D46518 /* Keypad.swift */,
@@ -347,7 +347,7 @@
 				082177A22B0DFDC300D46518 /* ContentView.swift in Sources */,
 				087ADE822B0F951200E1BFD8 /* ResponseData.swift in Sources */,
 				0882EAF52B12F29700755E42 /* DataIO.swift in Sources */,
-				08DC52242B12D7DA005ED804 /* DateTitle.swift in Sources */,
+				08DC52242B12D7DA005ED804 /* DateHeader.swift in Sources */,
 				08F6E9AB2B144305005BC5F0 /* authkey.swift in Sources */,
 				082177A42B0DFDC300D46518 /* Item.swift in Sources */,
 				08DC52262B12D8C6005ED804 /* InputArea.swift in Sources */,
