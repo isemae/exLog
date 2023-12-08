@@ -14,16 +14,17 @@ class DataManager: ObservableObject {
 	
 	@Published var filteredResponse: Response? {
 		didSet {
-				self.updateDealBasisRate()
+			self.updateDealBasisRate()
 		}
 	}
 	
 	@Published var dealBasisRate : Double = 1.0
 	
 	func updateDealBasisRate() {
-		dealBasisRate = (Double(filteredResponse?.basePrice ?? 100) ) / Double(filteredResponse?.currencyUnit ?? 100)
+		dealBasisRate = (Double(self.filteredResponse?.basePrice ?? 100) ) / Double(self.filteredResponse?.currencyUnit ?? 100)
 	}
 }
+
 struct ResponseArray: Codable {
 	var data: [Response] = []
 }

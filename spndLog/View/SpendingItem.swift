@@ -8,25 +8,38 @@
 import SwiftUI
 
 struct SpendingItem: View {
-	@Binding var ampm: Bool
-	var date: Date
+	var ampm: Bool
 	var item: Item
 	
 	var body: some View {
-		ItemContent()
-			.padding(.horizontal, 10)
+		HStack (alignment: .center) {
+			NativeCurrencyValue()
+			Spacer()
+			Text("₩ \(item.calculatedBalance)")
+				.font(.title2)
+		}
+		.padding(.vertical, 5)
+		.transition(.move(edge: .top))
+		.padding(.horizontal, 10)
 	}
 	
-	func ItemContent() -> some View {
-			HStack (alignment: .center) {
-				NativeCurrencyValue()
-				Spacer()
-				Text("₩ \(item.calculatedBalance)")
-					.font(.title2)
-			}
-			.padding(.horizontal, 5)
-			.transition(.move(edge: .top))
+	func NativeCurrencyValue() -> some View {
+		HStack {
+			//			RoundedRectangle(cornerRadius: 12)
+			//				.stroke(Color(uiColor: UIColor.secondarySystemBackground))
+			Text("\(item.currency.symbol) \(item.balance.formatNumber())")
+				.font(.headline)
+				.foregroundColor(.gray)
+			Image(systemName: "arrow.right.square.fill")
+			Spacer()
+			
+			//					.opacity(opacityForItem(item))
+		}
+		//		.fixedSize()
 	}
+	
+}
+	
 	
 //	func CategoryIconView() -> some View {
 //		ZStack {
@@ -39,25 +52,6 @@ struct SpendingItem: View {
 //		}
 //		.fixedSize()
 //	}
-	
-	func NativeCurrencyValue() -> some View {
-		HStack {
-//			RoundedRectangle(cornerRadius: 12)
-//				.stroke(Color(uiColor: UIColor.secondarySystemBackground))
-			Text("\(item.currency.symbol) \(item.balance.formatNumber())")
-				.font(.headline)
-				.foregroundColor(.gray)
-			Image(systemName: "arrow.right.square.fill")
-			Spacer()
-				
-			//					.opacity(opacityForItem(item))
-		}
-//		.fixedSize()
-	}
-	
-	
-	
-	
 	
 //	private func showCurrency() -> Bool {
 //		guard let prevItem = prevItem else {
@@ -77,5 +71,4 @@ struct SpendingItem: View {
 //		return 1.0
 //	}
 	
-}
 

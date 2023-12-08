@@ -18,7 +18,6 @@ class DataModel: ObservableObject {
 //			}
 		}
 	}
-	
 		
 	@Published var currentCurrency: Currency = Currency(rawValue: (UserDefaults.standard.value(forKey: "selectedCurrency") as? String ?? "nullKey")) ?? .KRW {
 		didSet {
@@ -28,8 +27,14 @@ class DataModel: ObservableObject {
 		}
 	}
 	
-		
-	var cancellables: Set<AnyCancellable> = []
+	@Published var ampm: Bool = true {
+		didSet {
+			UserDefaults.standard.set(ampm, forKey: "ampm")
+		}
+	}
+	
+	
+	var cancellable: AnyCancellable?
 
 	init() {
 		if let savedFoldedItemsData = UserDefaults.standard.data(forKey: foldedItemsKey),
@@ -42,23 +47,34 @@ class DataModel: ObservableObject {
 		guard self.currentCurrency != .KRW else {
 			return
 		}
+		
 		fetchData(dataModel: self)
 			if let savedCurrencyCode = UserDefaults.standard.string(forKey: self.currencyKey),
 			   let savedCurrency = Currency(rawValue: savedCurrencyCode) {
 				//				DispatchQueue.main.async {
 				self.currentCurrency = savedCurrency
 				
-				self.$currentCurrency
-					.sink { newValue in
-						DataManager.shared.updateDealBasisRate()
-						print("Currency changed to \(newValue)")
-					}
-					.store(in: &self.cancellables)
+				
+				/// hang
+//				self.$currentCurrency
+//					.sink { newValue in
+//						DataManager.shared.updateDealBasisRate()
+//						print("Currency changed to \(newValue)")
+//					}
+//					.store(in: &self.cancellables)
 			}
 	}
-
-
-
+	
+	deinit {
+		cancellable?.cancel()
+	}
+	
+	func formattedHeaderDate(_ date: Date) -> String {
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateFormat = "HH:mm"
+		return dateFormatter.string(from: date)
+	}
+	
 	func getCurrentCurrencyCode() -> String {
 		return currentCurrency.rawValue
 	}

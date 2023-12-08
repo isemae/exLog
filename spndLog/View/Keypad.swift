@@ -28,13 +28,13 @@ struct Keypad: View {
 		.gesture(
 			DragGesture()
 				.onEnded { orientation in
-					
-					if orientation.translation.height > 10.0 {
-						self.onSwipeDown()
-					}
 					if abs(orientation.translation.width) > abs(orientation.translation.height) {
 						return
 					}
+					if orientation.translation.height > 10.0 {
+						self.onSwipeDown()
+					}
+					
 					if orientation.translation.height < 10.0{
 						self.onSwipeUp()
 					}
@@ -75,8 +75,8 @@ struct KeypadButton: View {
 	@State private var longPressTimer: Timer?
 	var body: some View {
 		Button(action: {
-			self.action(self.key)
 			UIImpactFeedbackGenerator().impactOccurred(intensity: 0.7)
+			self.action(self.key)
 		})
 		 {
 			Color.clear
@@ -86,9 +86,6 @@ struct KeypadButton: View {
 				.overlay(Text(key))
 				.frame(minHeight: 60)
 		}
-		 .buttonRepeatBehavior(.enabled)
-		 
-		
 	}
 	
 	enum ActionKey: EnvironmentKey {

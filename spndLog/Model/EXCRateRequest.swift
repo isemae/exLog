@@ -48,10 +48,10 @@ func request(url: String, method: HTTPMethod, dataModel: DataModel, param: [Stri
 		completionHandler(.failure(NSError(domain: "URLCreationError", code: 0, userInfo: nil)))
 		return
 	}
-
+	
 	var request = URLRequest(url: url)
 	request.httpMethod = method.rawValue
-
+	
 	if let param = param {
 		let sendData = try! JSONSerialization.data(withJSONObject: param, options: [])
 		request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -83,19 +83,23 @@ func request(url: String, method: HTTPMethod, dataModel: DataModel, param: [Stri
 			let decoder = JSONDecoder()
 			let output = try decoder.decode([Response].self, from: data)
 			
-			let currencyCodeToFind = dataModel.getCurrentCurrencyCode()
 			DispatchQueue.main.async {
-			DataManager.shared.filteredResponse = output.first { $0.currencyCode == currencyCodeToFind }
-			}
-			if let response = DataManager.shared.filteredResponse {
-				let curNmValue = response.currencyCode
-				let dealBasR = response.basePrice
-				print("currency_name: \(curNmValue)")
-				print("deal_basis_rate: \(dealBasR)")
-			} else {
-				print("No result found for \(currencyCodeToFind)")
+				DataManager.shared.filteredResponse = output.first {
+					$0.currencyCode == dataModel.getCurrentCurrencyCode()
+				}
+				if let response = DataManager.shared.filteredResponse {
+					let curNmValue = response.currencyCode
+					let dealBasR = response.basePrice
+					print("currency_name: \(curNmValue)")
+					print("deal_basis_rate: \(dealBasR)")
+				} else {
+					print("No result found for \(dataModel.getCurrentCurrencyCode())")
+				}
 			}
 			completionHandler(.success(DataManager.shared.filteredResponse?.id ?? 0))
+			
+			print("Data fetched")
+			
 		} catch {
 			print("Error: JSON Data Parsing failed")
 			completionHandler(.failure(error))
@@ -111,7 +115,6 @@ func fetchData(dataModel: DataModel) {
 			switch result {
 			case .success(let data):
 				print("Data id: \(data)")
-				
 			case .failure(let error):
 				print("Error: \(error)")
 			}

@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 
-func dateFormat(for date: Date, format: String) -> String {
+func dateFormatString(for date: Date, format: String) -> String {
 		let dateFormatter = DateFormatter()
 		
 		switch format {
@@ -28,10 +28,9 @@ func dateFormat(for date: Date, format: String) -> String {
 		default:
 			dateFormatter.dateFormat = "yyyyMMdd"
 		}
-		
 		return dateFormatter.string(from: date)
-	
 }
+
 func dayColor(for date: Date) -> Color {
 	let calendar = Calendar.current
 	let currentDay = calendar.component(.weekday, from: date)
@@ -53,10 +52,10 @@ let AM11 = DateComponents(hour: 11, minute: 0)
 struct DateView: View {
 	
 	var body: some View {
-		Text(dateFormat(for: currentDate, format: "yymmdd"))
-		Text(dateFormat(for: currentDate, format:"mmdd"))
-		Text(dateFormat(for: currentDate, format:"dd"))
-		Text(dateFormat(for: currentDate, format:"흠그정돈가"))
+		Text(dateFormatString(for: currentDate, format: "yymmdd"))
+		Text(dateFormatString(for: currentDate, format:"mmdd"))
+		Text(dateFormatString(for: currentDate, format:"dd"))
+		Text(dateFormatString(for: currentDate, format:"흠그정돈가"))
 	}
 }
 
