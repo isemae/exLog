@@ -17,46 +17,16 @@ struct InputArea: View {
 	
 	var body: some View {
 		VStack(spacing: 0) {
-			
-//			if isShowingKeypad {
-//				ZStack {
-//					Rectangle()
-//						.foregroundColor(Color(uiColor: UIColor.secondarySystemBackground))
-//						.overlay(
-//							Divider().frame(alignment: .bottom),
-//							alignment:.top)
-//						.frame(height: 40)
-//					HStack {
-//						Text("₩ ")
-//						Spacer()
-//						Text("\(Int(round(Double(string) ?? 1.0) * sharedDataManager.dealBasisRate))")
-//							.onChange(of: sharedDataManager.dealBasisRate) { newDealBasisRate in
-//								let updatedValue = Int(round(Double(string) ?? 1.0) * newDealBasisRate)
-//								//							print("Updated Value: \(updatedValue)")
-//							}
-//					}.foregroundColor(Color(uiColor: UIColor.secondaryLabel))
-//						.padding(.horizontal, 35)
-//						.transition(.opacity.combined(with: .move(edge: .bottom)))
-//				}
-//			}
-			
-			
-			
-			ZStack {
-				Rectangle()
-					.foregroundColor(Color(uiColor: UIColor.systemBackground))
-					.overlay(
-						Divider().frame(alignment: .bottom), alignment: .top)
-					.frame(height: 80)
+			if isShowingKeypad {
+				CalculatedPreview()
+			}
 				HStack {
 					VStack(spacing: 0) {
 						Text(dataModel.currentCurrency.symbol)
 						Text(dataModel.currentCurrency.code).font(.footnote)
 					}
 					.frame(width: 60, height: 60)
-					.background(RoundedRectangle(cornerRadius: 10)
-						.foregroundColor(Color(uiColor: UIColor.systemBackground)))
-					.contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 15))
+					.contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
 					.contextMenu(menuItems: {
 						ForEach(Currency.allCases, id: \.self) { curr in
 							Button {
@@ -73,18 +43,63 @@ struct InputArea: View {
 					Text(string.formatNumber())
 						.padding(.trailing, 20)
 				}
-						.padding(.horizontal, 10)
-			}
-			.font(.largeTitle)
+				
+				.frame(height: 80)
+				.padding(.horizontal, 10)
+				.background(.bar)
+//				.background(					Color(uiColor: UIColor.systemBackground)
+//				, in: Rectangle())
+				.overlay(
+					Divider().frame(alignment: .bottom), alignment: .top)
+				.font(.largeTitle)
 		}
+		
+		.overlay(
+			Divider().frame(alignment: .bottom),
+			alignment:.top)
 		.onTapGesture(perform: {
 			DispatchQueue.main.async {
-				   withAnimation(.spring(response: 0.2, dampingFraction: 1.0)) {
-					   isShowingKeypad.toggle()
-				   }
+				withAnimation(.spring(response: 0.2, dampingFraction: 1.0)) {
+					isShowingKeypad.toggle()
+				}
 			}
 			
-		   })
-			.GestureHandler(onSwipeUp: onSwipeUp, onSwipeDown: onSwipeDown)
+		})
+		.GestureHandler(onSwipeUp: onSwipeUp, onSwipeDown: onSwipeDown)
 	}
+	
+	private func CalculatedPreview() -> some View {
+				HStack {
+					Text("₩ ")
+					Spacer()
+					Text("\(Int(round(Double(string) ?? 1.0) * sharedDataManager.dealBasisRate))")
+						.onChange(of: sharedDataManager.dealBasisRate) { newDealBasisRate in
+							let updatedValue = Int(round(Double(string) ?? 1.0) * newDealBasisRate)
+							//							print("Updated Value: \(updatedValue)")
+						}
+				}
+				.foregroundColor(.secondary)
+				.frame(height: 40)
+				.padding(.horizontal, 35)
+				.background(.ultraThinMaterial, in: Rectangle())
+				.transition(.opacity.combined(with: .move(edge: .bottom)))
+					
+			
+		
+	}
+}
+struct inputAreaPreview: View {
+	@State var string: String = "0"
+	@State var testBool: Bool = true
+	var body: some View {
+		VStack {
+			InputArea(isShowingKeypad: $testBool, string: string, onSwipeUp: {}, onSwipeDown: {})
+				.environmentObject(DataModel())
+		}
+		.font(.largeTitle)
+	}
+}
+
+#Preview {
+	inputAreaPreview()
 }
