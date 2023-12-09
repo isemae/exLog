@@ -15,9 +15,10 @@ struct SpendingItem: View {
 		HStack (alignment: .center) {
 			NativeCurrencyValue()
 			Spacer()
-			Text("₩ \(item.calculatedBalance)")
+			Text("₩\(item.calculatedBalance)")
 				.font(.title2)
 		}
+		
 		.padding(.vertical, 5)
 		.transition(.move(edge: .top))
 		.padding(.horizontal, 10)
@@ -30,6 +31,7 @@ struct SpendingItem: View {
 			Text("\(item.currency.symbol) \(item.balance.formatNumber())")
 				.font(.headline)
 				.foregroundColor(.gray)
+				.frame(width: UIScreen.main.bounds.size.width / 3.5, alignment: .leading)
 			Image(systemName: "arrow.right.square.fill")
 			Spacer()
 			

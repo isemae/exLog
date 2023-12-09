@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftData
-import Combine
+//import Combine
 
 class DataManager: ObservableObject {
 	static let shared = DataManager()
@@ -23,6 +23,10 @@ class DataManager: ObservableObject {
 	func updateDealBasisRate() {
 		dealBasisRate = (Double(self.filteredResponse?.basePrice ?? 100) ) / Double(self.filteredResponse?.currencyUnit ?? 100)
 	}
+}
+
+class DataCache {
+	static var items: [Item] = []
 }
 
 struct ResponseArray: Codable {

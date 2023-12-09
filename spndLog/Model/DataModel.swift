@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Combine
+//import Combine
 
 class DataModel: ObservableObject {
 	private let foldedItemsKey = "foldedItemsKey"
@@ -34,7 +34,7 @@ class DataModel: ObservableObject {
 	}
 	
 	
-	var cancellable: AnyCancellable?
+//	var cancellable: AnyCancellable?
 
 	init() {
 		if let savedFoldedItemsData = UserDefaults.standard.data(forKey: foldedItemsKey),
@@ -65,9 +65,9 @@ class DataModel: ObservableObject {
 			}
 	}
 	
-	deinit {
-		cancellable?.cancel()
-	}
+//	deinit {
+//		cancellable?.cancel()
+//	}
 	
 	func formattedHeaderDate(_ date: Date) -> String {
 		let dateFormatter = DateFormatter()

@@ -15,7 +15,7 @@ struct ContentView: View {
 //	@Query(filter: #Predicate<Items> { items in
 //		!items.isFolded
 //	})
-	@StateObject private var dataModel = DataModel()
+	@StateObject private var dataModel = DataModel.init()
 	@State private var string = "0"
 	@State private var isShowingKeypad = false
 	@State private var height = CGFloat.zero
@@ -23,26 +23,17 @@ struct ContentView: View {
 	var body: some View {
 		var screenWidth = UIScreen.main.bounds.size.width
 		var screenHeight = UIScreen.main.bounds.size.height
-//		ZStack {
-				DayListView(items: items, onTap: {})
+		
+		DayListView(items: items, onTap: { try? modelContext.save() })
+			.padding(.horizontal, 10)
 			.safeAreaInset(edge: .bottom, spacing: 0) {
 				OverlayKeypad()
 			}
-				//				SpendingList(
-				//					items: items,
-				//					onTap: { try? modelContext.save() })
-				//				.environmentObject(dataModel)
-				//				.onTapGesture(
-				//					perform: {
-				//						withAnimation {
-				//							isShowingKeypad = false
-				//						}
-				//					})
-				////				.padding(.horizontal, 10)
-				//				.toolbar {}
-				//			} detail: {}
 			
-//		}
+			.ignoresSafeArea( edges:  isShowingKeypad ? .Element() : .bottom)
+			.onTapGesture {
+				withAnimation { isShowingKeypad = false }}
+			.environmentObject(dataModel)
 	}
 	
 	func OverlayKeypad() -> some View {
@@ -64,11 +55,10 @@ struct ContentView: View {
 				Keypad(string: $string,
 					   onSwipeUp: { self.addItem() },
 					   onSwipeDown: { self.deleteFirst() })
-				.padding(.horizontal)
 				.font(.largeTitle)
 			}
 		}
-		.background()
+		
 		.safeAreaOverlay(alignment: .bottom, edges: .bottom)
 	}
 	
@@ -88,7 +78,7 @@ struct ContentView: View {
 							do {
 								try modelContext.save()
 								for (index, element) in items.enumerated() {
-									print("items: \(index) \(element.balance)")
+									print("items: \(index) \(element.calculatedBalance)")
 								}
 							} catch {
 								print("error saving context \(error)")
@@ -163,5 +153,5 @@ struct ContentView: View {
 #Preview {
     ContentView()
 		.modelContainer(for: [Item.self], inMemory: true)
-
+		.environmentObject(DataModel())
 }

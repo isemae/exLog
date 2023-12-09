@@ -22,7 +22,6 @@ struct DayListView: View {
 	var body: some View {
 		//			ForEach(dateDict.keys.sorted(by: { $0 > $1 }), id: \.self) { date in
 		//			ForEach(items)) { date in
-		//				let sumForDate = dateDict[date]?.reduce(0) { $0 + $1.calculatedBalance }
 		//				if let itemsForDate = dateDict[date] {
 		//					if shouldShow(.day, items: items, date: date) {
 		//						DateHeader(dataModel: dataModel, items: itemsForDate, date: date, sumForDate: sumForDate!, onTap: onTap, isFolded: dataModel.foldedItems[date, default: false])
@@ -34,37 +33,36 @@ struct DayListView: View {
 		
 		List {
 			ForEach(dateGroup.sorted(by: { $0.key > $1.key }), id: \.key) { date, itemsInDate in
-				TimeList(items: itemsInDate, date: itemsInDate.first!.date)
+				let sumForDate = dateGroup[date]?.reduce(0) { $0 + $1.calculatedBalance }
+				TimeList(items: itemsInDate, date: itemsInDate.first!.date, sumForDate: sumForDate ?? 0)
+				
 			}
 			.listRowInsets(EdgeInsets())
 			.listRowSeparator(.hidden)}
 		
 		.listStyle(.plain)
-		.listSectionSpacing(.compact)
+		.listSectionSpacing(0)
 		.safeAreaOverlay(alignment: .top, edges: .top)
 	}
 		
-	func TimeList(items: [Item], date: Date) -> some View {
+	func TimeList(items: [Item], date: Date, sumForDate: Int) -> some View {
 		Section(
-			header: DateHeader(items: items, date: date)
+			header: DateHeader(items: items, date: date, sumForDate: sumForDate)
 		) {
-//// hang
-			ForEach(groupedItems.indices, id: \.self) { index in
-//				HHmmHeader(groupedItems[index].first!.date)
-				ForEach(groupedItems[index], id: \.id) { item in
+			ForEach(groupedItems, id: \.first!.date) { group in
+				HHmmHeader(group.first!.date)
+				ForEach(group, id: \.id) { item in
 					SpendingItem(ampm: dataModel.ampm, item: item)
 				}
+				
 			}
-////
 		}
 	}
 	
 	private var groupedItems: [[Item]] {
-//// hang
 		Dictionary(grouping: items){ item in
 			dataModel.formattedHeaderDate(item.date)
 		}
-////
 		.values
 		.sorted(by: { $0.first!.date > $1.first!.date })
 	}
@@ -76,11 +74,11 @@ struct DayListView: View {
 			Image(systemName: "clock")
 			Text(dataModel.ampm ? "\(date, format: Date.FormatStyle(date: .none, time: .shortened))" : "\(dateFormatString(for: date, format: "hhmm"))" )
 				.font(.title3)
-				.foregroundColor(Color(uiColor: UIColor.secondaryLabel))
+				.foregroundColor(Color(uiColor: UIColor.label))
 				.fixedSize()
 			Spacer()
 		}
-//		.padding(10)
+		.padding(.vertical, 10)
 		.overlayDividers()
 		.onTapGesture {
 			dataModel.ampm.toggle()
@@ -88,55 +86,6 @@ struct DayListView: View {
 		}
 		
 	}
-	
-//	private func groupItems(items: inout [Item]) {
-//		guard items.count > 1 else { return }
-//		
-//		let lastIndex = items.count - 1
-//		var currentItem = items[lastIndex]
-//		
-//		for (index, item) in items.enumerated().reversed() {
-//			if index > 0 {
-//				let previousItem = items[index - 1]
-//				let calendar = Calendar.current
-//				let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: previousItem.date, to: currentItem.date)
-//				
-//				// 이전 아이템과 현재 아이템이 같은 분 내에 추가된 경우 그룹화
-//				if let minutes = components.minute, minutes == 0 {
-//					currentItem.group = ItemGroup(pos: (previousItem.group?.pos ?? -1) + 1)
-//					break
-//				}
-//			}
-//		}
-//	}
-	
-//	func shouldShow(_ format: Calendar.Component, currentItem: Item, prevItem: Item?) -> Bool {
-//		guard let prevItem = prevItem else {
-//			return true
-//		}
-//		
-//		let shouldShow = !Calendar.current.isDate(prevItem.date, equalTo: currentItem.date, toGranularity: format)
-//		return shouldShow
-//	}
-	//		let shouldShow = !Calendar.current.isDate(prevDate ?? Date(), equalTo: items.last!.date, toGranularity: format)
-	//
-	//
-	//			print("last: \(items.last!.date)")
-	//			print(currentIndex)
-	//			print("prev:\(String(describing: prevDate))")
-	//			print(shouldShow)
-	//			return shouldShow
-	
-	
-	
-	//	func shouldShow(_ format: Calendar.Component, items: [Item], date: Date) -> Bool {
-	//		guard let prevItem = items.first, items.count > 1 else {
-	//			return true
-	//		}
-	//
-	//		let isTimeSame = Calendar.current.isDate(prevItem.date, equalTo: date, toGranularity: .minute)
-	//		return !isTimeSame || items.firstIndex(of: prevItem) == 0
-	//	}
 	
 //	func opacityForItem(_ item: Item) -> Double {
 //		let minOpacity: Double = 0.5
@@ -150,8 +99,8 @@ struct DayListView: View {
 }
 	
 
-//
-//#Preview {
-//	DayListView(onTap: {print("hello")}, items: <#[Item]#>)
-//		.environmentObject(DataModel())
-//}
+
+#Preview {
+	DayListView(items: createTestItems(), onTap: {print("hello")})
+		.environmentObject(DataModel())
+}

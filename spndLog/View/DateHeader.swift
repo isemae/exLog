@@ -12,8 +12,7 @@ struct DateHeader: View {
 	var items: [Item]
 	var date: Date
 	var prevItem: Item?
-//	var sumForDate: Int
-//	var onTap: () -> Void
+	var sumForDate: Int
 	@State var isFolded: Bool = false
 	
 	var body: some View {
@@ -25,7 +24,7 @@ struct DateHeader: View {
 		HStack {
 			HeaderDateView()
 			Spacer()
-//			Text("₩\(sumForDate)")
+			Text("₩\(sumForDate)")
 				.font(.title2)
 				.foregroundColor(.gray)
 		}

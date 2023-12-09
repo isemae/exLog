@@ -14,8 +14,8 @@ struct Keypad: View {
 	var onSwipeDown: () -> Void
 	var body: some View {
 		LazyVStack(spacing: 0) {
-		Divider()
-			.frame(alignment: .top)
+//		Divider()
+//			.frame(alignment: .top)
 			KeypadRow(keys: ["1","2","3"])
 			KeypadRow(keys: ["4","5","6"])
 			KeypadRow(keys: ["7","8","9"])
@@ -24,6 +24,7 @@ struct Keypad: View {
 		.disabled(isFocused)
 		.onAppear() { isFocused = true }
 		.contentShape(Rectangle())
+		.background()
 		.transition(.move(edge: .bottom))
 		.gesture(
 			DragGesture()
@@ -58,12 +59,14 @@ struct Keypad: View {
 struct KeypadRow: View {
 	var keys: [String]
 	var body: some View {
-		HStack(spacing: 5) {
+		HStack(spacing: 0) {
 			ForEach(keys, id: \.self) { key in
 				KeypadButton(key: key)
 					.buttonStyle(.plain)
+					
 			}
 		}
+		.padding(.horizontal)
 	}
 }
 
@@ -80,7 +83,7 @@ struct KeypadButton: View {
 		})
 		 {
 			Color.clear
-				.overlay(RoundedRectangle(cornerRadius: 10)
+				.overlay(Rectangle()
 				)
 				.foregroundColor(Color(uiColor: UIColor.systemBackground))
 				.overlay(Text(key))
