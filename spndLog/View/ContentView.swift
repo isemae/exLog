@@ -17,45 +17,72 @@ struct ContentView: View {
 //	})
 	@StateObject private var dataModel = DataModel.init()
 	@State private var string = "0"
-	@State private var isShowingKeypad = false
+	@State private var isShowingKeypad = true
 	@State private var height = CGFloat.zero
 	
+	let screenHeight = UIScreen.main.bounds.size.height
+	let screenWidth = UIScreen.main.bounds.size.width
+	
 	var body: some View {
-		var screenWidth = UIScreen.main.bounds.size.width
-		var screenHeight = UIScreen.main.bounds.size.height
-		
-		DayListView(items: items, onTap: { try? modelContext.save() })
-			.safeAreaInset(edge: .bottom, spacing: 0) {
-				OverlayKeypad()
-			}
-			.contentMargins(.trailing, 5, for: .scrollContent)
-			.ignoresSafeArea( edges:  isShowingKeypad ? .Element() : .bottom)
-			.environmentObject(dataModel)
+		if !items.isEmpty {
+			DayListView(items: items, onTap: { try? modelContext.save() })
+				.safeAreaInset(edge: .bottom, spacing: 0) {
+					OverlayKeypad()
+						.animation(.spring(response: 0.2, dampingFraction: 1.0))
+						.transition(.move(edge: .bottom))
+				}
+				.ignoresSafeArea(edges: .bottom)
+				.environmentObject(dataModel)
+				.background(.bar)
+		} else {
+			InitialView()
+		}
 	}
 	
 	func OverlayKeypad() -> some View {
 		VStack(spacing: 0) {
-			InputArea(
-				isShowingKeypad: $isShowingKeypad,
-				string: string,
-				onSwipeUp: { addItem() },
-				onSwipeDown: { deleteFirst() }
-			)
+			InputArea(isShowingKeypad: $isShowingKeypad,
+					  string: string,
+					  onSwipeUp: { addItem() },
+					  onSwipeDown: { deleteFirst() })
 			.environmentObject(dataModel)
 			.onChange(of: string, perform: { newValue in
 				if string.count > 9 {
-					string = String(string.prefix(9))
-				}
-			})
+					string = String(string.prefix(9)) }})
 			
-			if isShowingKeypad {
-				Keypad(string: $string,
-					   onSwipeUp: { self.addItem() },
-					   onSwipeDown: { self.deleteFirst() })
-				.font(.largeTitle)
+			Keypad(string: $string, isShowing: $isShowingKeypad,
+				   onSwipeUp: { self.addItem() },
+				   onSwipeDown: { self.deleteFirst()})
+			.font(.largeTitle)
+			.disabled(!isShowingKeypad)
+			.offset(y: isShowingKeypad ? 0 : screenHeight / 2)
+		}
+		.background(.bar)
+	}
+	
+	func InitialView() -> some View {
+		Group {
+			VStack (spacing: 0){
+				DateHeader(items: [], date: Date(), sumForDate: 0)
+			}
+			VStack(spacing: 0) {
+				Image(systemName: "pencil.and.list.clipboard")
+					.resizable()
+					.scaledToFit()
+					.padding(30)
+					.padding(.leading, 25)
+					.frame(width: 200, height: 200, alignment: .center)
+					.foregroundColor(Color(uiColor: .placeholderText))
+				Text("내역이 없어요.")
+				Text("하단의 입력창을 탭해보세요!")
+			}
+			.frame(maxHeight: .infinity)
+			.safeAreaInset(edge: .bottom, spacing: 0) {
+				OverlayKeypad()
+					.animation(.spring(response: 0.2, dampingFraction: 1.0))
+					.transition(.move(edge: .bottom))
 			}
 		}
-		.safeAreaOverlay(alignment: .bottom, edges: .bottom)
 	}
 	
 	func addItem() {

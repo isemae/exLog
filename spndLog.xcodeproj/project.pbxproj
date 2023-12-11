@@ -211,9 +211,9 @@
 			children = (
 				082177A12B0DFDC300D46518 /* ContentView.swift */,
 				0802FB642B18F4A9009A7E81 /* DayListView.swift */,
+				08DC52232B12D7DA005ED804 /* DateHeader.swift */,
 				0877129F2B26873D003C8EE8 /* HHmmHeader.swift */,
 				080283A42B23C7D3002C54F6 /* TimeListView.swift */,
-				08DC52232B12D7DA005ED804 /* DateHeader.swift */,
 				08DC52212B12D65E005ED804 /* SpendingItem.swift */,
 				08DC52252B12D8C6005ED804 /* InputArea.swift */,
 				082177CD2B0DFE9300D46518 /* Keypad.swift */,

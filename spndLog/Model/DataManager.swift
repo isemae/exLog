@@ -10,6 +10,7 @@ import SwiftData
 //import Combine
 
 class DataManager: ObservableObject {
+		
 	static let shared = DataManager()
 	
 	@Published var filteredResponse: Response? {

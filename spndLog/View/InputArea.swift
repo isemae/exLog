@@ -17,74 +17,71 @@ struct InputArea: View {
 	
 	var body: some View {
 		VStack(spacing: 0) {
-			if isShowingKeypad {
-				CalculatedPreview()
+			CalculatedPreview()
+			HStack {
+				CurrencySelectorButton()
+				Spacer()
+				Text(string.formatNumber())
+					.padding(.trailing, 20)
 			}
-				HStack {
-					VStack(spacing: 0) {
-						Text(dataModel.currentCurrency.symbol)
-						Text(dataModel.currentCurrency.code).font(.footnote)
-					}
-					.frame(width: 60, height: 60)
-					.contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
-					.contextMenu(menuItems: {
-						ForEach(Currency.allCases, id: \.self) { curr in
-							Button {
-								dataModel.currentCurrency = curr
-								DispatchQueue.global().async {
-									fetchData(dataModel: dataModel)
-								}
-							} label: {
-								Label("\(curr.name)", systemImage: "\(curr.signName)sign")
-							}
-						}
-					})
-					Spacer()
-					Text(string.formatNumber())
-						.padding(.trailing, 20)
-				}
-				
-				.frame(height: 80)
-				.padding(.horizontal, 10)
-				.background(.bar)
-//				.background(					Color(uiColor: UIColor.systemBackground)
-//				, in: Rectangle())
-				.overlay(
-					Divider().frame(alignment: .bottom), alignment: .top)
-				.font(.largeTitle)
+			.frame(height: 70)
+			.padding(.horizontal, 10)
+			.font(.largeTitle)
 		}
-		
-		.overlay(
-			Divider().frame(alignment: .bottom),
-			alignment:.top)
+		.contentShape(Rectangle())
 		.onTapGesture(perform: {
-				withAnimation(.spring(response: 0.1, dampingFraction: 1.0)) {
-					isShowingKeypad.toggle()
-				}
+			isShowingKeypad.toggle()
 		})
 		.GestureHandler(onSwipeUp: onSwipeUp, onSwipeDown: onSwipeDown)
 	}
 	
 	private func CalculatedPreview() -> some View {
-				HStack {
-					Text("₩ ")
-					Spacer()
-					Text("\(Int(round(Double(string) ?? 1.0) * sharedDataManager.dealBasisRate))")
-						.onChange(of: sharedDataManager.dealBasisRate) { newDealBasisRate in
-							let updatedValue = Int(round(Double(string) ?? 1.0) * newDealBasisRate)
-							//							print("Updated Value: \(updatedValue)")
-						}
-				}
-				.foregroundColor(.secondary)
-				.frame(height: 40)
-				.padding(.horizontal, 35)
-				.background(.ultraThinMaterial, in: Rectangle())
-				.transition(.opacity.combined(with: .move(edge: .bottom)))
-					
+		VStack {
+			HStack {
+				Text("₩")
+					.frame(width: 50)
+				Spacer()
+				Text("\(Int(round(Double(string) ?? 1.0) * sharedDataManager.dealBasisRate))")
+					.onChange(of: sharedDataManager.dealBasisRate) { newDealBasisRate in
+						let updatedValue = Int(round(Double(string) ?? 1.0) * newDealBasisRate)
+					}
+					.padding(.trailing, 25)
+			}
+			.foregroundColor(.secondary)
+			.padding(.horizontal, 10)
 			
+			Divider()
+				.padding(.horizontal, 20)
+		}
+		.opacity(isShowingKeypad ? 1 : 0)
+		.frame(height: isShowingKeypad ? 40 : 0)
+		.overlayDivider(alignment: .top)
+	}
+	
+	func CurrencySelectorButton() -> some View {
+		VStack(spacing: 0) {
+			Text(dataModel.currentCurrency.symbol)
+			Text(dataModel.currentCurrency.code).font(.footnote)
+		}
+		.frame(width: 50, height: 50)
+		.contentShape(RoundedRectangle(cornerRadius: 10))
+		.contextMenu(menuItems: {
+			ForEach(Currency.allCases, id: \.self) { curr in
+				Button {
+					dataModel.currentCurrency = curr
+					DispatchQueue.global().async {
+						fetchData(dataModel: dataModel)
+					}
+				} label: {
+					Label("\(curr.name)", systemImage: "\(curr.signName)sign")
+				}
+			}
+		})
+		.font(.title)
 		
 	}
 }
+
 struct inputAreaPreview: View {
 	@State var string: String = "0"
 	@State var testBool: Bool = true
