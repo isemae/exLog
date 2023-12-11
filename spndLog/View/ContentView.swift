@@ -25,14 +25,11 @@ struct ContentView: View {
 		var screenHeight = UIScreen.main.bounds.size.height
 		
 		DayListView(items: items, onTap: { try? modelContext.save() })
-			.padding(.horizontal, 10)
 			.safeAreaInset(edge: .bottom, spacing: 0) {
 				OverlayKeypad()
 			}
-			
+			.contentMargins(.trailing, 5, for: .scrollContent)
 			.ignoresSafeArea( edges:  isShowingKeypad ? .Element() : .bottom)
-			.onTapGesture {
-				withAnimation { isShowingKeypad = false }}
 			.environmentObject(dataModel)
 	}
 	
@@ -58,7 +55,6 @@ struct ContentView: View {
 				.font(.largeTitle)
 			}
 		}
-		
 		.safeAreaOverlay(alignment: .bottom, edges: .bottom)
 	}
 	
@@ -73,7 +69,6 @@ struct ContentView: View {
 					
 					DispatchQueue.main.async {
 						modelContext.insert(newItem)
-						
 						withAnimation(.easeOut(duration: 0.2)) {
 							do {
 								try modelContext.save()

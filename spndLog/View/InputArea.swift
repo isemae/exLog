@@ -58,12 +58,9 @@ struct InputArea: View {
 			Divider().frame(alignment: .bottom),
 			alignment:.top)
 		.onTapGesture(perform: {
-			DispatchQueue.main.async {
-				withAnimation(.spring(response: 0.2, dampingFraction: 1.0)) {
+				withAnimation(.spring(response: 0.1, dampingFraction: 1.0)) {
 					isShowingKeypad.toggle()
 				}
-			}
-			
 		})
 		.GestureHandler(onSwipeUp: onSwipeUp, onSwipeDown: onSwipeDown)
 	}

@@ -13,18 +13,16 @@ struct SpendingItem: View {
 	
 	var body: some View {
 		HStack (alignment: .center) {
-			NativeCurrencyValue()
+			LocalCurrencyValue()
 			Spacer()
 			Text("₩\(item.calculatedBalance)")
 				.font(.title2)
 		}
-		
 		.padding(.vertical, 5)
-		.transition(.move(edge: .top))
 		.padding(.horizontal, 10)
 	}
 	
-	func NativeCurrencyValue() -> some View {
+	func LocalCurrencyValue() -> some View {
 		HStack {
 			//			RoundedRectangle(cornerRadius: 12)
 			//				.stroke(Color(uiColor: UIColor.secondarySystemBackground))
@@ -32,14 +30,12 @@ struct SpendingItem: View {
 				.font(.headline)
 				.foregroundColor(.gray)
 				.frame(width: UIScreen.main.bounds.size.width / 3.5, alignment: .leading)
-			Image(systemName: "arrow.right.square.fill")
+			Image(systemName: "arrow.right")
 			Spacer()
-			
 			//					.opacity(opacityForItem(item))
 		}
 		//		.fixedSize()
 	}
-	
 }
 	
 	

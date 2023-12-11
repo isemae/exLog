@@ -25,7 +25,8 @@ struct Keypad: View {
 		.onAppear() { isFocused = true }
 		.contentShape(Rectangle())
 		.background()
-		.transition(.move(edge: .bottom))
+		.transition(.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom)))
+//		.transition(.move(edge: .bottom))
 		.gesture(
 			DragGesture()
 				.onEnded { orientation in

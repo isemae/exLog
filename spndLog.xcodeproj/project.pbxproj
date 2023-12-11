@@ -23,6 +23,7 @@
 		082177CC2B0DFE7800D46518 /* CountryMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177CB2B0DFE7800D46518 /* CountryMenuView.swift */; };
 		082177CE2B0DFE9300D46518 /* Keypad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177CD2B0DFE9300D46518 /* Keypad.swift */; };
 		0857C6C42B11C4E60012C698 /* EXCRateJSONdnm.json in Sources */ = {isa = PBXBuildFile; fileRef = 0857C6C32B11C4E60012C698 /* EXCRateJSONdnm.json */; };
+		087712A02B26873D003C8EE8 /* HHmmHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0877129F2B26873D003C8EE8 /* HHmmHeader.swift */; };
 		087ADE822B0F951200E1BFD8 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087ADE812B0F951200E1BFD8 /* DataManager.swift */; };
 		0882EAF52B12F29700755E42 /* DataIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0882EAF22B12F29700755E42 /* DataIO.swift */; };
 		08AB637E2B0E706600F03C64 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AB637D2B0E706600F03C64 /* extensions.swift */; };
@@ -76,6 +77,7 @@
 		082177CB2B0DFE7800D46518 /* CountryMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryMenuView.swift; sourceTree = "<group>"; };
 		082177CD2B0DFE9300D46518 /* Keypad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keypad.swift; sourceTree = "<group>"; };
 		0857C6C32B11C4E60012C698 /* EXCRateJSONdnm.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = EXCRateJSONdnm.json; sourceTree = "<group>"; };
+		0877129F2B26873D003C8EE8 /* HHmmHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HHmmHeader.swift; sourceTree = "<group>"; };
 		087ADE812B0F951200E1BFD8 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		0882EAF22B12F29700755E42 /* DataIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataIO.swift; sourceTree = "<group>"; };
 		08AB637D2B0E706600F03C64 /* extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 			children = (
 				082177A12B0DFDC300D46518 /* ContentView.swift */,
 				0802FB642B18F4A9009A7E81 /* DayListView.swift */,
+				0877129F2B26873D003C8EE8 /* HHmmHeader.swift */,
 				080283A42B23C7D3002C54F6 /* TimeListView.swift */,
 				08DC52232B12D7DA005ED804 /* DateHeader.swift */,
 				08DC52212B12D65E005ED804 /* SpendingItem.swift */,
@@ -352,6 +355,7 @@
 			files = (
 				082177A22B0DFDC300D46518 /* ContentView.swift in Sources */,
 				087ADE822B0F951200E1BFD8 /* DataManager.swift in Sources */,
+				087712A02B26873D003C8EE8 /* HHmmHeader.swift in Sources */,
 				0882EAF52B12F29700755E42 /* DataIO.swift in Sources */,
 				080283A52B23C7D3002C54F6 /* TimeListView.swift in Sources */,
 				080283A32B23B16C002C54F6 /* ListsInDateView.swift in Sources */,
