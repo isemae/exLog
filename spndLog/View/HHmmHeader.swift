@@ -15,13 +15,13 @@ struct HHmmHeader: View {
 		HStack {
 			Image(systemName: "clock")
 			Text(dataModel.ampm ? "\(dateFormatString(for: date, format: "aahhmm"))" : "\(dateFormatString(for: date, format: "hhmm"))")
-				.font(.title3)
-				.foregroundColor(Color(uiColor: UIColor.label))
+				.font(.body)
 				.fixedSize()
 			Spacer()
 		}
+		.foregroundColor(Color(uiColor: UIColor.secondaryLabel))
 		.padding(10)
-		.background(Color(uiColor: .secondarySystemBackground))
+		.background()
 		.overlayDivider(alignment: .bottom)
 		.onTapGesture {
 			dataModel.ampm.toggle()

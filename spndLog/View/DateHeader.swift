@@ -16,7 +16,7 @@ struct DateHeader: View {
 	
 	var body: some View {
 		HeaderContentView()
-			.transition(.move(edge: .top).combined(with: .opacity))
+			.transition(.move(edge: .top))
 	}
 	
 	private func HeaderContentView() -> some View {
@@ -25,10 +25,9 @@ struct DateHeader: View {
 			Spacer()
 			Text("₩\(sumForDate)")
 				.font(.title3)
-				.foregroundColor(.gray)
+				.foregroundColor(Color(uiColor: UIColor.secondaryLabel))
 		}
 		.padding(10)
-		.padding(.trailing, 10)
 		.contentShape(Rectangle())
 		.background(.bar)
 		.overlayDividers(role: .main)

@@ -18,6 +18,7 @@ struct SpendingItem: View {
 			Text("₩\(item.calculatedBalance)")
 				.font(.title2)
 		}
+		.foregroundColor(Color(uiColor: UIColor.label))
 		.padding(.vertical, 5)
 		.padding(.horizontal, 10)
 	}
@@ -28,9 +29,9 @@ struct SpendingItem: View {
 			//				.stroke(Color(uiColor: UIColor.secondarySystemBackground))
 			Text("\(item.currency.symbol) \(item.balance.formatNumber())")
 				.font(.headline)
-				.foregroundColor(.gray)
 				.frame(width: UIScreen.main.bounds.size.width / 3.5, alignment: .leading)
 			Image(systemName: "arrow.right")
+				.foregroundColor(.secondary)
 			Spacer()
 			//					.opacity(opacityForItem(item))
 		}

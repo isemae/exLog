@@ -9,24 +9,21 @@ import SwiftUI
 
 struct Keypad: View {
 	@Binding var string: String
-	@FocusState private var isFocused: Bool
+	@Binding var isShowing: Bool
 	var onSwipeUp: () -> Void
 	var onSwipeDown: () -> Void
 	var body: some View {
 		LazyVStack(spacing: 0) {
-//		Divider()
-//			.frame(alignment: .top)
 			KeypadRow(keys: ["1","2","3"])
 			KeypadRow(keys: ["4","5","6"])
 			KeypadRow(keys: ["7","8","9"])
 			KeypadRow(keys: [".","0","⌫"])
 		}
-		.disabled(isFocused)
-		.onAppear() { isFocused = true }
 		.contentShape(Rectangle())
-		.background()
-		.transition(.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom)))
-//		.transition(.move(edge: .bottom))
+		.frame(maxHeight: isShowing ? UIScreen.main.bounds.height / 3.0 : 0)
+		.overlayDivider(alignment: .top)
+		.padding(.horizontal, 20)
+		.transition(.move(edge: .bottom))
 		.gesture(
 			DragGesture()
 				.onEnded { orientation in
@@ -42,6 +39,7 @@ struct Keypad: View {
 					}
 				}
 		)
+		.ignoresSafeArea(.all)
 		.environment(\.keypadButtonAction, self.keyPressed(_:))
 	}
 	
@@ -64,7 +62,6 @@ struct KeypadRow: View {
 			ForEach(keys, id: \.self) { key in
 				KeypadButton(key: key)
 					.buttonStyle(.plain)
-					
 			}
 		}
 		.padding(.horizontal)
@@ -78,18 +75,15 @@ struct KeypadButton: View {
 	
 	@State private var longPressTimer: Timer?
 	var body: some View {
-		Button(action: {
-			UIImpactFeedbackGenerator().impactOccurred(intensity: 0.7)
-			self.action(self.key)
-		})
-		 {
-			Color.clear
-				.overlay(Rectangle()
-				)
-				.foregroundColor(Color(uiColor: UIColor.systemBackground))
-				.overlay(Text(key))
-				.frame(minHeight: 60)
-		}
+		Rectangle()
+			.foregroundColor(Color.clear)
+			.frame(minWidth: 90, minHeight: 55)
+			.contentShape(RoundedRectangle(cornerRadius: 15))
+			.onTapGesture {
+				UIImpactFeedbackGenerator().impactOccurred(intensity: 0.7)
+				self.action(self.key)
+			}
+			.overlay(Text(key))
 	}
 	
 	enum ActionKey: EnvironmentKey {
@@ -115,7 +109,7 @@ struct KpPreview: View {
 		VStack {
 			InputArea(isShowingKeypad: $testBool, string: string, onSwipeUp: {}, onSwipeDown: {})
 				.environmentObject(DataModel())
-			Keypad(string: $string, onSwipeUp: { string = "0" }, onSwipeDown: {})
+			Keypad(string: $string, isShowing: $testBool, onSwipeUp: { string = "0" }, onSwipeDown: {})
 		}
 		.font(.largeTitle)
 	}

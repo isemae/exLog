@@ -33,7 +33,7 @@ struct DayListView: View {
 			.listRowBackground(Color(uiColor: UIColor.systemBackground))
 		}
 		.listSectionSpacing(0)
-		.listStyle(.grouped)
+		.listStyle(.plain)
 		.safeAreaOverlay(alignment: .top, edges: .top)
 	}
 	
@@ -44,13 +44,14 @@ struct DayListView: View {
 		) {
 			ForEach(group.keys.sorted().reversed(), id: \.self) { minuteDate in
 				if let itemsInMinute = group[minuteDate], !itemsInMinute.isEmpty && !dataModel.foldedItems[date, default: false] {
-					Group {
-						HHmmHeader(date: minuteDate)
-						ForEach(itemsInMinute, id: \.id) { item in
-							SpendingItem(ampm: dataModel.ampm, item: item)
-						}
-					}
-					.transition(.move(edge: .top))
+							Group {
+								HHmmHeader(date: minuteDate)
+								ForEach(itemsInMinute, id: \.id) { item in
+									SpendingItem(ampm: dataModel.ampm, item: item)
+								}
+							}
+							.transition(.move(edge: .top))
+						
 				}
 			}
 		}
