@@ -13,17 +13,14 @@ class DataModel: ObservableObject {
 	private var currencyKey = "selectedCurrency"
 	@Published var foldedItems: [Date: Bool] {
 		didSet {
-//			DispatchQueue.main.async {
-				UserDefaults.standard.set(try? PropertyListEncoder().encode(self.foldedItems), forKey: self.foldedItemsKey)
-//			}
+			UserDefaults.standard.set(try? PropertyListEncoder().encode(self.foldedItems), forKey: self.foldedItemsKey)
+			objectWillChange.send()
 		}
 	}
 		
 	@Published var currentCurrency: Currency = Currency(rawValue: (UserDefaults.standard.value(forKey: "selectedCurrency") as? String ?? "nullKey")) ?? .KRW {
 		didSet {
-//			DispatchQueue.main.async {
-				UserDefaults.standard.set(self.currentCurrency.rawValue, forKey: self.currencyKey)
-//			}
+			UserDefaults.standard.set(self.currentCurrency.rawValue, forKey: self.currencyKey)
 		}
 	}
 	
@@ -32,7 +29,6 @@ class DataModel: ObservableObject {
 			UserDefaults.standard.set(ampm, forKey: "ampm")
 		}
 	}
-	
 	
 //	var cancellable: AnyCancellable?
 
