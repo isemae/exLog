@@ -137,7 +137,7 @@ enum Currency: String, Identifiable, Hashable, CaseIterable, Codable {
 	}
 }
 
-enum Category {
+enum Category: Codable {
 	case shopping
 	case drink
 	case food

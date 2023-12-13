@@ -15,6 +15,7 @@ final class Item: Identifiable {
 	var balance: String
 	var currency: Currency
 	var group: ItemGroup?
+	var category: Category?
 	
 	//	@Relationship(inverse: \FoldedItems.items)
 	init(date: Date, balance: String = "", currency: Currency) {
