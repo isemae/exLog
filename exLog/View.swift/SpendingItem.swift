@@ -15,9 +15,19 @@ struct SpendingItem: View {
 		HStack (alignment: .center) {
 			LocalCurrencyValue()
 			Spacer()
+			Text(item.category?.symbol ?? "")
 			Text("₩\(item.calculatedBalance)")
 				.font(.title2)
 		}
+		.contextMenu(menuItems: {
+			ForEach(Category.allCases, id: \.self) { category in
+				Button {
+					item.category = category
+				} label: {
+					Text("\(category.symbol)")
+				}
+			}
+		})
 		.foregroundColor(Color(uiColor: UIColor.label))
 		.padding(.vertical, 5)
 		.padding(.horizontal, 10)
