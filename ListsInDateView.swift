@@ -1,6 +1,6 @@
 //
 //  ListsInDateView.swift
-//  spndLog
+//  exLog
 //
 //  Created by Jiwoon Lee on 12/9/23.
 //
