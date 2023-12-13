@@ -93,14 +93,6 @@ struct ContentView: View {
 					.frame(maxHeight: .infinity)
 				}
 				.animation(.spring(response: 0.3, dampingFraction: 0.9))
-				List{
-					Section(header: DateHeader(items: [], date: Date(), sumForDate: 0)){}
-				.listRowInsets(EdgeInsets())
-				.listRowSeparator(.hidden)
-				.listRowBackground(Color(uiColor: UIColor.systemBackground))
-				}
-				.listStyle(.plain)
-				.listRowBackground(Color(uiColor: UIColor.systemBackground))
 				Text("")
 					.frame(maxHeight: .infinity)
 					.safeAreaInset(edge: .bottom, spacing: 0) {
