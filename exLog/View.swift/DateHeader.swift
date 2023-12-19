@@ -27,10 +27,10 @@ struct DateHeader: View {
 				.font(.title3)
 				.foregroundColor(Color(uiColor: UIColor.secondaryLabel))
 		}
-		.padding(10)
+		.padding(8)
+//		.background(.bar)
+		.overlayDivider(alignment: .bottom, state: !dataModel.foldedItems[date, default: false])
 		.contentShape(Rectangle())
-		.background(.bar)
-		.overlayDivider(alignment: .bottom)
 		.animation(.spring(response: 0.3, dampingFraction: 0.9))
 		.onTapGesture {
 			withAnimation(.easeOut(duration: 0.15)) {
@@ -46,19 +46,20 @@ struct DateHeader: View {
 				.foregroundColor(Color(uiColor: UIColor.label))
 			Text("\(dateFormatString(for: date, format: "dd"))")
 				.foregroundColor(dayColor(for: date))
-			Image(systemName: "chevron.right")
+			Image(systemName: "chevron.down")
 				.font(.body)
 				.foregroundColor(.gray)
 				.frame(minWidth: 40, minHeight: 40)
-				.rotationEffect(Angle(degrees: dataModel.foldedItems[date, default: true] ? 0 : 90))
+				.rotationEffect(Angle(degrees: dataModel.foldedItems[date, default: true] ? 0 : -180))
 				.animation(.spring(response: 0.3, dampingFraction: 0.9))
 		}
 		.font(.title)
 	}
 }
 
-//
-//#Preview {
-//	DateTitle(dataModel: DataModel(), items: createTestItems(), date: Date(), sumForDate: 10, onTap: {}, isFolded: )
-//}
+
+#Preview {
+	DateHeader(items: createTestItems(), date: Date(), sumForDate: 1000)
+		.environmentObject(DataModel())
+}
 

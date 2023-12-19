@@ -9,8 +9,8 @@ import SwiftData
 
 struct DayListView: View {
 	@EnvironmentObject private var dataModel: DataModel
+	@State private var frames: [CGRect] = []
 	var items: [Item]
-	
 	var onTap: () -> Void
 	
 	var body: some View {
@@ -32,10 +32,15 @@ struct DayListView: View {
 			.listRowSeparator(.hidden)
 			.listRowBackground(Color(uiColor: UIColor.systemBackground))
 		}
-		.listSectionSpacing(0)
-		.listStyle(.plain)
-		.safeAreaOverlay(alignment: .top, edges: .top)
+		.listStyle(.insetGrouped)
 		.background(Color(uiColor: UIColor.systemBackground))
+//		.safeAreaOverlay(alignment: .top, edges: .top)
+		.coordinateSpace(name: "container")
+		.onPreferenceChange(FramePreference.self, perform: {
+			frames = $0.sorted(by: { $0.minY < $1.minY })
+		})
+		.environment(\.defaultMinListRowHeight, 12)
+		.environment(\.defaultMinListHeaderHeight, 0)
 	}
 	
 	func DayList(group: [Date: [Item]], date: Date, sumForDate: Int) -> some View {
@@ -45,14 +50,13 @@ struct DayListView: View {
 		) {
 			ForEach(group.keys.sorted().reversed(), id: \.self) { minuteDate in
 				if let itemsInMinute = group[minuteDate], !itemsInMinute.isEmpty && !dataModel.foldedItems[date, default: false] {
-							Group {
-								HHmmHeader(date: minuteDate)
-								ForEach(itemsInMinute, id: \.id) { item in
-									SpendingItem(ampm: dataModel.ampm, item: item)
-								}
-							}
-							.transition(.move(edge: .top))
-						
+					Group {
+						HHmmHeader(date: minuteDate)
+						ForEach(itemsInMinute, id: \.id) { item in
+							SpendingItem(ampm: dataModel.ampm, item: item)
+						}
+					}
+					.background(Color(uiColor: UIColor.secondarySystemGroupedBackground).edgesIgnoringSafeArea(.all))
 				}
 			}
 		}

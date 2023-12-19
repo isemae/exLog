@@ -12,13 +12,16 @@ struct SpendingItem: View {
 	var item: Item
 	
 	var body: some View {
-		HStack (alignment: .center) {
-			LocalCurrencyValue()
+		HStack (alignment: .center, spacing: 0) {
+			CategoryView()
 			Spacer()
-			Text(item.category?.symbol ?? "")
 			Text("₩\(item.calculatedBalance)")
 				.font(.title2)
 		}
+		.foregroundColor(Color(uiColor: UIColor.label))
+		.padding(.vertical, 5)
+		.padding(.horizontal, 10)
+		.transition(.move(edge: .top))
 		.contextMenu(menuItems: {
 			ForEach(Category.allCases, id: \.self) { category in
 				Button {
@@ -28,40 +31,37 @@ struct SpendingItem: View {
 				}
 			}
 		})
-		.foregroundColor(Color(uiColor: UIColor.label))
-		.padding(.vertical, 5)
-		.padding(.horizontal, 10)
 	}
 	
 	func LocalCurrencyValue() -> some View {
 		HStack {
-			//			RoundedRectangle(cornerRadius: 12)
-			//				.stroke(Color(uiColor: UIColor.secondarySystemBackground))
-			Text("\(item.currency.symbol) \(item.balance.formatNumber())")
-				.font(.headline)
-				.frame(width: UIScreen.main.bounds.size.width / 3.5, alignment: .leading)
-			Image(systemName: "arrow.right")
-				.foregroundColor(.secondary)
+			Text("\(item.currency.symbol)\(item.balance.formatNumber()) ")
+				.padding(5)
+				.font(.body)
 			Spacer()
-			//					.opacity(opacityForItem(item))
+			Image(systemName: "arrow.left.arrow.right")
+				.font(.system(size: 15))
 		}
-		//		.fixedSize()
+	}
+	
+	func CategoryView() -> some View {
+		HStack(spacing: 0) {
+			if (item.category != nil) {
+				ZStack {
+					RoundedRectangle(cornerRadius: 10)
+						.foregroundStyle(Color.accentColor)
+					Text(item.category!.symbol)
+						.padding(5)
+				}
+				.fixedSize()
+			}
+			LocalCurrencyValue()
+		}
+		.frame(width: UIScreen.main.bounds.size.width / 2.3, alignment: .leading)
 	}
 }
-	
-	
-//	func CategoryIconView() -> some View {
-//		ZStack {
-//			RoundedRectangle(cornerRadius: 12)
-//				.foregroundColor(.secondary)
-//			Text("category")
-//				.font(.headline)
-//				.foregroundColor(.primary)
-//				.padding(5)
-//		}
-//		.fixedSize()
-//	}
-	
+
+//// 여러 통화 사용시 통화기호를 구분
 //	private func showCurrency() -> Bool {
 //		guard let prevItem = prevItem else {
 //			return true
@@ -70,6 +70,7 @@ struct SpendingItem: View {
 //		return isCurrencySame
 //	}
 	
+//// 시간순서에 따라 항목 투명도 조절
 //	func opacityForItem(_ item: Item, _ items: [Item]) -> Double {
 //		let minOpacity: Double = 0.5
 //		
@@ -81,3 +82,6 @@ struct SpendingItem: View {
 //	}
 	
 
+#Preview {
+	SpendingItem(ampm: true, item: createTestItems().first!)
+}

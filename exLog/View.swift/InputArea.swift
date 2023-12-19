@@ -19,6 +19,8 @@ struct InputArea: View {
 	var body: some View {
 		VStack(spacing: 0) {
 			CalculatedPreview()
+			Divider()
+				.padding(.horizontal, 10)
 			HStack {
 				CurrencySelectorButton()
 					.onAppear {
@@ -30,7 +32,7 @@ struct InputArea: View {
 				Text(string.formatNumber())
 					.padding(.trailing, 20)
 			}
-			.frame(height: 70)
+			.frame(height: 65)
 			.padding(.horizontal, 10)
 			.font(.largeTitle)
 		}
@@ -40,6 +42,7 @@ struct InputArea: View {
 				isShowingKeypad.toggle()
 			}
 		})
+		.overlayDivider(alignment: .top)
 		.GestureHandler(onSwipeUp: onSwipeUp, onSwipeDown: onSwipeDown)
 	}
 	
@@ -57,13 +60,10 @@ struct InputArea: View {
 			}
 			.foregroundColor(.secondary)
 			.padding(.horizontal, 10)
-			
-			Divider()
-				.padding(.horizontal, 20)
+		
 		}
 		.opacity(isShowingKeypad ? 1 : 0)
 		.frame(height: isShowingKeypad ? 40 : 0)
-		.overlayDivider(alignment: .top)
 	}
 	
 	func CurrencySelectorButton() -> some View {

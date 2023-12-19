@@ -22,6 +22,7 @@
 		082177CC2B0DFE7800D46518 /* CountryMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177CB2B0DFE7800D46518 /* CountryMenuView.swift */; };
 		082177CE2B0DFE9300D46518 /* Keypad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177CD2B0DFE9300D46518 /* Keypad.swift */; };
 		0857C6C42B11C4E60012C698 /* EXCRateJSONdnm.json in Sources */ = {isa = PBXBuildFile; fileRef = 0857C6C32B11C4E60012C698 /* EXCRateJSONdnm.json */; };
+		08711A422B312E320036FDE1 /* StickyModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08711A412B312E320036FDE1 /* StickyModifier.swift */; };
 		087712A02B26873D003C8EE8 /* HHmmHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0877129F2B26873D003C8EE8 /* HHmmHeader.swift */; };
 		087ADE822B0F951200E1BFD8 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087ADE812B0F951200E1BFD8 /* DataManager.swift */; };
 		0882EAF52B12F29700755E42 /* DataIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0882EAF22B12F29700755E42 /* DataIO.swift */; };
@@ -76,6 +77,7 @@
 		082177CB2B0DFE7800D46518 /* CountryMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryMenuView.swift; sourceTree = "<group>"; };
 		082177CD2B0DFE9300D46518 /* Keypad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keypad.swift; sourceTree = "<group>"; };
 		0857C6C32B11C4E60012C698 /* EXCRateJSONdnm.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = EXCRateJSONdnm.json; sourceTree = "<group>"; };
+		08711A412B312E320036FDE1 /* StickyModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StickyModifier.swift; path = ../../StickyModifier.swift; sourceTree = "<group>"; };
 		0877129F2B26873D003C8EE8 /* HHmmHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HHmmHeader.swift; sourceTree = "<group>"; };
 		087ADE812B0F951200E1BFD8 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		0882EAF22B12F29700755E42 /* DataIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataIO.swift; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				0802FB6A2B18F500009A7E81 /* TestProvider.swift */,
+				08711A412B312E320036FDE1 /* StickyModifier.swift */,
 				08BDD6322B1E99BD001861A3 /* GestureHandler.swift */,
 				0882EAF22B12F29700755E42 /* DataIO.swift */,
 			);
@@ -357,6 +360,7 @@
 				082177A22B0DFDC300D46518 /* ContentView.swift in Sources */,
 				087ADE822B0F951200E1BFD8 /* DataManager.swift in Sources */,
 				087712A02B26873D003C8EE8 /* HHmmHeader.swift in Sources */,
+				08711A422B312E320036FDE1 /* StickyModifier.swift in Sources */,
 				0882EAF52B12F29700755E42 /* DataIO.swift in Sources */,
 				080283A52B23C7D3002C54F6 /* TimeListView.swift in Sources */,
 				080283A32B23B16C002C54F6 /* ListsInDateView.swift in Sources */,

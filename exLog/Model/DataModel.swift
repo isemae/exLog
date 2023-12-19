@@ -6,7 +6,7 @@
 //
 
 import Foundation
-//import Combine
+import Combine
 
 class DataModel: ObservableObject {
 	private let foldedItemsKey = "foldedItemsKey"
@@ -30,7 +30,7 @@ class DataModel: ObservableObject {
 		}
 	}
 	
-//	var cancellable: AnyCancellable?
+	var cancellable: AnyCancellable?
 
 	init() {
 		if let savedFoldedItemsData = UserDefaults.standard.data(forKey: foldedItemsKey),
@@ -45,25 +45,19 @@ class DataModel: ObservableObject {
 		}
 		
 		fetchData(dataModel: self)
-			if let savedCurrencyCode = UserDefaults.standard.string(forKey: self.currencyKey),
-			   let savedCurrency = Currency(rawValue: savedCurrencyCode) {
-				//				DispatchQueue.main.async {
-				self.currentCurrency = savedCurrency
-				
-				
-				/// hang
-//				self.$currentCurrency
-//					.sink { newValue in
-//						DataManager.shared.updateDealBasisRate()
-//						print("Currency changed to \(newValue)")
-//					}
-//					.store(in: &self.cancellables)
-			}
+		if let savedCurrencyCode = UserDefaults.standard.string(forKey: self.currencyKey),
+		   let savedCurrency = Currency(rawValue: savedCurrencyCode) {
+			//				DispatchQueue.main.async {
+			self.currentCurrency = savedCurrency
+			
+			self.$currentCurrency
+				.sink { newValue in
+					DataManager.shared.updateDealBasisRate()
+					print("Currency changed to \(newValue)")
+				}
+		}
+		cancellable?.cancel()
 	}
-	
-//	deinit {
-//		cancellable?.cancel()
-//	}
 	
 	func formattedHeaderDate(_ date: Date) -> String {
 		let dateFormatter = DateFormatter()

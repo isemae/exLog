@@ -32,7 +32,9 @@ extension View {
 	func overlayDivider(alignment: Alignment, state: Bool? = nil) -> some View {
 			self.overlay(
 				Divider()
-					.foregroundColor(state == true ? Color(uiColor: UIColor.tertiaryLabel) : Color(uiColor: UIColor.secondaryLabel) ),
+					.opacity(state == true ? 0 : 1)
+					.foregroundColor(Color(uiColor: UIColor.systemGray))
+				,
 				alignment: alignment
 			)
 		}
