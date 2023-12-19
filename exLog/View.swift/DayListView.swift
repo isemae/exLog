@@ -35,10 +35,10 @@ struct DayListView: View {
 		.listStyle(.insetGrouped)
 		.background(Color(uiColor: UIColor.systemBackground))
 //		.safeAreaOverlay(alignment: .top, edges: .top)
-		.coordinateSpace(name: "container")
-		.onPreferenceChange(FramePreference.self, perform: {
-			frames = $0.sorted(by: { $0.minY < $1.minY })
-		})
+//		.coordinateSpace(name: "container")
+//		.onPreferenceChange(FramePreference.self, perform: {
+//			frames = $0.sorted(by: { $0.minY < $1.minY })
+//		})
 		.environment(\.defaultMinListRowHeight, 12)
 		.environment(\.defaultMinListHeaderHeight, 0)
 	}

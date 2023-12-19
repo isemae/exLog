@@ -62,7 +62,6 @@ struct ContentView: View {
 	
 	func InitialView() -> some View {
 		ZStack {
-			
 			Group {
 				ZStack {
 					VStack(spacing: 0) {

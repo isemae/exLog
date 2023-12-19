@@ -30,20 +30,20 @@ extension View {
 	}
 	
 	func overlayDivider(alignment: Alignment, state: Bool? = nil) -> some View {
-			self.overlay(
-				Divider()
-					.opacity(state == true ? 0 : 1)
-					.foregroundColor(Color(uiColor: UIColor.systemGray))
-				,
-				alignment: alignment
-			)
-		}
-		
-		func overlayDividers(state: Bool? = nil, role: UIRole = .unknown) -> some View {
-			return self
-				.overlayDivider(alignment: .top, state: state)
-				.overlayDivider(alignment: .bottom, state: state)
-		}
+		self.overlay(
+			Divider()
+				.opacity(state == true ? 0 : 1)
+				.foregroundColor(Color(uiColor: UIColor.systemGray))
+			,
+			alignment: alignment
+		)
+	}
+	
+	func overlayDividers(state: Bool? = nil, role: UIRole = .unknown) -> some View {
+		return self
+			.overlayDivider(alignment: .top, state: state)
+			.overlayDivider(alignment: .bottom, state: state)
+	}
 }
 
 extension String {
