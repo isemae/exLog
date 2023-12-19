@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftData
-//import Combine
+import Combine
 
 class DataManager: ObservableObject {
 		

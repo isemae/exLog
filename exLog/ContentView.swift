@@ -30,9 +30,10 @@ struct ContentView: View {
 					OverlayKeypad()
 						.transition(.move(edge: .bottom))
 				}
-				.ignoresSafeArea(edges: .bottom)
+//				.ignoresSafeArea(edges: .top)
 				.environmentObject(dataModel)
 				.background(.bar)
+				
 		} else {
 			InitialView()
 		}

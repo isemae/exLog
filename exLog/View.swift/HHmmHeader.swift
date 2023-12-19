@@ -22,8 +22,7 @@ struct HHmmHeader: View {
 		}
 		.foregroundColor(Color(uiColor: UIColor.secondaryLabel))
 		.padding(10)
-		.background()
-		.overlayDivider(alignment: .bottom)
+		.overlayDivider(alignment: .top)
 		.onTapGesture {
 			dataModel.ampm.toggle()
 			UserDefaults.standard.set(dataModel.ampm, forKey: "ampm")
