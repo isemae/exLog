@@ -133,7 +133,7 @@ enum Currency: String, Identifiable, Hashable, CaseIterable, Codable {
 
 enum Category: String, Identifiable, Codable, CaseIterable {
 	var id: Category { self }
-
+	
 	case transportation
 	case shopping
 	case food
@@ -143,7 +143,7 @@ enum Category: String, Identifiable, Codable, CaseIterable {
 	case entertainment
 	case souvenir
 	case accommodation
-
+	
 	var symbol: String {
 		switch self {
 		case .transportation: return "🚋"

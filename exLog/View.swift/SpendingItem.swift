@@ -21,7 +21,6 @@ struct SpendingItem: View {
 		.foregroundColor(Color(uiColor: UIColor.label))
 		.padding(.vertical, 5)
 		.padding(.horizontal, 10)
-		.transition(.move(edge: .top))
 		.contextMenu(menuItems: {
 			ForEach(Category.allCases, id: \.self) { category in
 				Button {
