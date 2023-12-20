@@ -20,7 +20,7 @@ struct ContentView: View {
 	@State private var isShowingKeypad = false
 	@State private var height = CGFloat.zero
 	@State private var currentYear: Int = Calendar.current.component(.year, from: Date())
-	@State private var selectedYear: Int? = nil
+	@Binding var selectedYear: Int?
 
 	let screenHeight = UIScreen.main.bounds.size.height
 	let screenWidth = UIScreen.main.bounds.size.width
@@ -55,11 +55,18 @@ struct ContentView: View {
 									.onLongPressGesture(perform: {print("test")})
 								}
 							)
-							.isDetailLink(false)
+//							.isDetailLink(false)
 						}
 						.navigationTitle("main")
 					}
 				}
+				.onAppear() {
+							   if let storedYear = selectedYear {
+								   currentYear = storedYear
+							   } else {
+								   currentYear = Calendar.current.component(.year, from: Date())
+							   }
+						   }
 			}
 			.onAppear() {
 				currentYear = Calendar.current.component(.year, from: Date())}
@@ -227,9 +234,9 @@ struct ContentView: View {
 //		print("Failed to load Item model")
 //	}
 
-
-#Preview {
-    ContentView()
-		.modelContainer(for: [Item.self], inMemory: true)
-		.environmentObject(DataModel())
-}
+//
+//#Preview {
+//    ContentView()
+//		.modelContainer(for: [Item.self], inMemory: true)
+//		.environmentObject(DataModel())
+//}

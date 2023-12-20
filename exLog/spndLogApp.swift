@@ -10,7 +10,8 @@ import SwiftData
 
 @main
 struct exLogApp: App {
-	
+	@AppStorage("selectedYear") private var selectedYear: Int?
+
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
 			Item.self,
@@ -26,7 +27,7 @@ struct exLogApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+			ContentView(selectedYear: $selectedYear)
 				.environmentObject(DataModel())
         }
         .modelContainer(sharedModelContainer)
