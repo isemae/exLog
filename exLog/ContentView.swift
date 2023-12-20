@@ -19,21 +19,54 @@ struct ContentView: View {
 	@State private var string = "0"
 	@State private var isShowingKeypad = false
 	@State private var height = CGFloat.zero
-	
+	@State private var currentYear: Int = Calendar.current.component(.year, from: Date())
+	@State private var selectedYear: Int? = nil
+
 	let screenHeight = UIScreen.main.bounds.size.height
 	let screenWidth = UIScreen.main.bounds.size.width
 	
 	var body: some View {
+		let years = items.map { item in
+			return Calendar.current.component(.year, from: item.date)
+		}
+		let uniqueYears = Array(Set(years))
+		
 		if !items.isEmpty {
-			DayListView(items: items, onTap: { try? modelContext.save() })
-				.safeAreaInset(edge: .bottom, spacing: 0) {
-					OverlayKeypad()
-						.transition(.move(edge: .bottom))
+			NavigationView {
+				ScrollView {
+					LazyVStack {
+						ForEach(uniqueYears.reversed(), id: \.self) { year in
+							NavigationLink(
+								destination: 
+									DayListView(items: items, onTap: { try? modelContext.save() })
+								.navigationTitle("\(String(selectedYear ?? currentYear))")
+								.foregroundColor(Color(uiColor: UIColor.label))
+								.environmentObject(dataModel),
+								tag: year,
+								selection: $selectedYear,
+								label: {
+									ZStack {
+										RoundedRectangle(cornerRadius: 20)
+											.foregroundColor(.clear)
+											.frame(width: screenWidth * 0.8, height: 120)
+										Text(String(year))
+											.font(.title)
+									}
+									.onLongPressGesture(perform: {print("test")})
+								}
+							)
+							.isDetailLink(false)
+						}
+						.navigationTitle("main")
+					}
 				}
-//				.ignoresSafeArea(edges: .top)
-				.environmentObject(dataModel)
-				.background(.bar)
-				
+			}
+			.onAppear() {
+				currentYear = Calendar.current.component(.year, from: Date())}
+			.safeAreaInset(edge: .bottom, spacing: 0) {
+				OverlayKeypad()
+					.transition(.move(edge: .bottom))
+			}
 		} else {
 			InitialView()
 		}
@@ -43,7 +76,9 @@ struct ContentView: View {
 		VStack(spacing: 0) {
 			InputArea(isShowingKeypad: $isShowingKeypad,
 					  string: string,
-					  onSwipeUp: { addItem() },
+					  onSwipeUp: { addItem()
+				selectedYear = Calendar.current.component(.year, from: Date())
+},
 					  onSwipeDown: { deleteFirst() })
 			.environmentObject(dataModel)
 			.onChange(of: string, perform: { newValue in
@@ -51,12 +86,15 @@ struct ContentView: View {
 					string = String(string.prefix(9)) }})
 			
 			Keypad(string: $string, isShowing: $isShowingKeypad,
-				   onSwipeUp: { self.addItem() },
-				   onSwipeDown: { self.deleteFirst()})
+				   onSwipeUp: { self.addItem()
+				selectedYear = Calendar.current.component(.year, from: Date())
+			},
+				   onSwipeDown: { self.deleteFirst() })
 			.font(.largeTitle)
 			.disabled(!isShowingKeypad)
 			.offset(y: isShowingKeypad ? 0 : screenHeight / 2)
 		}
+		
 		.background(.bar)
 	}
 	

@@ -28,7 +28,7 @@ struct DateHeader: View {
 				.foregroundColor(Color(uiColor: UIColor.secondaryLabel))
 		}
 		.padding(8)
-//		.background(.bar)
+//		.background(Color(uiColor: UIColor.secondarySystemBackground))
 		.overlayDivider(alignment: .bottom, state: !dataModel.foldedItems[date, default: false])
 		.contentShape(Rectangle())
 		.animation(.spring(response: 0.3, dampingFraction: 0.9))
@@ -38,6 +38,7 @@ struct DateHeader: View {
 				isFolded.toggle()
 			}
 		}
+		
 	}
 	
 	private func HeaderDateView() -> some View {

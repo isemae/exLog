@@ -31,5 +31,4 @@ struct exLogApp: App {
         }
         .modelContainer(sharedModelContainer)
     }
-	
 }

@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftData
+import SwiftUI
 
 @Model
 final class Item: Identifiable {
@@ -16,6 +17,7 @@ final class Item: Identifiable {
 	var currency: Currency
 	var group: ItemGroup?
 	var category: Category?
+	var image: Data?
 	
 	//	@Relationship(inverse: \FoldedItems.items)
 	init(date: Date, balance: String = "", currency: Currency) {
