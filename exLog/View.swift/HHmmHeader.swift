@@ -25,7 +25,6 @@ struct HHmmHeader: View {
 		.overlayDivider(alignment: .top)
 		.onTapGesture {
 			dataModel.ampm.toggle()
-			UserDefaults.standard.set(dataModel.ampm, forKey: "ampm")
 		}
 	}
 }

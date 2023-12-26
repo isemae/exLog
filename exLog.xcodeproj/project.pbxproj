@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		080283A52B23C7D3002C54F6 /* TimeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080283A42B23C7D3002C54F6 /* TimeListView.swift */; };
 		0802FB632B18F495009A7E81 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0802FB622B18F495009A7E81 /* DataModel.swift */; };
 		082177A02B0DFDC300D46518 /* spndLogApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0821779F2B0DFDC300D46518 /* spndLogApp.swift */; };
 		082177A22B0DFDC300D46518 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177A12B0DFDC300D46518 /* ContentView.swift */; };
@@ -56,7 +55,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		080283A42B23C7D3002C54F6 /* TimeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeListView.swift; sourceTree = "<group>"; };
 		0802FB622B18F495009A7E81 /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		081379402B0EA0A1006AE972 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0821779C2B0DFDC300D46518 /* exLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = exLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -199,7 +197,6 @@
 				08B6C8DE2B27E8AE0045EE24 /* DayListView.swift */,
 				08DC52232B12D7DA005ED804 /* DateHeader.swift */,
 				0877129F2B26873D003C8EE8 /* HHmmHeader.swift */,
-				080283A42B23C7D3002C54F6 /* TimeListView.swift */,
 				08DC52212B12D65E005ED804 /* SpendingItem.swift */,
 				08DC52252B12D8C6005ED804 /* InputArea.swift */,
 				082177CD2B0DFE9300D46518 /* Keypad.swift */,
@@ -354,7 +351,6 @@
 				082177A22B0DFDC300D46518 /* ContentView.swift in Sources */,
 				087ADE822B0F951200E1BFD8 /* DataManager.swift in Sources */,
 				087712A02B26873D003C8EE8 /* HHmmHeader.swift in Sources */,
-				080283A52B23C7D3002C54F6 /* TimeListView.swift in Sources */,
 				08DC52242B12D7DA005ED804 /* DateHeader.swift in Sources */,
 				08F6E9AB2B144305005BC5F0 /* authkey.swift in Sources */,
 				082177A42B0DFDC300D46518 /* Item.swift in Sources */,

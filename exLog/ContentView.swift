@@ -52,6 +52,8 @@ struct ContentView: View {
 										Text(String(year))
 											.font(.title)
 									}
+									
+									// ImagePicker를 불러올 부분
 									.onLongPressGesture(perform: {print("test")})
 								}
 							)
@@ -162,9 +164,6 @@ struct ContentView: View {
 						withAnimation(.easeOut(duration: 0.2)) {
 							do {
 								try modelContext.save()
-								for (index, element) in items.enumerated() {
-									print("items: \(index) \(element.calculatedBalance)")
-								}
 							} catch {
 								print("error saving context \(error)")
 							}
@@ -195,7 +194,6 @@ struct ContentView: View {
 					}
 				}
 				UISelectionFeedbackGenerator().selectionChanged()
-				print(items.last?.balance)
 			}
 		}
 	}
@@ -216,8 +214,6 @@ struct ContentView: View {
 		try? modelContext.fetch(FetchDescriptor<Item>()).forEach { modelContext.delete($0)}
 		try? modelContext.save()
 	}
-	
-	
 }
 
 
