@@ -6,32 +6,19 @@
 //
 
 import Foundation
-import Combine
+import SwiftUI
 
 class DataModel: ObservableObject {
 	private let foldedItemsKey = "foldedItemsKey"
-	private var currencyKey = "selectedCurrency"
+	@AppStorage("currencyKey") var currentCurrency: Currency = .KRW
+	@AppStorage("ampmKey") var ampm: Bool = true
 	@Published var foldedItems: [Date: Bool] {
 		didSet {
 			UserDefaults.standard.set(try? PropertyListEncoder().encode(self.foldedItems), forKey: self.foldedItemsKey)
 			objectWillChange.send()
 		}
 	}
-		
-	@Published var currentCurrency: Currency = Currency(rawValue: (UserDefaults.standard.value(forKey: "selectedCurrency") as? String ?? "nullKey")) ?? .KRW {
-		didSet {
-			UserDefaults.standard.set(self.currentCurrency.rawValue, forKey: self.currencyKey)
-		}
-	}
 	
-	@Published var ampm: Bool = true {
-		didSet {
-			UserDefaults.standard.set(ampm, forKey: "ampm")
-		}
-	}
-	
-	var cancellable: AnyCancellable?
-
 	init() {
 		if let savedFoldedItemsData = UserDefaults.standard.data(forKey: foldedItemsKey),
 		   let savedFoldedItems = try? PropertyListDecoder().decode([Date: Bool].self, from: savedFoldedItemsData) {
@@ -43,26 +30,7 @@ class DataModel: ObservableObject {
 		guard self.currentCurrency != .KRW else {
 			return
 		}
-		
 		fetchData(dataModel: self)
-		if let savedCurrencyCode = UserDefaults.standard.string(forKey: self.currencyKey),
-		   let savedCurrency = Currency(rawValue: savedCurrencyCode) {
-			//				DispatchQueue.main.async {
-			self.currentCurrency = savedCurrency
-			
-			self.$currentCurrency
-				.sink { newValue in
-					DataManager.shared.updateDealBasisRate()
-					print("Currency changed to \(newValue)")
-				}
-		}
-		cancellable?.cancel()
-	}
-	
-	func formattedHeaderDate(_ date: Date) -> String {
-		let dateFormatter = DateFormatter()
-		dateFormatter.dateFormat = "HH:mm"
-		return dateFormatter.string(from: date)
 	}
 	
 	func getCurrentCurrencyCode() -> String {
@@ -70,10 +38,8 @@ class DataModel: ObservableObject {
 	}
 }
 
-
 enum Currency: String, Identifiable, Hashable, CaseIterable, Codable {
 	var id: Currency { self }
-
 	case KRW
 	case CAD
 	case AUD
@@ -133,7 +99,6 @@ enum Currency: String, Identifiable, Hashable, CaseIterable, Codable {
 
 enum Category: String, Identifiable, Codable, CaseIterable {
 	var id: Category { self }
-	
 	case transportation
 	case shopping
 	case food
@@ -158,5 +123,3 @@ enum Category: String, Identifiable, Codable, CaseIterable {
 		}
 	}
 }
-
-

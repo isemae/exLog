@@ -38,7 +38,6 @@ struct DateHeader: View {
 				isFolded.toggle()
 			}
 		}
-		
 	}
 	
 	private func HeaderDateView() -> some View {
