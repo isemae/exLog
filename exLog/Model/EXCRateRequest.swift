@@ -8,7 +8,6 @@
 import Foundation
 import SwiftData
 
-
 enum HTTPMethod: String {
 	case get = "GET"
 	case post = "POST"
@@ -28,17 +27,6 @@ struct ExchangeURL {
 			URLQueryItem(name: "codes", value: "FRX.KRW\(dataModel.getCurrentCurrencyCode())"),
 		]
 	}
-//	init(authKey: String, date: String) {
-//		urlComponents.scheme = "https"
-//		urlComponents.host = "www.koreaexim.go.kr"
-//		urlComponents.path = "/site/program/financial/exchangeJSON"
-//		urlComponents.queryItems = [
-//			URLQueryItem(name: "authkey", value: authKey),
-//			URLQueryItem(name: "searchdate", value: date),
-//			URLQueryItem(name: "data", value: "AP01"),
-//		]
-//	}
-	
 }
 
 func request(url: String, method: HTTPMethod, dataModel: DataModel, param: [String: Any]? = nil, completionHandler: @escaping (Result<Int, Error>) -> Void) {
@@ -105,7 +93,6 @@ func request(url: String, method: HTTPMethod, dataModel: DataModel, param: [Stri
 			completionHandler(.failure(error))
 		}
 	}.resume()
-	
 }
 
 func fetchData(dataModel: DataModel) {
