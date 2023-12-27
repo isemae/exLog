@@ -34,7 +34,7 @@ struct SpendingItem: View {
 	
 	func LocalCurrencyValue() -> some View {
 		HStack {
-			Text("\(item.currency.symbol)\(item.balance.formatNumber()) ")
+			Text("\(item.currency.symbol) \(item.balance.formatNumber()) ")
 				.padding(5)
 				.font(.body)
 			Spacer()
