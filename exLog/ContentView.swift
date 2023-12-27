@@ -37,45 +37,42 @@ struct ContentView: View {
 					LazyVStack {
 						ForEach(uniqueYears.reversed(), id: \.self) { year in
 							NavigationLink(
-								destination: 
+								destination:
 									DayListView(items: items, onTap: { try? modelContext.save() })
-								.navigationTitle("\(String(selectedYear ?? currentYear))")
-								.foregroundColor(Color(uiColor: UIColor.label))
-								.environmentObject(dataModel),
-								tag: year,
-								selection: $selectedYear,
-								label: {
-									ZStack {
-										RoundedRectangle(cornerRadius: 20)
-											.foregroundColor(.clear)
-											.frame(width: screenWidth * 0.8, height: 120)
-										Text(String(year))
-											.font(.title)
+									.safeAreaInset(edge: .bottom, spacing: 0) {
+										OverlayKeypad()
+											.transition(.move(edge: .bottom))
 									}
-									
-									// ImagePicker를 불러올 부분
-									.onLongPressGesture(perform: {print("test")})
-								}
-							)
-//							.isDetailLink(false)
+									.navigationTitle("\(String(selectedYear ?? currentYear))")
+									.foregroundColor(Color(uiColor: UIColor.label))
+									.environmentObject(dataModel),
+								tag: year,
+								selection: $selectedYear
+								
+							) {
+								ImagePickerView(date: String(year))
+									.buttonStyle(.plain)
+							}
+							//							.isDetailLink(false)
 						}
 						.navigationTitle("main")
 					}
 				}
 				.onAppear() {
-							   if let storedYear = selectedYear {
-								   currentYear = storedYear
-							   } else {
-								   currentYear = Calendar.current.component(.year, from: Date())
-							   }
-						   }
+					if let storedYear = selectedYear {
+						currentYear = storedYear
+					} else {
+						currentYear = Calendar.current.component(.year, from: Date())
+					}
+				}
+				.navigationBarTitleDisplayMode(.inline)
 			}
-			.onAppear() {
-				currentYear = Calendar.current.component(.year, from: Date())}
 			.safeAreaInset(edge: .bottom, spacing: 0) {
 				OverlayKeypad()
 					.transition(.move(edge: .bottom))
 			}
+			.onAppear() {
+				currentYear = Calendar.current.component(.year, from: Date())}
 		} else {
 			InitialView()
 		}
@@ -87,7 +84,7 @@ struct ContentView: View {
 					  string: string,
 					  onSwipeUp: { addItem()
 				selectedYear = Calendar.current.component(.year, from: Date())
-},
+			},
 					  onSwipeDown: { deleteFirst() })
 			.environmentObject(dataModel)
 			.onChange(of: string, perform: { newValue in
@@ -103,7 +100,6 @@ struct ContentView: View {
 			.disabled(!isShowingKeypad)
 			.offset(y: isShowingKeypad ? 0 : screenHeight / 2)
 		}
-		
 		.background(.bar)
 	}
 	

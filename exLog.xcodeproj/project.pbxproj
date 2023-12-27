@@ -19,6 +19,8 @@
 		082177CC2B0DFE7800D46518 /* CountryMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177CB2B0DFE7800D46518 /* CountryMenuView.swift */; };
 		082177CE2B0DFE9300D46518 /* Keypad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177CD2B0DFE9300D46518 /* Keypad.swift */; };
 		0857C6C42B11C4E60012C698 /* EXCRateJSON.json in Sources */ = {isa = PBXBuildFile; fileRef = 0857C6C32B11C4E60012C698 /* EXCRateJSON.json */; };
+		0872F1E72B3BDDA6004169BB /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0872F1E62B3BDDA6004169BB /* ImagePicker.swift */; };
+		0872F1E92B3BDF46004169BB /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0872F1E82B3BDF46004169BB /* ImagePickerView.swift */; };
 		087712A02B26873D003C8EE8 /* HHmmHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0877129F2B26873D003C8EE8 /* HHmmHeader.swift */; };
 		087ADE822B0F951200E1BFD8 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087ADE812B0F951200E1BFD8 /* DataManager.swift */; };
 		08AB637E2B0E706600F03C64 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AB637D2B0E706600F03C64 /* extensions.swift */; };
@@ -70,6 +72,8 @@
 		082177CB2B0DFE7800D46518 /* CountryMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryMenuView.swift; sourceTree = "<group>"; };
 		082177CD2B0DFE9300D46518 /* Keypad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keypad.swift; sourceTree = "<group>"; };
 		0857C6C32B11C4E60012C698 /* EXCRateJSON.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = EXCRateJSON.json; sourceTree = "<group>"; };
+		0872F1E62B3BDDA6004169BB /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		0872F1E82B3BDF46004169BB /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		0877129F2B26873D003C8EE8 /* HHmmHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HHmmHeader.swift; sourceTree = "<group>"; };
 		087ADE812B0F951200E1BFD8 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		08AB637D2B0E706600F03C64 /* extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
@@ -192,6 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				08B6C8DE2B27E8AE0045EE24 /* DayListView.swift */,
+				0872F1E82B3BDF46004169BB /* ImagePickerView.swift */,
 				08DC52232B12D7DA005ED804 /* DateHeader.swift */,
 				0877129F2B26873D003C8EE8 /* HHmmHeader.swift */,
 				08DC52212B12D65E005ED804 /* SpendingItem.swift */,
@@ -208,6 +213,7 @@
 			isa = PBXGroup;
 			children = (
 				08F71DB62B31C58700B305D7 /* GestureHandler.swift */,
+				0872F1E62B3BDDA6004169BB /* ImagePicker.swift */,
 				08F71DBA2B31C5AA00B305D7 /* DataIO.swift */,
 				08F71DB72B31C58700B305D7 /* TestProvider.swift */,
 			);
@@ -349,6 +355,7 @@
 				087ADE822B0F951200E1BFD8 /* DataManager.swift in Sources */,
 				087712A02B26873D003C8EE8 /* HHmmHeader.swift in Sources */,
 				08DC52242B12D7DA005ED804 /* DateHeader.swift in Sources */,
+				0872F1E92B3BDF46004169BB /* ImagePickerView.swift in Sources */,
 				08F6E9AB2B144305005BC5F0 /* authkey.swift in Sources */,
 				082177A42B0DFDC300D46518 /* Item.swift in Sources */,
 				08DC52262B12D8C6005ED804 /* InputArea.swift in Sources */,
@@ -358,6 +365,7 @@
 				0857C6C42B11C4E60012C698 /* EXCRateJSON.json in Sources */,
 				082177A02B0DFDC300D46518 /* spndLogApp.swift in Sources */,
 				0802FB632B18F495009A7E81 /* DataModel.swift in Sources */,
+				0872F1E72B3BDDA6004169BB /* ImagePicker.swift in Sources */,
 				08F71DB82B31C58700B305D7 /* GestureHandler.swift in Sources */,
 				082177CE2B0DFE9300D46518 /* Keypad.swift in Sources */,
 				08EBE7FD2B104D6B00552A3F /* dateFormat.swift in Sources */,
