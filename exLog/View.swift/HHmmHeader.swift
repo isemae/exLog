@@ -17,7 +17,6 @@ struct HHmmHeader: View {
 			Text(dataModel.ampm ? "\(dateFormatString(for: date, format: "aahhmm"))" : "\(dateFormatString(for: date, format: "hhmm"))")
 				.font(.body)
 				.fixedSize()
-				.animation(.spring(response: 0.3, dampingFraction: 0.9))
 			Spacer()
 		}
 		.foregroundColor(Color(uiColor: UIColor.secondaryLabel))

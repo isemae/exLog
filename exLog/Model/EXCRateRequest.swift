@@ -95,7 +95,7 @@ func request(url: String, method: HTTPMethod, dataModel: DataModel, param: [Stri
 	}.resume()
 }
 
-func fetchData(dataModel: DataModel) {
+func fetchAPIResponse(dataModel: DataModel) {
 	DispatchQueue.global().async {
 		let exchangeURL = ExchangeURL(dataModel: dataModel)
 		request(url: exchangeURL.url!.absoluteString, method: .get, dataModel: dataModel) { result in

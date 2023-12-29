@@ -9,19 +9,19 @@ import SwiftData
 
 struct DayListView: View {
 	@EnvironmentObject private var dataModel: DataModel
-	@State private var frames: [CGRect] = []
 	var items: [Item]
 	var onTap: () -> Void
 	
 	var body: some View {
 		let dateGroup: [Date: [Item]] = Dictionary(grouping: items) { item in
 			Calendar.current.startOfDay(for: item.date) }
-		
 		let minuteGroup: [Date: [Date: [Item]]] = dateGroup.mapValues { itemsInDate in
 			Dictionary(grouping: itemsInDate) { item in
 				var components = Calendar.current.dateComponents([.hour, .minute], from: item.date)
 				var date = Calendar.current.date(from: components)!
-				return date }}
+				return date
+			}
+		}
 		
 		List {
 			ForEach(dateGroup.sorted(by: { $0.key > $1.key }), id: \.key) { date, group in
