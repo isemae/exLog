@@ -24,9 +24,7 @@ struct InputArea: View {
 			HStack {
 				CurrencySelectorButton()
 					.onAppear {
-						DispatchQueue.global().async {
-							contextMenuButtons = Currency.allCases
-						}
+						contextMenuButtons = Currency.allCases
 					}
 				Spacer()
 				Text(string.formatNumber())
@@ -77,7 +75,7 @@ struct InputArea: View {
 			ForEach(contextMenuButtons, id: \.self) { curr in
 				Button {
 					dataModel.currentCurrency = curr
-					fetchData(dataModel: dataModel)
+					fetchAPIResponse(dataModel: dataModel)
 				} label: {
 					Label("\(curr.name)", systemImage: "\(curr.signName)sign")
 				}

@@ -78,31 +78,6 @@ struct ContentView: View {
 		}
 	}
 	
-	func OverlayKeypad() -> some View {
-		VStack(spacing: 0) {
-			InputArea(isShowingKeypad: $isShowingKeypad,
-					  string: string,
-					  onSwipeUp: { addItem()
-				selectedYear = Calendar.current.component(.year, from: Date())
-			},
-					  onSwipeDown: { deleteFirst() })
-			.environmentObject(dataModel)
-			.onChange(of: string, perform: { newValue in
-				if string.count > 9 {
-					string = String(string.prefix(9)) }})
-			
-			Keypad(string: $string, isShowing: $isShowingKeypad,
-				   onSwipeUp: { self.addItem()
-				selectedYear = Calendar.current.component(.year, from: Date())
-			},
-				   onSwipeDown: { self.deleteFirst() })
-			.font(.largeTitle)
-			.disabled(!isShowingKeypad)
-			.offset(y: isShowingKeypad ? 0 : screenHeight / 2)
-		}
-		.background(.bar)
-	}
-	
 	func InitialView() -> some View {
 		ZStack {
 			Group {
@@ -146,62 +121,83 @@ struct ContentView: View {
 		}
 	}
 	
-	func addItem() {
-			if let balance = Double(string) {
-				if string != "0" {
-					let newItem = Item(date: Date(), balance: String(balance), currency: dataModel.currentCurrency)
-					let currentDate = Calendar.current.startOfDay(for: Date())
-					withAnimation(.easeOut(duration: 0.2)) {
-						dataModel.foldedItems[currentDate] = false
-					}
-					
-					DispatchQueue.main.async {
-						modelContext.insert(newItem)
-						withAnimation(.easeOut(duration: 0.2)) {
-							do {
-								try modelContext.save()
-							} catch {
-								print("error saving context \(error)")
-							}
-						}
-						UISelectionFeedbackGenerator().selectionChanged()
-					}
-					string = "0"
-				}
-			}
+	func OverlayKeypad() -> some View {
+		VStack(spacing: 0) {
+			InputArea(isShowingKeypad: $isShowingKeypad,
+					  string: string,
+					  onSwipeUp: { 
+				addItem()
+				selectedYear = Calendar.current.component(.year, from: Date())
+			},
+					  onSwipeDown: {
+				deleteFirst()
+			})
+			.environmentObject(dataModel)
+			.onChange(of: string, perform: { newValue in
+				if string.count > 9 {
+					string = String(string.prefix(9)) }})
+			
+			Keypad(string: $string, isShowing: $isShowingKeypad,
+				   onSwipeUp: { 
+				self.addItem()
+				selectedYear = Calendar.current.component(.year, from: Date())
+			},
+				   onSwipeDown: {
+				self.deleteFirst()
+			})
+			.font(.largeTitle)
+			.disabled(!isShowingKeypad)
+			.offset(y: isShowingKeypad ? 0 : screenHeight / 2)
 		}
+		.background(.bar)
+	}
+	
+	func saveContext() {
+		do {
+			try modelContext.save()
+			UISelectionFeedbackGenerator().selectionChanged()
+		} catch {
+			print("Error saving context: \(error)")
+			UINotificationFeedbackGenerator().notificationOccurred(.warning)
+		}
+	}
+	
+	func updateFoldedDate() {
+		let currentDate = Calendar.current.startOfDay(for: Date())
+		if dataModel.foldedItems[currentDate] == true {
+			dataModel.foldedItems[currentDate] = false
+		}
+	}
+	
+	func addItem() {
+		if let balance = Double(string), string != "0" {
+			let newItem = Item(date: Date(), balance: String(balance), currency: dataModel.currentCurrency)
+				withAnimation(.easeOut(duration: 0.2)) {
+					modelContext.insert(newItem)
+					saveContext()
+					updateFoldedDate()
+				}
+			string = "0"
+		}
+	}
 	
 	func deleteFirst() {
 		if let firstGroup = items.sortedByDate().first,
 		   let recentItem = firstGroup.1.first {
-			let currentDate = Calendar.current.startOfDay(for: Date())
-			if dataModel.foldedItems[currentDate] == true {
 				withAnimation(.easeOut(duration: 0.2)) {
-					dataModel.foldedItems[currentDate] = false
-				}
-			}
-			DispatchQueue.main.async {
 					modelContext.delete(recentItem)
-				withAnimation(.easeOut(duration: 0.2)) {
-					do {
-						try modelContext.save()
-					} catch {
-						print("error saving context \(error)")
-					}
+					saveContext()
+					updateFoldedDate()
 				}
-				UISelectionFeedbackGenerator().selectionChanged()
-			}
 		}
 	}
 	
 	func deleteItems(offsets: IndexSet) {
 		DispatchQueue.global().async {
-//			withAnimation() {
-				for index in offsets {
-					modelContext.delete(items[index])
-					try? modelContext.save()
-				}
-//			}
+			for index in offsets {
+				modelContext.delete(items[index])
+				try? modelContext.save()
+			}
 		}
 	}
 
@@ -211,7 +207,6 @@ struct ContentView: View {
 		try? modelContext.save()
 	}
 }
-
 
 //	let fetchItemsDescriptor = FetchDescriptor<Items>(sortBy: [SortDescriptor(\.date, order: .reverse), SortDescriptor(\.isFolded)])
 //

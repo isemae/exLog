@@ -15,28 +15,23 @@ struct ImagePickerView: View {
 	
 	var body: some View {
 		VStack {
-			if let image = image {
-				ZStack {
+			ZStack {
+				if let image = image {
 					image
 						.resizable()
 						.scaledToFill()
 						.frame(width: UIScreen.main.bounds.width * 0.8, height: 120)
 						.cornerRadius(20)
-					Text(String(date))
-						.font(.title)
-						.foregroundColor(.primary)
-						.bold()
-				}
-			} else {
-				ZStack {
+				} else {
 					RoundedRectangle(cornerRadius: 20)
 						.foregroundColor(.clear)
 						.frame(width: UIScreen.main.bounds.width * 0.8, height: 120)
-					Text(String(date))
-						.bold()
-						.foregroundColor(.primary)
-						.font(.title)
 				}
+				
+				Text(String(date))
+					.font(.title)
+					.foregroundColor(.primary)
+					.bold()
 			}
 		}
 		.sheet(isPresented: $showImagePicker,

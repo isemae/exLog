@@ -15,11 +15,6 @@ struct DateHeader: View {
 	var sumForDate: Int
 	
 	var body: some View {
-		HeaderContentView()
-			.transition(.move(edge: .top))
-	}
-	
-	private func HeaderContentView() -> some View {
 		HStack {
 			HeaderDateView()
 			Spacer()
@@ -28,12 +23,10 @@ struct DateHeader: View {
 				.foregroundColor(Color(uiColor: UIColor.secondaryLabel))
 		}
 		.padding(8)
-//		.background(Color(uiColor: UIColor.secondarySystemBackground))
 		.overlayDivider(alignment: .bottom, state: !dataModel.foldedItems[date, default: false])
 		.contentShape(Rectangle())
-		.animation(.spring(response: 0.3, dampingFraction: 0.9))
 		.onTapGesture {
-			withAnimation(.easeOut(duration: 0.15)) {
+			withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
 				dataModel.foldedItems[date, default: false].toggle()
 				isFolded.toggle()
 			}
@@ -51,7 +44,7 @@ struct DateHeader: View {
 				.foregroundColor(.gray)
 				.frame(minWidth: 40, minHeight: 40)
 				.rotationEffect(Angle(degrees: dataModel.foldedItems[date, default: true] ? 0 : -180))
-				.animation(.spring(response: 0.3, dampingFraction: 0.9))
+				.animation(.spring(response: 0.35, dampingFraction: 0.9))
 		}
 		.font(.title)
 	}
