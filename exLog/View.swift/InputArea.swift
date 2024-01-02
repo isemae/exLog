@@ -19,7 +19,6 @@ struct InputArea: View {
 	var body: some View {
 		VStack(spacing: 0) {
 			CalculatedPreview()
-			
 			HStack {
 				CurrencySelectorButton()
 					.onAppear {
