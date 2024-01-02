@@ -18,9 +18,10 @@ final class Item: Identifiable {
 	var group: ItemGroup?
 	var category: Category?
 	var image: Data?
+	var location: Location?
 	
 	//	@Relationship(inverse: \FoldedItems.items)
-	init(date: Date, balance: String = "", currency: Currency) {
+	init(date: Date, balance: String = "", currency: Currency ) {
 		self.date = date
 		self.balance = balance
 		self.currency = currency
@@ -46,6 +47,19 @@ final class Item: Identifiable {
 			return calculatedValue
 		}
 		return 0
+	}
+}
+
+@Model
+class Location: Identifiable {
+	var items: [Item]
+	var startDate: Date?
+	var endDate: Date?
+	var location: String?
+	
+	init(location: String, items: [Item]) {
+		self.location = location
+		self.items = items
 	}
 }
 
