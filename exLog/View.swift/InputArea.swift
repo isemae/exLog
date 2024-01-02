@@ -19,8 +19,7 @@ struct InputArea: View {
 	var body: some View {
 		VStack(spacing: 0) {
 			CalculatedPreview()
-			Divider()
-				.padding(.horizontal, 10)
+			
 			HStack {
 				CurrencySelectorButton()
 					.onAppear {
@@ -58,10 +57,12 @@ struct InputArea: View {
 			}
 			.foregroundColor(.secondary)
 			.padding(.horizontal, 10)
-		
+			Divider()
+				.padding(.horizontal, 10)
 		}
 		.opacity(isShowingKeypad ? 1 : 0)
 		.frame(height: isShowingKeypad ? 40 : 0)
+		
 	}
 	
 	func CurrencySelectorButton() -> some View {

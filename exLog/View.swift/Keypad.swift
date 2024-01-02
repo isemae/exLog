@@ -20,10 +20,10 @@ struct Keypad: View {
 			KeypadRow(keys: [".","0","⌫"])
 		}
 		.contentShape(Rectangle())
-		.frame(maxHeight: isShowing ? UIScreen.main.bounds.height / 3.0 : 0)
 		.overlayDivider(alignment: .top)
 		.padding(.horizontal, 20)
 		.transition(.move(edge: .bottom))
+		.frame(maxHeight: isShowing ? UIScreen.main.bounds.height / 3.0 : 0)
 		.gesture(
 			DragGesture()
 				.onEnded { orientation in
