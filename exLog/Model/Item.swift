@@ -51,15 +51,15 @@ final class Item: Identifiable {
 }
 
 @Model
-class Location: Identifiable {
-	var items: [Item]
+class Location: Identifiable, Hashable {
+	var name: String
 	var startDate: Date?
 	var endDate: Date?
-	var location: String?
+	var items: [Item]?
+//	var image: UIImage?
 	
-	init(location: String, items: [Item]) {
-		self.location = location
-		self.items = items
+	init(name: String) {
+		self.name = name
 	}
 }
 

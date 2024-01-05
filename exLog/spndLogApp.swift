@@ -14,12 +14,12 @@ struct exLogApp: App {
 
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-			Item.self,
+			Item.self, Location.self
         ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
+		let itemModelConfiguration = ModelConfiguration(schema: Schema([Item.self]), isStoredInMemoryOnly: false)
+		let locationModelConfiguration = ModelConfiguration(schema: Schema([Location.self]), isStoredInMemoryOnly: false)
         do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            return try ModelContainer(for: schema, configurations: [itemModelConfiguration, locationModelConfiguration])
         } catch {
           fatalError("Could not create ModelContainer: \(error)")
         }
