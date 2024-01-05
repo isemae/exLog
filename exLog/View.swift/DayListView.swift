@@ -11,6 +11,7 @@ struct DayListView: View {
 	@EnvironmentObject private var dataModel: DataModel
 	var items: [Item]
 	var onTap: () -> Void
+	var location: String?
 	
 	var body: some View {
 		let dateGroup: [Date: [Item]] = Dictionary(grouping: items) { item in

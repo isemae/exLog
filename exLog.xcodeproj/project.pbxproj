@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0802FB632B18F495009A7E81 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0802FB622B18F495009A7E81 /* DataModel.swift */; };
+		081384712B4808BB00CDF389 /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081384702B4808BB00CDF389 /* DatePickerView.swift */; };
 		082177A02B0DFDC300D46518 /* spndLogApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0821779F2B0DFDC300D46518 /* spndLogApp.swift */; };
 		082177A22B0DFDC300D46518 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177A12B0DFDC300D46518 /* ContentView.swift */; };
 		082177A42B0DFDC300D46518 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177A32B0DFDC300D46518 /* Item.swift */; };
@@ -58,6 +59,7 @@
 /* Begin PBXFileReference section */
 		0802FB622B18F495009A7E81 /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		081379402B0EA0A1006AE972 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		081384702B4808BB00CDF389 /* DatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
 		0821779C2B0DFDC300D46518 /* exLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = exLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0821779F2B0DFDC300D46518 /* spndLogApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = spndLogApp.swift; sourceTree = "<group>"; };
 		082177A12B0DFDC300D46518 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 				0877129F2B26873D003C8EE8 /* HHmmHeader.swift */,
 				08DC52212B12D65E005ED804 /* SpendingItem.swift */,
 				0872F1E82B3BDF46004169BB /* ImagePickerView.swift */,
+				081384702B4808BB00CDF389 /* DatePickerView.swift */,
 				08DC52252B12D8C6005ED804 /* InputArea.swift */,
 				082177CD2B0DFE9300D46518 /* Keypad.swift */,
 				08B8C2132B1156A1008734A8 /* CategoryMenuView.swift */,
@@ -352,6 +355,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				082177A22B0DFDC300D46518 /* ContentView.swift in Sources */,
+				081384712B4808BB00CDF389 /* DatePickerView.swift in Sources */,
 				087ADE822B0F951200E1BFD8 /* DataManager.swift in Sources */,
 				087712A02B26873D003C8EE8 /* HHmmHeader.swift in Sources */,
 				08DC52242B12D7DA005ED804 /* DateHeader.swift in Sources */,
