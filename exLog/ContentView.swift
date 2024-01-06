@@ -38,7 +38,6 @@ struct ContentView: View {
 //		let uniqueYears = Array(Set(years))
 		
 		if !items.isEmpty {
-				
 			NavigationView {
 				ScrollView {
 					LazyVStack {
