@@ -19,6 +19,7 @@
 		082177BF2B0DFDC400D46518 /* spndLogUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177BE2B0DFDC400D46518 /* spndLogUITestsLaunchTests.swift */; };
 		082177CC2B0DFE7800D46518 /* CountryMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177CB2B0DFE7800D46518 /* CountryMenuView.swift */; };
 		082177CE2B0DFE9300D46518 /* Keypad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177CD2B0DFE9300D46518 /* Keypad.swift */; };
+		08491AB62B49A00400D3E13F /* UIDateRangePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08491AB52B49A00400D3E13F /* UIDateRangePicker.swift */; };
 		0857C6C42B11C4E60012C698 /* EXCRateJSON.json in Sources */ = {isa = PBXBuildFile; fileRef = 0857C6C32B11C4E60012C698 /* EXCRateJSON.json */; };
 		0872F1E72B3BDDA6004169BB /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0872F1E62B3BDDA6004169BB /* ImagePicker.swift */; };
 		0872F1E92B3BDF46004169BB /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0872F1E82B3BDF46004169BB /* ImagePickerView.swift */; };
@@ -73,6 +74,7 @@
 		082177BE2B0DFDC400D46518 /* spndLogUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = spndLogUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		082177CB2B0DFE7800D46518 /* CountryMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryMenuView.swift; sourceTree = "<group>"; };
 		082177CD2B0DFE9300D46518 /* Keypad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keypad.swift; sourceTree = "<group>"; };
+		08491AB52B49A00400D3E13F /* UIDateRangePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDateRangePicker.swift; sourceTree = "<group>"; };
 		0857C6C32B11C4E60012C698 /* EXCRateJSON.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = EXCRateJSON.json; sourceTree = "<group>"; };
 		0872F1E62B3BDDA6004169BB /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		0872F1E82B3BDF46004169BB /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 				08DC52212B12D65E005ED804 /* SpendingItem.swift */,
 				0872F1E82B3BDF46004169BB /* ImagePickerView.swift */,
 				081384702B4808BB00CDF389 /* DatePickerView.swift */,
+				08491AB52B49A00400D3E13F /* UIDateRangePicker.swift */,
 				08DC52252B12D8C6005ED804 /* InputArea.swift */,
 				082177CD2B0DFE9300D46518 /* Keypad.swift */,
 				08B8C2132B1156A1008734A8 /* CategoryMenuView.swift */,
@@ -359,6 +362,7 @@
 				087ADE822B0F951200E1BFD8 /* DataManager.swift in Sources */,
 				087712A02B26873D003C8EE8 /* HHmmHeader.swift in Sources */,
 				08DC52242B12D7DA005ED804 /* DateHeader.swift in Sources */,
+				08491AB62B49A00400D3E13F /* UIDateRangePicker.swift in Sources */,
 				0872F1E92B3BDF46004169BB /* ImagePickerView.swift in Sources */,
 				08F6E9AB2B144305005BC5F0 /* authkey.swift in Sources */,
 				082177A42B0DFDC300D46518 /* Item.swift in Sources */,
