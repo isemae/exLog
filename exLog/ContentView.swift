@@ -47,51 +47,12 @@ struct ContentView: View {
 							OverlayKeypad()
 								.transition(.move(edge: .bottom))
 						}
-								   //									.navigationTitle("\(String(selectedYear ?? currentYear))")
 						.navigationTitle("분류되지 않음")
 						.foregroundColor(Color(uiColor: UIColor.label))
 						.environmentObject(dataModel)
 					)
-					LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-						ForEach(locations, id: \.self) { location in
-							ZStack {
-								RoundedRectangle(cornerRadius: 15)
-									.frame(width: 150, height: 150)
-									.foregroundColor(.gray)
-								VStack {
-									Text("\(formattedDate(date: location.startDate ?? Date()) )~ \(formattedDate(date: location.endDate ?? Date()))")
-									NavigationLink(location.name, destination: 
-													DayListView(items: items.filter { item in
-										if let startDate = location.startDate, let endDate = location.endDate {
-											return startDate <= item.date && item.date <= endDate
-										}
-										return false
-									}, onTap: { try? modelContext.save() }))
-								}
-							}
-						}
-						//							ForEach(locations, id: \.self) { location in
-						
-						//								let locationItems = items.filter({ $0.location?.name == location.name})
-						
-						//								NavigationLink(destination: DayListView(items: createTestItems(), onTap: { try? modelContext.save() }, location: location.name )
-						//									.safeAreaInset(edge: .bottom, spacing: 0) {
-						//										OverlayKeypad()
-						//											.transition(.move(edge: .bottom))
-						//									}
-						//									.navigationTitle(location.name!)
-						//									.foregroundColor(Color(uiColor: UIColor.label))
-						//									.environmentObject(dataModel)
-						//								) {
-						//									//								ImagePickerView(date: String(year))
-						//									//									.buttonStyle(.plain)
-						//								}
-						
-					}
-					.padding()
-					.navigationTitle("main")
+					LocationGridView(locations: locations, items: items, tapAction: { try? modelContext.save() } )
 				}
-			
 				.navigationBarTitleDisplayMode(.inline)
 				.toolbar {
 					ToolbarItem(placement: .navigationBarTrailing) {
@@ -110,6 +71,7 @@ struct ContentView: View {
 					HStack {
 						Button {
 							isDatePickerPresented = false
+							selectedDates = []
 						} label : {
 							Text("취소")
 						}
