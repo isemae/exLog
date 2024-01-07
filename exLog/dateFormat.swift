@@ -8,6 +8,25 @@
 import Foundation
 import SwiftUI
 
+func formattedDate(dateComponent: DateComponents) -> String? {
+	let formatter = DateFormatter()
+	formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+	
+	guard let date = Calendar.current.date(from: dateComponent) else {
+		return nil
+	}
+	return formatter.string(from: date)
+}
+
+func formattedDate(date: Date?) -> String {
+	let formatter = DateFormatter()
+	formatter.dateStyle = .short
+	if let validDate = date {
+		return formatter.string(from: validDate)
+	} else {
+		return ""
+	}
+}
 
 func dateFormatString(for date: Date, format: String) -> String {
 		let dateFormatter = DateFormatter()
