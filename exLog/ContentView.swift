@@ -25,6 +25,8 @@ struct ContentView: View {
 	@State private var selectedLocation: String = ""
 	@State private var isDatePickerPresented = false
 	
+	@State private var selectedDates: [Date] = []
+	
 	@Binding var selectedYear: Int?
 	@State var addingLocationName: String = ""
 
@@ -40,47 +42,56 @@ struct ContentView: View {
 		if !items.isEmpty {
 			NavigationView {
 				ScrollView {
-					LazyVStack {
+					NavigationLink("분류되지 않음", destination: DayListView(items: items, onTap: { try? modelContext.save() } )
+						.safeAreaInset(edge: .bottom, spacing: 0) {
+							OverlayKeypad()
+								.transition(.move(edge: .bottom))
+						}
+								   //									.navigationTitle("\(String(selectedYear ?? currentYear))")
+						.navigationTitle("분류되지 않음")
+						.foregroundColor(Color(uiColor: UIColor.label))
+						.environmentObject(dataModel)
+					)
+					LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
 						ForEach(locations, id: \.self) { location in
-							NavigationLink(location.name, destination: List(createTestItems()) { item in
-								Text(item.balance)}
-							)}
-//							ForEach(locations, id: \.self) { location in
-								
-//								let locationItems = items.filter({ $0.location?.name == location.name})
-							
-//								NavigationLink(destination: DayListView(items: createTestItems(), onTap: { try? modelContext.save() }, location: location.name )
-//									.safeAreaInset(edge: .bottom, spacing: 0) {
-//										OverlayKeypad()
-//											.transition(.move(edge: .bottom))
-//									}
-//									.navigationTitle(location.name!)
-//									.foregroundColor(Color(uiColor: UIColor.label))
-//									.environmentObject(dataModel)
-//								) {
-//									//								ImagePickerView(date: String(year))
-//									//									.buttonStyle(.plain)
-//								}
-							NavigationLink("분류되지 않음", destination: DayListView(items: items, onTap: { try? modelContext.save() } )
-								.safeAreaInset(edge: .bottom, spacing: 0) {
-									OverlayKeypad()
-										.transition(.move(edge: .bottom))
+							ZStack {
+								RoundedRectangle(cornerRadius: 15)
+									.frame(width: 150, height: 150)
+									.foregroundColor(.gray)
+								VStack {
+									Text("\(formattedDate(date: location.startDate ?? Date()) )~ \(formattedDate(date: location.endDate ?? Date()))")
+									NavigationLink(location.name, destination: 
+													DayListView(items: items.filter { item in
+										if let startDate = location.startDate, let endDate = location.endDate {
+											return startDate <= item.date && item.date <= endDate
+										}
+										return false
+									}, onTap: { try? modelContext.save() }))
 								}
-										   //									.navigationTitle("\(String(selectedYear ?? currentYear))")
-								.navigationTitle("분류되지 않음")
-								.foregroundColor(Color(uiColor: UIColor.label))
-								.environmentObject(dataModel)
-							)
+							}
+						}
+						//							ForEach(locations, id: \.self) { location in
+						
+						//								let locationItems = items.filter({ $0.location?.name == location.name})
+						
+						//								NavigationLink(destination: DayListView(items: createTestItems(), onTap: { try? modelContext.save() }, location: location.name )
+						//									.safeAreaInset(edge: .bottom, spacing: 0) {
+						//										OverlayKeypad()
+						//											.transition(.move(edge: .bottom))
+						//									}
+						//									.navigationTitle(location.name!)
+						//									.foregroundColor(Color(uiColor: UIColor.label))
+						//									.environmentObject(dataModel)
+						//								) {
+						//									//								ImagePickerView(date: String(year))
+						//									//									.buttonStyle(.plain)
+						//								}
+						
 					}
-						.navigationTitle("main")
+					.padding()
+					.navigationTitle("main")
 				}
-				.onAppear() {
-//					if let storedLocation = selectedLocation {
-//						currentLocation = storedLocation
-//					} else {
-////						currentLocation = Calendar.current.component(.year, from: Date())
-//					}
-				}
+			
 				.navigationBarTitleDisplayMode(.inline)
 				.toolbar {
 					ToolbarItem(placement: .navigationBarTrailing) {
@@ -93,30 +104,36 @@ struct ContentView: View {
 				}
 				.sheet(isPresented: $isDatePickerPresented, content: {
 					VStack {
-						DatePickerView()
+						DatePickerView(selectedDates: $selectedDates)
 						TextField("위치...", text: $addingLocationName)
-						HStack {
-							Button {
-								isDatePickerPresented = false
-							} label : {
-								Text("취소")
+					}
+					HStack {
+						Button {
+							isDatePickerPresented = false
+						} label : {
+							Text("취소")
+						}
+						
+						Button {
+							let newLocation = Location(name: addingLocationName, startDate: selectedDates.first ?? Date(), endDate: selectedDates.last ?? Date())
+							isDatePickerPresented = false
+							newLocation.name = addingLocationName
+							newLocation.startDate = selectedDates.first
+							newLocation.endDate = selectedDates.last
+							
+							withAnimation(.easeOut(duration: 0.2)) {
+								modelContext.insert(newLocation)
+								saveContext()
 							}
 							
-							Button {
-								let newLocation = Location(name: addingLocationName)
-								isDatePickerPresented = false
-								newLocation.name = addingLocationName
-								addingLocationName = ""
-								withAnimation(.easeOut(duration: 0.2)) {
-									modelContext.insert(newLocation)
-									saveContext()
-								}
-								for location in locations {
-									print(location.name)
-								}
-							} label : {
-								Text("확인")
+							addingLocationName = ""
+							selectedDates = []
+							
+							for location in locations {
+								print(location.name)
 							}
+						} label : {
+							Text("확인")
 						}
 					}
 				})
