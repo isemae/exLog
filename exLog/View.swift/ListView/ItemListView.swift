@@ -7,7 +7,7 @@
 import SwiftUI
 import SwiftData
 
-struct DayListView: View {
+struct ItemListView: View {
 	@EnvironmentObject private var dataModel: DataModel
 	var items: [Item]
 	var onTap: () -> Void
@@ -60,6 +60,6 @@ struct DayListView: View {
 }
 
 #Preview {
-	DayListView(items: createTestItems(), onTap: {print("hello")})
+	ItemListView(items: createTestItems(), onTap: {print("hello")})
 		.environmentObject(DataModel())
 }

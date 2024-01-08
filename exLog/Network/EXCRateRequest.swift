@@ -72,10 +72,10 @@ func request(url: String, method: HTTPMethod, dataModel: DataModel, param: [Stri
 			let output = try decoder.decode([Response].self, from: data)
 			
 			DispatchQueue.main.async {
-				DataManager.shared.filteredResponse = output.first {
+				ResponseManager.shared.filteredResponse = output.first {
 					$0.currencyCode == dataModel.getCurrentCurrencyCode()
 				}
-				if let response = DataManager.shared.filteredResponse {
+				if let response = ResponseManager.shared.filteredResponse {
 					let curNmValue = response.currencyCode
 					let dealBasR = response.basePrice
 					print("currency_name: \(curNmValue)")
@@ -84,7 +84,7 @@ func request(url: String, method: HTTPMethod, dataModel: DataModel, param: [Stri
 					print("No result found for \(dataModel.getCurrentCurrencyCode())")
 				}
 			}
-			completionHandler(.success(DataManager.shared.filteredResponse?.id ?? 0))
+			completionHandler(.success(ResponseManager.shared.filteredResponse?.id ?? 0))
 			
 			print("Data fetched")
 			

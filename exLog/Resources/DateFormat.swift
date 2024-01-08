@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-func formattedDate(dateComponent: DateComponents) -> String? {
+func formattedDateComponent(dateComponent: DateComponents) -> String? {
 	let formatter = DateFormatter()
 	formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
 	

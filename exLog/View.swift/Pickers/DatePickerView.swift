@@ -14,9 +14,9 @@ struct DatePickerView: View {
 	
 	@State private var startDate = Date()
 	@State private var endDate = Date()
-	
 	//	@State private var dateRange: Set<DateComponents> = []
 	@Binding var selectedDates: [Date]
+	var image: Image?
 	
 	var body: some View {
 		//			MultiDatePicker("", selection: $dateRange, in: Date()...)

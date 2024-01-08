@@ -27,7 +27,7 @@ struct exLogApp: App {
 
     var body: some Scene {
         WindowGroup {
-			ContentView(selectedYear: $selectedYear)
+			ContentView()
 				.environmentObject(DataModel())
         }
         .modelContainer(sharedModelContainer)

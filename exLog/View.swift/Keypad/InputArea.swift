@@ -9,7 +9,7 @@ import SwiftUI
 
 struct InputArea: View {
 	@EnvironmentObject var dataModel: DataModel
-	@ObservedObject private var sharedDataManager = DataManager.shared
+	@ObservedObject private var sharedResponseManager = ResponseManager.shared
 	@State private var contextMenuButtons: [Currency] = []
 	@Binding var isShowingKeypad: Bool
 	var string: String
@@ -48,8 +48,8 @@ struct InputArea: View {
 				Text("₩")
 					.frame(width: 50)
 				Spacer()
-				Text("\(Int(round(Double(string) ?? 1.0) * sharedDataManager.dealBasisRate))")
-					.onChange(of: sharedDataManager.dealBasisRate) { newDealBasisRate in
+				Text("\(Int(round(Double(string) ?? 1.0) * sharedResponseManager.dealBasisRate))")
+					.onChange(of: sharedResponseManager.dealBasisRate) { newDealBasisRate in
 						let updatedValue = Int(round(Double(string) ?? 1.0) * newDealBasisRate)
 					}
 					.padding(.trailing, 25)

@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ImagePickerView: View {
-	@State var date: String
 	@State var showImagePicker = false
 	@State var selectedUIImage: UIImage?
 	@State var image: Image?
@@ -20,18 +19,13 @@ struct ImagePickerView: View {
 					image
 						.resizable()
 						.scaledToFill()
-						.frame(width: UIScreen.main.bounds.width * 0.8, height: 120)
+						.frame(width: 150, height: 150)
 						.cornerRadius(20)
 				} else {
 					RoundedRectangle(cornerRadius: 20)
-						.foregroundColor(.clear)
-						.frame(width: UIScreen.main.bounds.width * 0.8, height: 120)
+						.foregroundColor(.gray)
+						.frame(width: 150, height: 150)
 				}
-				
-				Text(String(date))
-					.font(.title)
-					.foregroundColor(.primary)
-					.bold()
 			}
 		}
 		.sheet(isPresented: $showImagePicker,
@@ -51,7 +45,7 @@ struct ImagePickerView: View {
 		image = Image(uiImage: selectedImage)
 	}
 }
-
-#Preview {
-	ImagePickerView(date: "2023")
-}
+//
+//#Preview {
+//	ImagePickerView()
+//}

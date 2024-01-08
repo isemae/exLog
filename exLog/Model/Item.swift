@@ -42,7 +42,7 @@ final class Item: Identifiable {
 	
 	private func calculateAndSaveBalance() -> Int {
 		if let balance = Double(balance) {
-			let calculatedValue = Int(round(balance * DataManager.shared.dealBasisRate))
+			let calculatedValue = Int(round(balance * ResponseManager.shared.dealBasisRate))
 			UserDefaults.standard.setValue(calculatedValue, forKey: "calculatedBalance_\(id)")
 			return calculatedValue
 		}
@@ -52,6 +52,7 @@ final class Item: Identifiable {
 
 @Model
 class Location: Identifiable, Hashable {
+	var id = UUID()
 	var name: String
 	var startDate: Date?
 	var endDate: Date?

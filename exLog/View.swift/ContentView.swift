@@ -16,23 +16,14 @@ struct ContentView: View {
 //	@Query(filter: #Predicate<Items> { items in
 //		!items.isFolded
 //	})
-	@StateObject private var dataModel = DataModel.init()
-	@State private var string = "0"
-	@State private var isShowingKeypad = false
-	@State private var height = CGFloat.zero
-//	@State private var currentYear: Int = Calendar.current.component(.year, from: Date())
-	@State private var currentLocation: String = ""
-	@State private var selectedLocation: String = ""
-	@State private var isDatePickerPresented = false
+	@StateObject private var dataModel = DataModel()
 	
-	@State private var selectedDates: [Date] = []
+	@State var keypadState = States.Keypad()
+	@State var locationState = States.Location()
+	@State var pickerState = States.Picker()
 	
-	@Binding var selectedYear: Int?
-	@State var addingLocationName: String = ""
+	@State private var image: Image?
 
-	let screenHeight = UIScreen.main.bounds.size.height
-	let screenWidth = UIScreen.main.bounds.size.width
-	
 	var body: some View {
 //		let years = items.map { item in
 //			return Calendar.current.component(.year, from: item.date)
@@ -41,8 +32,8 @@ struct ContentView: View {
 		
 		if !items.isEmpty {
 			NavigationView {
-				ScrollView {
-					NavigationLink("분류되지 않음", destination: DayListView(items: items, onTap: { try? modelContext.save() } )
+				ScrollView(.vertical) {
+					NavigationLink("분류되지 않음", destination: ItemListView(items: items, onTap: { try? modelContext.save() } )
 						.safeAreaInset(edge: .bottom, spacing: 0) {
 							OverlayKeypad()
 								.transition(.move(edge: .bottom))
@@ -51,45 +42,45 @@ struct ContentView: View {
 						.foregroundColor(Color(uiColor: UIColor.label))
 						.environmentObject(dataModel)
 					)
-					LocationGridView(locations: locations, items: items, tapAction: { try? modelContext.save() } )
+					LocationGridView(locations: locations, items: items, tapAction: { try? modelContext.save() })
 				}
 				.navigationBarTitleDisplayMode(.inline)
 				.toolbar {
 					ToolbarItem(placement: .navigationBarTrailing) {
 						Button {
-							isDatePickerPresented.toggle()
+							pickerState.isDatePickerPresented.toggle()
 						} label: {
 							Label("새 일정", systemImage: "calendar.badge.plus")
 						}
 					}
 				}
-				.sheet(isPresented: $isDatePickerPresented, content: {
+				.sheet(isPresented: $pickerState.isDatePickerPresented, content: {
 					VStack {
-						DatePickerView(selectedDates: $selectedDates)
-						TextField("위치...", text: $addingLocationName)
+						DatePickerView(selectedDates: $pickerState.selectedDates)
+						TextField("위치...", text: $pickerState.addingLocationName)
 					}
 					HStack {
 						Button {
-							isDatePickerPresented = false
-							selectedDates = []
+							pickerState.isDatePickerPresented = false
+							pickerState.selectedDates = []
 						} label : {
 							Text("취소")
 						}
 						
 						Button {
-							let newLocation = Location(name: addingLocationName, startDate: selectedDates.first ?? Date(), endDate: selectedDates.last ?? Date())
-							isDatePickerPresented = false
-							newLocation.name = addingLocationName
-							newLocation.startDate = selectedDates.first
-							newLocation.endDate = selectedDates.last
+							let newLocation = Location(name: pickerState.addingLocationName, startDate: pickerState.selectedDates.first ?? Date(), endDate: pickerState.selectedDates.last ?? Date())
+							pickerState.isDatePickerPresented = false
+							newLocation.name = pickerState.addingLocationName
+							newLocation.startDate = pickerState.selectedDates.first
+							newLocation.endDate = pickerState.selectedDates.last
 							
 							withAnimation(.easeOut(duration: 0.2)) {
 								modelContext.insert(newLocation)
 								saveContext()
 							}
 							
-							addingLocationName = ""
-							selectedDates = []
+							pickerState.addingLocationName = ""
+							pickerState.selectedDates = []
 							
 							for location in locations {
 								print(location.name)
@@ -119,7 +110,7 @@ struct ContentView: View {
 			Group {
 				ZStack {
 					VStack(spacing: 0) {
-						if isShowingKeypad {
+						if keypadState.isShowingKeypad {
 							VStack(alignment: .leading) {
 								ForEach([
 									("arrow.up", "hand.tap.fill", " - 내역을 등록해요."),
@@ -159,31 +150,31 @@ struct ContentView: View {
 	
 	func OverlayKeypad() -> some View {
 		VStack(spacing: 0) {
-			InputArea(isShowingKeypad: $isShowingKeypad,
-					  string: string,
-					  onSwipeUp: { 
+			InputArea(isShowingKeypad: $keypadState.isShowingKeypad,
+					  string: keypadState.string,
+					  onSwipeUp: {
 				addItem()
-				selectedYear = Calendar.current.component(.year, from: Date())
+//				selectedYear = Calendar.current.component(.year, from: Date())
 			},
 					  onSwipeDown: {
 				deleteFirst()
 			})
 			.environmentObject(dataModel)
-			.onChange(of: string, perform: { newValue in
-				if string.count > 9 {
-					string = String(string.prefix(9)) }})
+			.onChange(of: keypadState.string, perform: { newValue in
+				if keypadState.string.count > 9 {
+					keypadState.string = String(keypadState.string.prefix(9)) }})
 			
-			Keypad(string: $string, isShowing: $isShowingKeypad,
-				   onSwipeUp: { 
+			Keypad(string: $keypadState.string, isShowing: $keypadState.isShowingKeypad,
+				   onSwipeUp: {
 				self.addItem()
-				selectedYear = Calendar.current.component(.year, from: Date())
+//				selectedYear = Calendar.current.component(.year, from: Date())
 			},
 				   onSwipeDown: {
 				self.deleteFirst()
 			})
 			.font(.largeTitle)
-			.disabled(!isShowingKeypad)
-			.offset(y: isShowingKeypad ? 0 : screenHeight / 2)
+			.disabled(!keypadState.isShowingKeypad)
+			.offset(y: keypadState.isShowingKeypad ? 0 : Screen.height / 2)
 		}
 		.background(.bar)
 	}
@@ -206,14 +197,14 @@ struct ContentView: View {
 	}
 	
 	func addItem() {
-		if let balance = Double(string), string != "0" {
+		if let balance = Double(keypadState.string), keypadState.string != "0" {
 			let newItem = Item(date: Date(), balance: String(balance), currency: dataModel.currentCurrency)
 				withAnimation(.easeOut(duration: 0.2)) {
 					modelContext.insert(newItem)
 					saveContext()
 					updateFoldedDate()
 				}
-			string = "0"
+			keypadState.string = "0"
 		}
 	}
 	

@@ -17,17 +17,20 @@ struct LocationGridView: View {
 			ForEach(locations, id: \.self) { location in
 				ZStack {
 					RoundedRectangle(cornerRadius: 15)
-						.frame(width: 150, height: 150)
 						.foregroundColor(.gray)
+					ImagePickerView()
 					VStack {
-						Text("\(formattedDate(date: location.startDate ?? Date()) )~ \(formattedDate(date: location.endDate ?? Date()))")
-						NavigationLink(location.name, 
-									   destination: DayListView(items: items.filter { item in
+						NavigationLink(location.name,
+									   destination: ItemListView(items: items.filter { item in
 							if let startDate = location.startDate, let endDate = location.endDate {
 								return startDate <= item.date && item.date <= endDate
 							}
 							return false
 						}, onTap: tapAction ))
+						.font(.title)
+						.foregroundColor(.primary)
+						.bold()
+						Text("\(formattedDate(date: location.startDate ?? Date()) )~ \(formattedDate(date: location.endDate ?? Date()))")
 					}
 				}
 			}

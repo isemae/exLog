@@ -7,8 +7,8 @@
 import Foundation
 import SwiftData
 
-class DataManager: ObservableObject {
-	static let shared = DataManager()
+class ResponseManager: ObservableObject {
+	static let shared = ResponseManager()
 	@Published var dealBasisRate : Double = 1.0
 	@Published var filteredResponse: Response? {
 		didSet {
