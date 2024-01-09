@@ -39,10 +39,10 @@ extension Color {
 
 extension Text {
 	func getContrastText(backgroundColor: Color) -> some View {
-		var r,g,b,a: CGFloat
-		(r,g,b,a) = (0,0,0,0)
-		UIColor(backgroundColor).getRed(&r, green: &g, blue: &b, alpha: &a)
-		let luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b
+		var red,green,blue,alpha: CGFloat
+		(red,green,blue,alpha) = (0,0,0,0)
+		UIColor(backgroundColor).getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+		let luminance = 0.2126 * red + 0.7152 * green + 0.0722 * blue
 		return luminance < 0.6 ? self.foregroundColor(.white) : self.foregroundColor(.black)
 	}
 }

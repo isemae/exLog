@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 @main
-struct exLogApp: App {
+struct ExLogApp: App {
 	@AppStorage("selectedYear") private var selectedYear: Int?
 
     var sharedModelContainer: ModelContainer = {

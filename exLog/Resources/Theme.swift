@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct Theme {
-	static func BgColor(_ scheme: ColorScheme) -> Color {
+	static func bgColor(_ scheme: ColorScheme) -> Color {
 		let light = Color.white
 		let dark = Color.black
 		

@@ -17,11 +17,9 @@ struct ContentView: View {
 //		!items.isFolded
 //	})
 	@StateObject private var dataModel = DataModel()
-	
 	@State var keypadState = States.Keypad()
 	@State var locationState = States.Location()
 	@State var pickerState = States.Picker()
-	
 	@State private var image: Image?
 
 	var body: some View {
@@ -35,7 +33,7 @@ struct ContentView: View {
 				ScrollView(.vertical) {
 					NavigationLink("분류되지 않음", destination: ItemListView(items: items, onTap: { try? modelContext.save() } )
 						.safeAreaInset(edge: .bottom, spacing: 0) {
-							OverlayKeypad()
+							overlayKeypad()
 								.transition(.move(edge: .bottom))
 						}
 						.navigationTitle("분류되지 않음")
@@ -68,7 +66,7 @@ struct ContentView: View {
 						}
 						
 						Button {
-							let newLocation = Location(name: pickerState.addingLocationName, startDate: pickerState.selectedDates.first ?? Date(), endDate: pickerState.selectedDates.last ?? Date())
+							let newLocation = Location(name: pickerState.addingLocationName, startDate: pickerState.selectedDates.first ?? Date(), endDate: pickerState.selectedDates.last ?? Date(), items: [])
 							pickerState.isDatePickerPresented = false
 							newLocation.name = pickerState.addingLocationName
 							newLocation.startDate = pickerState.selectedDates.first
@@ -93,7 +91,7 @@ struct ContentView: View {
 				
 			}
 			.safeAreaInset(edge: .bottom, spacing: 0) {
-				OverlayKeypad()
+				overlayKeypad()
 					.transition(.move(edge: .bottom))
 			}
 			
@@ -101,11 +99,11 @@ struct ContentView: View {
 				//				currentYear = Calendar.current.component(.year, from: Date())
 			}
 		} else {
-			InitialView()
+			initialView()
 		}
 	}
 	
-	func InitialView() -> some View {
+	func initialView() -> some View {
 		ZStack {
 			Group {
 				ZStack {
@@ -141,14 +139,14 @@ struct ContentView: View {
 				Text("")
 					.frame(maxHeight: .infinity)
 					.safeAreaInset(edge: .bottom, spacing: 0) {
-						OverlayKeypad()
+						overlayKeypad()
 							.transition(.move(edge: .bottom))
 					}
 			}
 		}
 	}
 	
-	func OverlayKeypad() -> some View {
+	func overlayKeypad() -> some View {
 		VStack(spacing: 0) {
 			InputArea(isShowingKeypad: $keypadState.isShowingKeypad,
 					  string: keypadState.string,

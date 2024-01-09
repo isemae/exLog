@@ -27,7 +27,7 @@ struct ItemListView: View {
 		List {
 			ForEach(dateGroup.sorted(by: { $0.key > $1.key }), id: \.key) { date, group in
 				let sumForDate = group.reduce(0) { $0 + $1.calculatedBalance }
-				DayList(group: minuteGroup[date] ?? [:], date: date, sumForDate: sumForDate)
+				dayList(group: minuteGroup[date] ?? [:], date: date, sumForDate: sumForDate)
 			}
 			.listRowInsets(EdgeInsets())
 			.listRowSeparator(.hidden)
@@ -39,7 +39,7 @@ struct ItemListView: View {
 		.environment(\.defaultMinListHeaderHeight, 0)
 	}
 	
-	func DayList(group: [Date: [Item]], date: Date, sumForDate: Int) -> some View {
+	func dayList(group: [Date: [Item]], date: Date, sumForDate: Int) -> some View {
 		Section(
 			header: DateHeader(items: items, date: date, sumForDate: sumForDate)
 				.environmentObject(dataModel)

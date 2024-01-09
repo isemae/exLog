@@ -15,11 +15,9 @@ final class Item: Identifiable {
 	var date: Date
 	var balance: String
 	var currency: Currency
-	var group: ItemGroup?
 	var category: Category?
 	var image: Data?
 	var location: Location?
-	
 	//	@Relationship(inverse: \FoldedItems.items)
 	init(date: Date, balance: String = "", currency: Currency ) {
 		self.date = date
@@ -52,17 +50,18 @@ final class Item: Identifiable {
 
 @Model
 class Location: Identifiable, Hashable {
+	@Relationship(inverse: \Item.location) var items : [Item]?
 	var id = UUID()
 	var name: String
 	var startDate: Date?
 	var endDate: Date?
-	var items: [Item]?
 //	var image: UIImage?
 	
-	init(name: String, startDate: Date, endDate: Date) {
+	init(name: String, startDate: Date, endDate: Date, items: [Item]) {
 		self.name = name
 		self.startDate = startDate
 		self.endDate = endDate
+		self.items = items
 	}
 }
 
@@ -72,11 +71,3 @@ extension Array where Element: Item {
 	}
 }
 
-
-@Model
-class ItemGroup {
-	var pos: Int
-	init(pos: Int) {
-		self.pos = pos
-	}
-}

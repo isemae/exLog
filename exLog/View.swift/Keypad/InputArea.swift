@@ -18,9 +18,9 @@ struct InputArea: View {
 	
 	var body: some View {
 		VStack(spacing: 0) {
-			CalculatedPreview()
+			calculatedPreview()
 			HStack {
-				CurrencySelectorButton()
+				currencySelectorButton()
 					.onAppear {
 						contextMenuButtons = Currency.allCases
 					}
@@ -39,10 +39,10 @@ struct InputArea: View {
 			}
 		})
 		.overlayDivider(alignment: .top)
-		.GestureHandler(onSwipeUp: onSwipeUp, onSwipeDown: onSwipeDown)
+		.gestureHandler(onSwipeUp: onSwipeUp, onSwipeDown: onSwipeDown)
 	}
 	
-	private func CalculatedPreview() -> some View {
+	private func calculatedPreview() -> some View {
 		VStack {
 			HStack {
 				Text("₩")
@@ -64,7 +64,7 @@ struct InputArea: View {
 		
 	}
 	
-	func CurrencySelectorButton() -> some View {
+	func currencySelectorButton() -> some View {
 		VStack(spacing: 0) {
 			Text(dataModel.currentCurrency.symbol)
 			Text(dataModel.currentCurrency.code).font(.footnote)
@@ -85,7 +85,7 @@ struct InputArea: View {
 	}
 }
 
-struct inputAreaPreview: View {
+struct InputAreaPreview: View {
 	@State var string: String = "0"
 	@State var testBool: Bool = true
 	var body: some View {
@@ -98,5 +98,5 @@ struct inputAreaPreview: View {
 }
 
 #Preview {
-	inputAreaPreview()
+	InputAreaPreview()
 }

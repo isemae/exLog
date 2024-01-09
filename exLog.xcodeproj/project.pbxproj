@@ -29,6 +29,7 @@
 		0872F1E92B3BDF46004169BB /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0872F1E82B3BDF46004169BB /* ImagePickerView.swift */; };
 		087712A02B26873D003C8EE8 /* HHmmHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0877129F2B26873D003C8EE8 /* HHmmHeader.swift */; };
 		087ADE822B0F951200E1BFD8 /* ResponseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087ADE812B0F951200E1BFD8 /* ResponseManager.swift */; };
+		089014122B4C568F00791F27 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 089014112B4C568F00791F27 /* .swiftlint.yml */; };
 		08AB637E2B0E706600F03C64 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AB637D2B0E706600F03C64 /* Extensions.swift */; };
 		08B6C8DF2B27E8AE0045EE24 /* ItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B6C8DE2B27E8AE0045EE24 /* ItemListView.swift */; };
 		08B8C2142B1156A1008734A8 /* CategoryMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B8C2132B1156A1008734A8 /* CategoryMenuView.swift */; };
@@ -86,6 +87,7 @@
 		0872F1E82B3BDF46004169BB /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		0877129F2B26873D003C8EE8 /* HHmmHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HHmmHeader.swift; sourceTree = "<group>"; };
 		087ADE812B0F951200E1BFD8 /* ResponseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseManager.swift; sourceTree = "<group>"; };
+		089014112B4C568F00791F27 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		08AB637D2B0E706600F03C64 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		08B6C8DE2B27E8AE0045EE24 /* ItemListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemListView.swift; sourceTree = "<group>"; };
 		08B8C2132B1156A1008734A8 /* CategoryMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryMenuView.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 		082177932B0DFDC300D46518 = {
 			isa = PBXGroup;
 			children = (
+				089014112B4C568F00791F27 /* .swiftlint.yml */,
 				0821779E2B0DFDC300D46518 /* exLog */,
 				082177B12B0DFDC400D46518 /* exLogTests */,
 				082177BB2B0DFDC400D46518 /* exLogUITests */,
@@ -280,6 +283,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 082177C22B0DFDC400D46518 /* Build configuration list for PBXNativeTarget "exLog" */;
 			buildPhases = (
+				089014102B4C563000791F27 /* Swift Lint */,
 				082177982B0DFDC300D46518 /* Sources */,
 				082177992B0DFDC300D46518 /* Frameworks */,
 				0821779A2B0DFDC300D46518 /* Resources */,
@@ -377,6 +381,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				089014122B4C568F00791F27 /* .swiftlint.yml in Resources */,
 				082177A92B0DFDC400D46518 /* Preview Assets.xcassets in Resources */,
 				082177A62B0DFDC400D46518 /* Assets.xcassets in Resources */,
 			);
@@ -397,6 +402,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		089014102B4C563000791F27 /* Swift Lint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Swift Lint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		082177982B0DFDC300D46518 /* Sources */ = {
@@ -504,7 +530,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -568,7 +594,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

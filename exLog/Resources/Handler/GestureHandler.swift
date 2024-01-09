@@ -27,7 +27,7 @@ struct DragGestureHandler: ViewModifier {
 }
 
 extension View {
-	func GestureHandler(onSwipeUp: @escaping () -> Void, onSwipeDown: @escaping () -> Void) -> some View {
+	func gestureHandler(onSwipeUp: @escaping () -> Void, onSwipeDown: @escaping () -> Void) -> some View {
 		self.modifier(DragGestureHandler(onSwipeUp: onSwipeUp, onSwipeDown: onSwipeDown))
 	}
 }

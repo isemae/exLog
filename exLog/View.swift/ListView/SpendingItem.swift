@@ -13,7 +13,7 @@ struct SpendingItem: View {
 	
 	var body: some View {
 		HStack (alignment: .center, spacing: 0) {
-			CategoryView()
+			categoryView()
 			Spacer()
 			Text("₩\(item.calculatedBalance)")
 				.font(.title2)
@@ -32,7 +32,7 @@ struct SpendingItem: View {
 		})
 	}
 	
-	func LocalCurrencyValue() -> some View {
+	func localCurrencyValue() -> some View {
 		HStack {
 			Text("\(item.currency.symbol) \(item.balance.formatNumber()) ")
 				.padding(5)
@@ -43,7 +43,7 @@ struct SpendingItem: View {
 		}
 	}
 	
-	func CategoryView() -> some View {
+	func categoryView() -> some View {
 		HStack(spacing: 0) {
 			if (item.category != nil) {
 				ZStack {
@@ -54,7 +54,7 @@ struct SpendingItem: View {
 				}
 				.fixedSize()
 			}
-			LocalCurrencyValue()
+			localCurrencyValue()
 		}
 		.frame(width: UIScreen.main.bounds.size.width / 2.3, alignment: .leading)
 	}

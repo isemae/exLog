@@ -13,10 +13,9 @@ struct DateHeader: View {
 	var items: [Item]
 	var date: Date
 	var sumForDate: Int
-	
 	var body: some View {
 		HStack {
-			HeaderDateView()
+			headerDateView()
 			Spacer()
 			Text("₩\(sumForDate)")
 				.font(.title3)
@@ -32,8 +31,7 @@ struct DateHeader: View {
 			}
 		}
 	}
-	
-	private func HeaderDateView() -> some View {
+	private func headerDateView() -> some View {
 		HStack(spacing: 0) {
 			Text("\(dateFormatString(for: date, format: "mm"))/")
 				.foregroundColor(Color(uiColor: UIColor.label))
