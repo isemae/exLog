@@ -11,7 +11,7 @@ struct LocationGridView: View {
 	var locations: [Location]
 	var items: [Item]
 	var tapAction: () -> Void
-	
+
     var body: some View {
 		LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
 			ForEach(locations, id: \.self) { location in
@@ -40,6 +40,6 @@ struct LocationGridView: View {
     }
 }
 //
-//#Preview {
+// #Preview {
 //	LocationGridView(locations: [], items: [])
-//}
+// }

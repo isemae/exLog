@@ -4,7 +4,6 @@
 //
 //  Created by Jiwoon Lee on 11/23/23.
 
-
 import Foundation
 import SwiftData
 
@@ -24,70 +23,68 @@ struct ExchangeURL {
 		urlComponents.host = "quotation-api-cdn.dunamu.com"
 		urlComponents.path = "/v1/forex/recent"
 		urlComponents.queryItems = [
-			URLQueryItem(name: "codes", value: "FRX.KRW\(dataModel.getCurrentCurrencyCode())"),
+			URLQueryItem(name: "codes", value: "FRX.KRW\(dataModel.getCurrentCurrencyCode())")
 		]
 	}
 }
 
 func request(url: String, method: HTTPMethod, dataModel: DataModel, param: [String: Any]? = nil, completionHandler: @escaping (Result<Int, Error>) -> Void) {
-	
+
 	guard let url = URL(string: url) else {
 		print("Error: Cannot create URL")
 		completionHandler(.failure(NSError(domain: "URLCreationError", code: 0, userInfo: nil)))
 		return
 	}
-	
+
 	var request = URLRequest(url: url)
 	request.httpMethod = method.rawValue
-	
+
 	if let param = param {
-		let sendData = try! JSONSerialization.data(withJSONObject: param, options: [])
+		let sendData = try? JSONSerialization.data(withJSONObject: param, options: [])
 		request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 		request.httpBody = sendData
 	}
-	
+
 	let session = URLSession.shared
-	
+
 	session.dataTask(with: request) { data, response, error in
 		guard error == nil else {
 			print("Error: \(error!)")
 			completionHandler(.failure(error!))
 			return
 		}
-		
+
 		guard let data = data else {
 			print("Error: Could not receive data")
 			completionHandler(.failure(NSError(domain: "NoDataError", code: 0, userInfo: nil)))
 			return
 		}
-		
+
 		guard let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode else {
 			print("Error: HTTP request failed")
 			completionHandler(.failure(NSError(domain: "HTTPError", code: 0, userInfo: nil)))
 			return
 		}
-		
+
 		do {
 			let decoder = JSONDecoder()
 			let output = try decoder.decode([Response].self, from: data)
-			
+
 			DispatchQueue.main.async {
-				ResponseManager.shared.filteredResponse = output.first {
-					$0.currencyCode == dataModel.getCurrentCurrencyCode()
-				}
+				let filteredResponse = output.first { $0.currencyCode == dataModel.getCurrentCurrencyCode() }
+				ResponseManager.shared.filteredResponse = filteredResponse
+
 				if let response = ResponseManager.shared.filteredResponse {
-					let curNmValue = response.currencyCode
-					let dealBasR = response.basePrice
-					print("currency_name: \(curNmValue)")
-					print("deal_basis_rate: \(dealBasR)")
+					print("currency_name: \(response.currencyCode)")
+					print("deal_basis_rate: \(response.basePrice)")
 				} else {
 					print("No result found for \(dataModel.getCurrentCurrencyCode())")
 				}
 			}
 			completionHandler(.success(ResponseManager.shared.filteredResponse?.id ?? 0))
-			
+
 			print("Data fetched")
-			
+
 		} catch {
 			print("Error: JSON Data Parsing failed")
 			completionHandler(.failure(error))
@@ -108,4 +105,3 @@ func fetchAPIResponse(dataModel: DataModel) {
 		}
 	}
 }
-

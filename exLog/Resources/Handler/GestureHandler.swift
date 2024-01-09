@@ -19,8 +19,10 @@ struct DragGestureHandler: ViewModifier {
 			DragGesture()
 				.onEnded { orientation in
 					guard abs(orientation.translation.width) <= abs(orientation.translation.height) else { return }
-					
-					orientation.translation.height > 10.0 ? self.onSwipeDown() : self.onSwipeUp()
+					if orientation.translation.height > 10.0 {
+						self.onSwipeDown() } else {
+						self.onSwipeUp()
+					}
 				}
 		)
 	}

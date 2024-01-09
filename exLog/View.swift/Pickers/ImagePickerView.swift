@@ -11,7 +11,7 @@ struct ImagePickerView: View {
 	@State var showImagePicker = false
 	@State var selectedUIImage: UIImage?
 	@State var image: Image?
-	
+
 	var body: some View {
 		VStack {
 			ZStack {
@@ -28,24 +28,19 @@ struct ImagePickerView: View {
 				}
 			}
 		}
-		.sheet(isPresented: $showImagePicker,
-			   onDismiss: {
-			loadImage()
-		}) {
-			ImagePicker(image: $selectedUIImage)
-		}
+		.sheet(isPresented: $showImagePicker, onDismiss: { loadImage() }) {
+			ImagePicker(image: $selectedUIImage) }
 		.onLongPressGesture(perform: {
 			showImagePicker.toggle()
 		})
 	}
-	
-	
+
 	func loadImage() {
 		guard let selectedImage = selectedUIImage else { return }
 		image = Image(uiImage: selectedImage)
 	}
 }
 //
-//#Preview {
+// #Preview {
 //	ImagePickerView()
-//}
+// }

@@ -24,7 +24,7 @@ final class Item: Identifiable {
 		self.balance = balance
 		self.currency = currency
 	}
-	
+
 	var calculatedBalance: Int {
 		get {
 			if let storedValue = UserDefaults.standard.value(forKey: "calculatedBalance_\(id)") as? Int {
@@ -37,7 +37,7 @@ final class Item: Identifiable {
 			UserDefaults.standard.setValue(newValue, forKey: "calculatedBalance_\(id)")
 		}
 	}
-	
+
 	private func calculateAndSaveBalance() -> Int {
 		if let balance = Double(balance) {
 			let calculatedValue = Int(round(balance * ResponseManager.shared.dealBasisRate))
@@ -56,7 +56,7 @@ class Location: Identifiable, Hashable {
 	var startDate: Date?
 	var endDate: Date?
 //	var image: UIImage?
-	
+
 	init(name: String, startDate: Date, endDate: Date, items: [Item]) {
 		self.name = name
 		self.startDate = startDate
@@ -70,4 +70,3 @@ extension Array where Element: Item {
 		first { $0.id == id}
 	}
 }
-

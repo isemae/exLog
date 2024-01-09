@@ -13,10 +13,9 @@ enum UIRole: String {
 	case unknown
 }
 
-
 extension Date {
 	var startDateOfYear: Date {
-		guard let date = Calendar.current.date(from: Calendar.current.dateComponents([.year, ], from: self)) else {
+		guard let date = Calendar.current.date(from: Calendar.current.dateComponents([.year], from: self)) else {
 			fatalError("Unable to get start date from date")
 		}
 		return date
@@ -55,7 +54,6 @@ extension View {
 				.frame(height: 0)
 		}
 	}
-	
 	func overlayDivider(alignment: Alignment, state: Bool? = nil) -> some View {
 		self.overlay(
 			Divider()
@@ -65,7 +63,6 @@ extension View {
 			alignment: alignment
 		)
 	}
-	
 	func overlayDividers(state: Bool? = nil, role: UIRole = .unknown) -> some View {
 		return self
 			.overlayDivider(alignment: .top, state: state)
@@ -85,19 +82,15 @@ extension String {
 	}
 }
 
-
 extension Array where Element == Item {
 	func sortedByDate() -> [(Date, [Item])] {
 		let groupedDictionary = Dictionary(grouping: self) { item in
 			Calendar.current.startOfDay(for: item.date)
 		}
-		
 		let sortedGroups = groupedDictionary.sorted { $0.key > $1.key }
-		
 		let sortedItemsInGroups = sortedGroups.map { (date, items) in
 			(date, items.sorted(by: { $0.date > $1.date }))
 		}
-		
 		return sortedItemsInGroups
 	}
 }

@@ -15,7 +15,7 @@ class ResponseManager: ObservableObject {
 			self.updateDealBasisRate()
 		}
 	}
-	
+
 	func updateDealBasisRate() {
 		if let filteredResponse = filteredResponse {
 			dealBasisRate = Double(filteredResponse.basePrice) / Double(filteredResponse.currencyUnit)
@@ -26,9 +26,9 @@ class ResponseManager: ObservableObject {
 }
 
 // SwiftData fetch시 캐싱을 위해 사용할 예정
-//class DataCache {
+// class DataCache {
 //	static var items: [Item] = []
-//}
+// }
 
 struct ResponseArray: Codable {
 	var data: [Response] = []
@@ -40,7 +40,7 @@ struct Response: Codable {
 	var currencyName: String
 	var basePrice: Double
 	var currencyUnit: Int
-	
+
 	// 마지막으로 API를 받아온 후 일정 시간만큼 지났는지 조회하기 위한 변수
 	//	var date: Date
 	//	var time: Date

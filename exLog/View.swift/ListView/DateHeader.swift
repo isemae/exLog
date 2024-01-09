@@ -48,9 +48,7 @@ struct DateHeader: View {
 	}
 }
 
-
 #Preview {
 	DateHeader(items: createTestItems(), date: Date(), sumForDate: 1000)
 		.environmentObject(DataModel())
 }
-

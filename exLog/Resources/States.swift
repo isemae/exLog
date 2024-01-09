@@ -14,12 +14,12 @@ struct States {
 		var isShowingKeypad = false
 		var height = CGFloat.zero
 	}
-	
+
 	struct Location {
 		var currentLocation: String = ""
 		var selectedLocation: String = ""
 	}
-	
+
 	struct Picker {
 		var isDatePickerPresented = false
 		var selectedDates: [Date] = []

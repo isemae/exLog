@@ -18,7 +18,6 @@ class DataModel: ObservableObject {
 			objectWillChange.send()
 		}
 	}
-	
 	init() {
 		if let savedFoldedItemsData = UserDefaults.standard.data(forKey: foldedItemsKey),
 		   let savedFoldedItems = try? PropertyListDecoder().decode([Date: Bool].self, from: savedFoldedItemsData) {
@@ -26,13 +25,11 @@ class DataModel: ObservableObject {
 		} else {
 			self.foldedItems = [:]
 		}
-		
 		guard self.currentCurrency != .KRW else {
 			return
 		}
 		fetchAPIResponse(dataModel: self)
 	}
-	
 	func getCurrentCurrencyCode() -> String {
 		return currentCurrency.rawValue
 	}
@@ -47,7 +44,6 @@ enum Currency: String, Identifiable, Hashable, CaseIterable, Codable {
 	case EUR
 	case USD
 	case JPY
-	
 	var symbol: String {
 		switch self {
 		case .KRW: return "₩"
@@ -59,7 +55,6 @@ enum Currency: String, Identifiable, Hashable, CaseIterable, Codable {
 		case .JPY: return "¥"
 		}
 	}
-	
 	var code: String {
 		switch self {
 		case .KRW: return "KRW"
@@ -71,7 +66,6 @@ enum Currency: String, Identifiable, Hashable, CaseIterable, Codable {
 		case .JPY: return "JPY"
 		}
 	}
-	
 	var name: String {
 		switch self {
 		case .KRW: return "대한민국 원"
@@ -83,7 +77,6 @@ enum Currency: String, Identifiable, Hashable, CaseIterable, Codable {
 		case .JPY: return "일본 엔"
 		}
 	}
-	
 	var signName: String {
 		switch self {
 		case .KRW: return "won"
@@ -108,7 +101,6 @@ enum Category: String, Identifiable, Codable, CaseIterable {
 	case entertainment
 	case souvenir
 	case accommodation
-	
 	var symbol: String {
 		switch self {
 		case .transportation: return "🚋"

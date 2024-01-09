@@ -10,7 +10,7 @@ import SwiftUI
 struct HHmmHeader: View {
 	@EnvironmentObject var dataModel: DataModel
 	var date: Date
-	
+
 	var body: some View {
 		HStack {
 			Image(systemName: "clock")

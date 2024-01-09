@@ -27,15 +27,13 @@ struct ContentView: View {
 //			return Calendar.current.component(.year, from: item.date)
 //		}
 //		let uniqueYears = Array(Set(years))
-		
 		if !items.isEmpty {
 			NavigationView {
 				ScrollView(.vertical) {
-					NavigationLink("분류되지 않음", destination: ItemListView(items: items, onTap: { try? modelContext.save() } )
+					NavigationLink("분류되지 않음", destination: ItemListView(items: items, onTap: { try? modelContext.save() })
 						.safeAreaInset(edge: .bottom, spacing: 0) {
 							overlayKeypad()
-								.transition(.move(edge: .bottom))
-						}
+								.transition(.move(edge: .bottom))}
 						.navigationTitle("분류되지 않음")
 						.foregroundColor(Color(uiColor: UIColor.label))
 						.environmentObject(dataModel)
@@ -64,22 +62,18 @@ struct ContentView: View {
 						} label : {
 							Text("취소")
 						}
-						
 						Button {
 							let newLocation = Location(name: pickerState.addingLocationName, startDate: pickerState.selectedDates.first ?? Date(), endDate: pickerState.selectedDates.last ?? Date(), items: [])
 							pickerState.isDatePickerPresented = false
 							newLocation.name = pickerState.addingLocationName
 							newLocation.startDate = pickerState.selectedDates.first
 							newLocation.endDate = pickerState.selectedDates.last
-							
 							withAnimation(.easeOut(duration: 0.2)) {
 								modelContext.insert(newLocation)
 								saveContext()
 							}
-							
 							pickerState.addingLocationName = ""
 							pickerState.selectedDates = []
-							
 							for location in locations {
 								print(location.name)
 							}
@@ -88,21 +82,19 @@ struct ContentView: View {
 						}
 					}
 				})
-				
 			}
 			.safeAreaInset(edge: .bottom, spacing: 0) {
 				overlayKeypad()
 					.transition(.move(edge: .bottom))
 			}
-			
-			.onAppear() {
+			.onAppear {
 				//				currentYear = Calendar.current.component(.year, from: Date())
 			}
 		} else {
 			initialView()
 		}
 	}
-	
+
 	func initialView() -> some View {
 		ZStack {
 			Group {
@@ -145,7 +137,7 @@ struct ContentView: View {
 			}
 		}
 	}
-	
+
 	func overlayKeypad() -> some View {
 		VStack(spacing: 0) {
 			InputArea(isShowingKeypad: $keypadState.isShowingKeypad,
@@ -158,10 +150,10 @@ struct ContentView: View {
 				deleteFirst()
 			})
 			.environmentObject(dataModel)
-			.onChange(of: keypadState.string, perform: { newValue in
+			.onChange(of: keypadState.string, perform: { _ in
 				if keypadState.string.count > 9 {
 					keypadState.string = String(keypadState.string.prefix(9)) }})
-			
+
 			Keypad(string: $keypadState.string, isShowing: $keypadState.isShowingKeypad,
 				   onSwipeUp: {
 				self.addItem()
@@ -176,7 +168,7 @@ struct ContentView: View {
 		}
 		.background(.bar)
 	}
-	
+
 	func saveContext() {
 		do {
 			try modelContext.save()
@@ -186,14 +178,14 @@ struct ContentView: View {
 			UINotificationFeedbackGenerator().notificationOccurred(.warning)
 		}
 	}
-	
+
 	func updateFoldedDate() {
 		let currentDate = Calendar.current.startOfDay(for: Date())
 		if dataModel.foldedItems[currentDate] == true {
 			dataModel.foldedItems[currentDate] = false
 		}
 	}
-	
+
 	func addItem() {
 		if let balance = Double(keypadState.string), keypadState.string != "0" {
 			let newItem = Item(date: Date(), balance: String(balance), currency: dataModel.currentCurrency)
@@ -205,7 +197,7 @@ struct ContentView: View {
 			keypadState.string = "0"
 		}
 	}
-	
+
 	func deleteFirst() {
 		if let firstGroup = items.sortedByDate().first,
 		   let recentItem = firstGroup.1.first {
@@ -216,7 +208,7 @@ struct ContentView: View {
 				}
 		}
 	}
-	
+
 	func deleteItems(offsets: IndexSet) {
 		DispatchQueue.global().async {
 			for index in offsets {
@@ -247,8 +239,8 @@ struct ContentView: View {
 //	}
 
 //
-//#Preview {
+// #Preview {
 //    ContentView()
 //		.modelContainer(for: [Item.self], inMemory: true)
 //		.environmentObject(DataModel())
-//}
+// }

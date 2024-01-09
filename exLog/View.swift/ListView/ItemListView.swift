@@ -12,7 +12,7 @@ struct ItemListView: View {
 	var items: [Item]
 	var onTap: () -> Void
 	var location: String?
-	
+
 	var body: some View {
 		let dateGroup: [Date: [Item]] = Dictionary(grouping: items) { item in
 			Calendar.current.startOfDay(for: item.date) }
@@ -23,7 +23,7 @@ struct ItemListView: View {
 				return date
 			}
 		}
-		
+
 		List {
 			ForEach(dateGroup.sorted(by: { $0.key > $1.key }), id: \.key) { date, group in
 				let sumForDate = group.reduce(0) { $0 + $1.calculatedBalance }
@@ -38,7 +38,7 @@ struct ItemListView: View {
 		.environment(\.defaultMinListRowHeight, 12)
 		.environment(\.defaultMinListHeaderHeight, 0)
 	}
-	
+
 	func dayList(group: [Date: [Item]], date: Date, sumForDate: Int) -> some View {
 		Section(
 			header: DateHeader(items: items, date: date, sumForDate: sumForDate)

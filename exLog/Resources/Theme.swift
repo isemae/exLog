@@ -12,7 +12,7 @@ struct Theme {
 	static func bgColor(_ scheme: ColorScheme) -> Color {
 		let light = Color.white
 		let dark = Color.black
-		
+
 		switch scheme {
 		case .light:
 			return light

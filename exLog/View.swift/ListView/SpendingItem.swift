@@ -10,9 +10,9 @@ import SwiftUI
 struct SpendingItem: View {
 	var ampm: Bool
 	var item: Item
-	
+
 	var body: some View {
-		HStack (alignment: .center, spacing: 0) {
+		HStack(alignment: .center, spacing: 0) {
 			categoryView()
 			Spacer()
 			Text("₩\(item.calculatedBalance)")
@@ -31,7 +31,7 @@ struct SpendingItem: View {
 			}
 		})
 	}
-	
+
 	func localCurrencyValue() -> some View {
 		HStack {
 			Text("\(item.currency.symbol) \(item.balance.formatNumber()) ")
@@ -42,7 +42,7 @@ struct SpendingItem: View {
 				.font(.system(size: 15))
 		}
 	}
-	
+
 	func categoryView() -> some View {
 		HStack(spacing: 0) {
 			if (item.category != nil) {
@@ -68,7 +68,7 @@ struct SpendingItem: View {
 //		let isCurrencySame = item.currency != prevItem.currency
 //		return isCurrencySame
 //	}
-	
+
 //// 시간순서에 따라 항목 투명도 조절
 //	func opacityForItem(_ item: Item, _ items: [Item]) -> Double {
 //		let minOpacity: Double = 0.5
@@ -79,7 +79,6 @@ struct SpendingItem: View {
 //		}
 //		return 1.0
 //	}
-	
 
 #Preview {
 	SpendingItem(ampm: true, item: createTestItems().first!)

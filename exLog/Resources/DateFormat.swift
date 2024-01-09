@@ -11,7 +11,7 @@ import SwiftUI
 func formattedDateComponent(dateComponent: DateComponents) -> String? {
 	let formatter = DateFormatter()
 	formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-	
+
 	guard let date = Calendar.current.date(from: dateComponent) else {
 		return nil
 	}
@@ -30,7 +30,7 @@ func formattedDate(date: Date?) -> String {
 
 func dateFormatString(for date: Date, format: String) -> String {
 		let dateFormatter = DateFormatter()
-		
+
 		switch format {
 		case "yymmdd":
 			dateFormatter.dateFormat = "yyMMdd"
@@ -53,7 +53,7 @@ func dateFormatString(for date: Date, format: String) -> String {
 func dayColor(for date: Date) -> Color {
 	let calendar = Calendar.current
 	let currentDay = calendar.component(.weekday, from: date)
-	
+
 	switch currentDay {
 	case 1:
 		return Color.red
@@ -69,7 +69,7 @@ let currentDate = Date()
 let AM11 = DateComponents(hour: 11, minute: 0)
 
 struct DateView: View {
-	
+
 	var body: some View {
 		Text(dateFormatString(for: currentDate, format: "yymmdd"))
 		Text(dateFormatString(for: currentDate, format:"mmdd"))
@@ -81,6 +81,3 @@ struct DateView: View {
 #Preview {
 	DateView()
 }
-
-
-

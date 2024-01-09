@@ -7,17 +7,16 @@
 
 import SwiftUI
 
-
 struct DatePickerView: View {
 	@Environment(\.calendar) var calendar
 	@Environment(\.timeZone) var timeZone
-	
+
 	@State private var startDate = Date()
 	@State private var endDate = Date()
 	//	@State private var dateRange: Set<DateComponents> = []
 	@Binding var selectedDates: [Date]
 	var image: Image?
-	
+
 	var body: some View {
 		//			MultiDatePicker("", selection: $dateRange, in: Date()...)
 		//				.environment(\.locale, Locale.init(identifier: "ko"))
@@ -38,10 +37,9 @@ struct DatePickerView: View {
 		//			}
 		//		}
 	}
-	
-	
+
 }
 //
-//#Preview {
+// #Preview {
 //    DatePickerView()
-//}
+// }

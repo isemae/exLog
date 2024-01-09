@@ -33,8 +33,8 @@ struct Keypad: View {
 					if orientation.translation.height > 10.0 {
 						self.onSwipeDown()
 					}
-					
-					if orientation.translation.height < 10.0{
+
+					if orientation.translation.height < 10.0 {
 						self.onSwipeUp()
 					}
 				}
@@ -42,7 +42,7 @@ struct Keypad: View {
 		.ignoresSafeArea(.all)
 		.environment(\.keypadButtonAction, self.keyPressed(_:))
 	}
-	
+
 	private func keyPressed(_ key: String) {
 		switch key {
 		case "." where string.contains("."): break
@@ -72,7 +72,7 @@ struct KeypadButton: View {
 	var key: String
 	var onLongPress: () -> Void = {}
 	var onLongPressRepeat: () -> Void = {}
-	
+
 	@State private var longPressTimer: Timer?
 	var body: some View {
 		Rectangle()
@@ -85,11 +85,11 @@ struct KeypadButton: View {
 			}
 			.overlay(Text(key))
 	}
-	
+
 	enum ActionKey: EnvironmentKey {
 		static var defaultValue: (String) -> Void {{_ in}}
 	}
-	
+
 	@Environment(\.keypadButtonAction) var action: (String) -> Void
 }
 
@@ -99,8 +99,6 @@ extension EnvironmentValues {
 		set { self[KeypadButton.ActionKey.self] = newValue }
 	}
 }
-
-
 
 struct KpPreview: View {
 	@State var string: String = "0"
@@ -118,4 +116,3 @@ struct KpPreview: View {
 #Preview {
 	KpPreview()
 }
-

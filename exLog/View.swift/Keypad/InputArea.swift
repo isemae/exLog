@@ -15,7 +15,7 @@ struct InputArea: View {
 	var string: String
 	let onSwipeUp: () -> Void
 	let onSwipeDown: () -> Void
-	
+
 	var body: some View {
 		VStack(spacing: 0) {
 			calculatedPreview()
@@ -41,7 +41,7 @@ struct InputArea: View {
 		.overlayDivider(alignment: .top)
 		.gestureHandler(onSwipeUp: onSwipeUp, onSwipeDown: onSwipeDown)
 	}
-	
+
 	private func calculatedPreview() -> some View {
 		VStack {
 			HStack {
@@ -50,7 +50,7 @@ struct InputArea: View {
 				Spacer()
 				Text("\(Int(round(Double(string) ?? 1.0) * sharedResponseManager.dealBasisRate))")
 					.onChange(of: sharedResponseManager.dealBasisRate) { newDealBasisRate in
-						let updatedValue = Int(round(Double(string) ?? 1.0) * newDealBasisRate)
+						_ = Int(round(Double(string) ?? 1.0) * newDealBasisRate)
 					}
 					.padding(.trailing, 25)
 			}
@@ -61,9 +61,8 @@ struct InputArea: View {
 		}
 		.opacity(isShowingKeypad ? 1 : 0)
 		.frame(height: isShowingKeypad ? 40 : 0)
-		
 	}
-	
+
 	func currencySelectorButton() -> some View {
 		VStack(spacing: 0) {
 			Text(dataModel.currentCurrency.symbol)
