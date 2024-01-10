@@ -14,22 +14,23 @@ struct ImagePickerView: View {
 
 	var body: some View {
 		VStack {
-			ZStack {
-				if let image = image {
-					image
-						.resizable()
-						.scaledToFill()
-						.frame(width: 150, height: 150)
+			RoundedRectangle(cornerRadius: 20)
+				.foregroundColor(.gray)
+				.frame(width: 160, height: 150)
+				.overlay(
+					ZStack {
+						image?
+							.resizable()
+							.scaledToFill()
+							.frame(width: 160, height: 150)
+							.overlay(
+								RadialGradient(gradient: Gradient(colors: [.clear, .black]), center: .center, startRadius: 0, endRadius: 200))
+					}
 						.cornerRadius(20)
-				} else {
-					RoundedRectangle(cornerRadius: 20)
-						.foregroundColor(.gray)
-						.frame(width: 150, height: 150)
-				}
-			}
+				)
 		}
-		.sheet(isPresented: $showImagePicker, onDismiss: { loadImage() }) {
-			ImagePicker(image: $selectedUIImage) }
+
+		.sheet(isPresented: $showImagePicker, onDismiss: { loadImage() }) { ImagePicker(image: $selectedUIImage) }
 		.onLongPressGesture(perform: {
 			showImagePicker.toggle()
 		})
@@ -40,7 +41,7 @@ struct ImagePickerView: View {
 		image = Image(uiImage: selectedImage)
 	}
 }
-//
-// #Preview {
-//	ImagePickerView()
-// }
+
+#Preview {
+	ImagePickerView()
+}

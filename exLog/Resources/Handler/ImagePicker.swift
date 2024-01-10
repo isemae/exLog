@@ -33,7 +33,7 @@ extension ImagePicker {
 			self.parent = parent
 		}
 
-		func imagePickerController(_ picker: UIImagePickerController, _ info: [UIImagePickerController.InfoKey : Any]) {
+		func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 			guard let image = info[.originalImage] as? UIImage else { return }
 			parent.image = image
 			parent.mode.wrappedValue.dismiss()

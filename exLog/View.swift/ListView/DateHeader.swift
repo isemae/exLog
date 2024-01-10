@@ -19,7 +19,7 @@ struct DateHeader: View {
 			Spacer()
 			Text("₩\(sumForDate)")
 				.font(.title3)
-				.foregroundColor(Color(uiColor: UIColor.secondaryLabel))
+				.foregroundColor(Color(uiColor: .secondaryLabel))
 		}
 		.padding(8)
 		.overlayDivider(alignment: .bottom, state: !dataModel.foldedItems[date, default: false])
@@ -34,7 +34,7 @@ struct DateHeader: View {
 	private func headerDateView() -> some View {
 		HStack(spacing: 0) {
 			Text("\(dateFormatString(for: date, format: "mm"))/")
-				.foregroundColor(Color(uiColor: UIColor.label))
+				.foregroundColor(Color(uiColor: .label))
 			Text("\(dateFormatString(for: date, format: "dd"))")
 				.foregroundColor(dayColor(for: date))
 			Image(systemName: "chevron.down")

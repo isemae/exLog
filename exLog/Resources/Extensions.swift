@@ -49,7 +49,7 @@ extension Text {
 extension View {
 	func safeAreaOverlay(alignment: Alignment, edges: Edge.Set) -> some View {
 		self.overlay(alignment: alignment) {
-			Color(uiColor: UIColor.systemBackground)
+			Color(uiColor: .systemBackground)
 				.ignoresSafeArea(edges: edges)
 				.frame(height: 0)
 		}
@@ -58,7 +58,7 @@ extension View {
 		self.overlay(
 			Divider()
 				.opacity(state == true ? 0 : 1)
-				.foregroundColor(Color(uiColor: UIColor.systemGray))
+				.foregroundColor(Color(uiColor: .systemGray))
 			,
 			alignment: alignment
 		)

@@ -31,10 +31,10 @@ struct ItemListView: View {
 			}
 			.listRowInsets(EdgeInsets())
 			.listRowSeparator(.hidden)
-			.listRowBackground(Color(uiColor: UIColor.systemBackground))
+			.listRowBackground(Color(uiColor: .systemBackground))
 		}
 		.listStyle(.insetGrouped)
-		.background(Color(uiColor: UIColor.systemBackground))
+		.background(Color(uiColor: .systemBackground))
 		.environment(\.defaultMinListRowHeight, 12)
 		.environment(\.defaultMinListHeaderHeight, 0)
 	}
@@ -52,7 +52,7 @@ struct ItemListView: View {
 							SpendingItem(ampm: dataModel.ampm, item: item)
 						}
 					}
-					.background(Color(uiColor: UIColor.secondarySystemGroupedBackground).edgesIgnoringSafeArea(.all))
+					.background(Color(uiColor: .secondarySystemGroupedBackground).edgesIgnoringSafeArea(.all))
 				}
 			}
 		}

@@ -19,7 +19,7 @@ struct HHmmHeader: View {
 				.fixedSize()
 			Spacer()
 		}
-		.foregroundColor(Color(uiColor: UIColor.secondaryLabel))
+		.foregroundColor(Color(uiColor: .secondaryLabel))
 		.padding(10)
 		.overlayDivider(alignment: .top)
 		.onTapGesture {

@@ -16,8 +16,6 @@ struct LocationGridView: View {
 		LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
 			ForEach(locations, id: \.self) { location in
 				ZStack {
-					RoundedRectangle(cornerRadius: 15)
-						.foregroundColor(.gray)
 					ImagePickerView()
 					VStack {
 						NavigationLink(location.name,

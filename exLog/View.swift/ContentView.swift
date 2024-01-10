@@ -35,7 +35,7 @@ struct ContentView: View {
 							overlayKeypad()
 								.transition(.move(edge: .bottom))}
 						.navigationTitle("분류되지 않음")
-						.foregroundColor(Color(uiColor: UIColor.label))
+						.foregroundColor(Color(uiColor: .label))
 						.environmentObject(dataModel)
 					)
 					LocationGridView(locations: locations, items: items, tapAction: { try? modelContext.save() })

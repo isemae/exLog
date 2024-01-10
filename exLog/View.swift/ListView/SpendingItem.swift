@@ -18,7 +18,7 @@ struct SpendingItem: View {
 			Text("₩\(item.calculatedBalance)")
 				.font(.title2)
 		}
-		.foregroundColor(Color(uiColor: UIColor.label))
+		.foregroundColor(Color(uiColor: .label))
 		.padding(.vertical, 5)
 		.padding(.horizontal, 10)
 		.contextMenu(menuItems: {
