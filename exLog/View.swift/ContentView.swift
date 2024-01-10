@@ -20,7 +20,7 @@ struct ContentView: View {
 	@State var keypadState = States.Keypad()
 	@State var locationState = States.Location()
 	@State var pickerState = States.Picker()
-	@State private var image: Image?
+	@State private var image: UIImage?
 
 	var body: some View {
 //		let years = items.map { item in

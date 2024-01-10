@@ -18,8 +18,7 @@ struct LocationGridView: View {
 				ZStack {
 					ImagePickerView()
 					VStack {
-						NavigationLink(location.name,
-									   destination: ItemListView(items: items.filter { item in
+						NavigationLink(location.name, destination: ItemListView(items: items.filter { item in
 							if let startDate = location.startDate, let endDate = location.endDate {
 								return startDate <= item.date && item.date <= endDate
 							}
@@ -28,7 +27,7 @@ struct LocationGridView: View {
 						.font(.title)
 						.foregroundColor(.primary)
 						.bold()
-						Text("\(formattedDate(date: location.startDate ?? Date()) )~ \(formattedDate(date: location.endDate ?? Date()))")
+						Text("\(formattedDate(date: location.startDate ?? Date())) ~ \(formattedDate(date: location.endDate ?? Date()))")
 					}
 				}
 			}

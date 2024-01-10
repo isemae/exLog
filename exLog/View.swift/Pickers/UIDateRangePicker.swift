@@ -14,7 +14,9 @@ struct DateRangePicker: UIViewRepresentable {
 	func makeUIView(context: Context) -> some UIDatePicker {
 		let datePicker = UIDatePicker()
 		datePicker.datePickerMode = .date
+		datePicker.locale = Locale(identifier: "ko_kr")
 		datePicker.addTarget(context.coordinator, action: #selector(Coordinator.dateChanged(_:)), for: .valueChanged)
+
 		return datePicker
 	}
 	func updateUIView(_ uiView: UIViewType, context: Context) {

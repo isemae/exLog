@@ -20,7 +20,9 @@ func formattedDateComponent(dateComponent: DateComponents) -> String? {
 
 func formattedDate(date: Date?) -> String {
 	let formatter = DateFormatter()
-	formatter.dateStyle = .short
+	formatter.dateStyle = .long
+	formatter.timeStyle = .none
+	formatter.locale = Locale(identifier: "ko_kr")
 	if let validDate = date {
 		return formatter.string(from: validDate)
 	} else {
