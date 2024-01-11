@@ -13,9 +13,9 @@ struct ContentView: View {
 	@Environment(\.modelContext) private var modelContext
 	@Query(sort: \Item.date, order: .reverse) private var items: [Item]
 	@Query private var locations: [Location]
-//	@Query(filter: #Predicate<Items> { items in
-//		!items.isFolded
-//	})
+	//	@Query(filter: #Predicate<Items> { items in
+	//		!items.isFolded
+	//	})
 	@StateObject private var dataModel = DataModel()
 	@State var keypadState = States.Keypad()
 	@State var locationState = States.Location()
@@ -23,22 +23,15 @@ struct ContentView: View {
 	@State private var image: UIImage?
 
 	var body: some View {
-//		let years = items.map { item in
-//			return Calendar.current.component(.year, from: item.date)
-//		}
-//		let uniqueYears = Array(Set(years))
+		//		let years = items.map { item in
+		//			return Calendar.current.component(.year, from: item.date)
+		//		}
+		//		let uniqueYears = Array(Set(years))
 		if !items.isEmpty {
 			NavigationView {
 				ScrollView(.vertical) {
-					NavigationLink("분류되지 않음", destination: ItemListView(items: items, onTap: { try? modelContext.save() })
-						.safeAreaInset(edge: .bottom, spacing: 0) {
-							overlayKeypad()
-								.transition(.move(edge: .bottom))}
-						.navigationTitle("분류되지 않음")
-						.foregroundColor(Color(uiColor: .label))
-						.environmentObject(dataModel)
-					)
-					LocationGridView(locations: locations, items: items, tapAction: { try? modelContext.save() })
+					NavigationLink("분류되지 않음", destination: destinationItemListView())
+					LocationGridView(items: items.filter { $0.location == nil }, tapAction: { try? modelContext.save() })
 				}
 				.navigationBarTitleDisplayMode(.inline)
 				.toolbar {
@@ -68,6 +61,12 @@ struct ContentView: View {
 							newLocation.name = pickerState.addingLocationName
 							newLocation.startDate = pickerState.selectedDates.first
 							newLocation.endDate = pickerState.selectedDates.last
+							newLocation.items = items.filter { item in
+								if let startDate = newLocation.startDate, let endDate = newLocation.endDate {
+									return startDate <= item.date && item.date <= endDate
+								}
+								return false
+							}
 							withAnimation(.easeOut(duration: 0.2)) {
 								modelContext.insert(newLocation)
 								saveContext()
@@ -83,16 +82,21 @@ struct ContentView: View {
 					}
 				})
 			}
-			.safeAreaInset(edge: .bottom, spacing: 0) {
-				overlayKeypad()
-					.transition(.move(edge: .bottom))
-			}
-			.onAppear {
-				//				currentYear = Calendar.current.component(.year, from: Date())
-			}
+
 		} else {
 			initialView()
 		}
+	}
+
+	func destinationItemListView() -> some View {
+		ItemListView(items: items, onTap: { try? modelContext.save() })
+			.navigationBarTitle("분류되지 않음")
+			.foregroundColor(Color(uiColor: .label))
+			.safeAreaInset(edge: .bottom) {
+				overlayKeypad()
+					.transition(.move(edge: .bottom))
+			}
+			.environmentObject(dataModel)
 	}
 
 	func initialView() -> some View {
@@ -144,7 +148,7 @@ struct ContentView: View {
 					  string: keypadState.string,
 					  onSwipeUp: {
 				addItem()
-//				selectedYear = Calendar.current.component(.year, from: Date())
+				//				selectedYear = Calendar.current.component(.year, from: Date())
 			},
 					  onSwipeDown: {
 				deleteFirst()
@@ -157,7 +161,7 @@ struct ContentView: View {
 			Keypad(string: $keypadState.string, isShowing: $keypadState.isShowingKeypad,
 				   onSwipeUp: {
 				self.addItem()
-//				selectedYear = Calendar.current.component(.year, from: Date())
+				//				selectedYear = Calendar.current.component(.year, from: Date())
 			},
 				   onSwipeDown: {
 				self.deleteFirst()
@@ -189,11 +193,11 @@ struct ContentView: View {
 	func addItem() {
 		if let balance = Double(keypadState.string), keypadState.string != "0" {
 			let newItem = Item(date: Date(), balance: String(balance), currency: dataModel.currentCurrency)
-				withAnimation(.easeOut(duration: 0.2)) {
-					modelContext.insert(newItem)
-					saveContext()
-					updateFoldedDate()
-				}
+			withAnimation(.easeOut(duration: 0.2)) {
+				modelContext.insert(newItem)
+				saveContext()
+				updateFoldedDate()
+			}
 			keypadState.string = "0"
 		}
 	}
