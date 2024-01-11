@@ -30,6 +30,10 @@ struct DatePickerView: View {
 			}
 		}
 		DateRangePicker(selectedDates: $selectedDates)
+			.frame(maxHeight: Screen.height / 2)
+			.onChange(of: selectedDates) { dates in
+				selectedDates = dates.sorted()
+			}
 		//		ForEach(Array(dateRange), id: \.self) { dateComponent in
 		//			if let formattedDate = formattedDate(dateComponent: dateComponent) {
 		//				Text(formattedDate)
