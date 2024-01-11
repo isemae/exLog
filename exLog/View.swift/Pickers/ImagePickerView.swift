@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct ImagePickerView: View {
-	@State var showImagePicker = false
+	@State var locations : [Location]
+	@Binding var showImagePicker: Bool
 	@State var selectedUIImage: UIImage?
 	@State var image: Image?
 
@@ -31,9 +32,7 @@ struct ImagePickerView: View {
 		}
 
 		.sheet(isPresented: $showImagePicker, onDismiss: { loadImage() }) { ImagePicker(image: $selectedUIImage) }
-		.onLongPressGesture(perform: {
-			showImagePicker.toggle()
-		})
+
 	}
 
 	func loadImage() {
@@ -41,7 +40,7 @@ struct ImagePickerView: View {
 		image = Image(uiImage: selectedImage)
 	}
 }
-
-#Preview {
-	ImagePickerView()
-}
+//
+// #Preview {
+//	ImagePickerView()
+// }
