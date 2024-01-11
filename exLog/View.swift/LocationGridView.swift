@@ -14,7 +14,7 @@ struct LocationGridView: View {
 
     var body: some View {
 		LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-			ForEach(locations, id: \.self) { location in
+			ForEach(locations.sorted(by: { $0.startDate ?? Date()  > $1.startDate ?? Date() }), id: \.self) { location in
 				ZStack {
 					ImagePickerView()
 					VStack {
