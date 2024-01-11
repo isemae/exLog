@@ -93,7 +93,7 @@ struct ContentView: View {
 			.navigationBarTitle("분류되지 않음")
 			.foregroundColor(Color(uiColor: .label))
 			.safeAreaInset(edge: .bottom) {
-				overlayKeypad()
+				OverlayKeypad(string: $keypadState.string, isShowingKeypad: $keypadState.isShowingKeypad, onSwipeUp: addItem, onSwipeDown: deleteFirst)
 					.transition(.move(edge: .bottom))
 			}
 			.environmentObject(dataModel)
@@ -135,42 +135,11 @@ struct ContentView: View {
 				Text("")
 					.frame(maxHeight: .infinity)
 					.safeAreaInset(edge: .bottom, spacing: 0) {
-						overlayKeypad()
+						OverlayKeypad(string: $keypadState.string, isShowingKeypad: $keypadState.isShowingKeypad, onSwipeUp: addItem, onSwipeDown: deleteFirst)
 							.transition(.move(edge: .bottom))
 					}
 			}
 		}
-	}
-
-	func overlayKeypad() -> some View {
-		VStack(spacing: 0) {
-			InputArea(isShowingKeypad: $keypadState.isShowingKeypad,
-					  string: keypadState.string,
-					  onSwipeUp: {
-				addItem()
-				//				selectedYear = Calendar.current.component(.year, from: Date())
-			},
-					  onSwipeDown: {
-				deleteFirst()
-			})
-			.environmentObject(dataModel)
-			.onChange(of: keypadState.string, perform: { _ in
-				if keypadState.string.count > 9 {
-					keypadState.string = String(keypadState.string.prefix(9)) }})
-
-			Keypad(string: $keypadState.string, isShowing: $keypadState.isShowingKeypad,
-				   onSwipeUp: {
-				self.addItem()
-				//				selectedYear = Calendar.current.component(.year, from: Date())
-			},
-				   onSwipeDown: {
-				self.deleteFirst()
-			})
-			.font(.largeTitle)
-			.disabled(!keypadState.isShowingKeypad)
-			.offset(y: keypadState.isShowingKeypad ? 0 : Screen.height / 2)
-		}
-		.background(.bar)
 	}
 
 	func saveContext() {
@@ -205,11 +174,11 @@ struct ContentView: View {
 	func deleteFirst() {
 		if let firstGroup = items.sortedByDate().first,
 		   let recentItem = firstGroup.1.first {
-				withAnimation(.easeOut(duration: 0.2)) {
-					modelContext.delete(recentItem)
-					saveContext()
-					updateFoldedDate()
-				}
+			withAnimation(.easeOut(duration: 0.2)) {
+				modelContext.delete(recentItem)
+				saveContext()
+				updateFoldedDate()
+			}
 		}
 	}
 
