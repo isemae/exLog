@@ -10,7 +10,8 @@ import SwiftUI
 
 func formattedDateComponent(dateComponent: DateComponents) -> String? {
 	let formatter = DateFormatter()
-	formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+	formatter.locale = Locale(identifier: "ko_kr")
+	formatter.dateStyle = .long
 
 	guard let date = Calendar.current.date(from: dateComponent) else {
 		return nil

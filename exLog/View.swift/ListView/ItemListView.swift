@@ -12,7 +12,6 @@ struct ItemListView: View {
 	var items: [Item]
 	var onTap: () -> Void
 	var location: String?
-
 	var body: some View {
 		let dateGroup: [Date: [Item]] = Dictionary(grouping: items) { item in
 			Calendar.current.startOfDay(for: item.date) }
@@ -58,8 +57,8 @@ struct ItemListView: View {
 		}
 	}
 }
-
-#Preview {
-	ItemListView(items: createTestItems(), onTap: {print("hello")})
-		.environmentObject(DataModel())
-}
+//
+// #Preview {
+//	ItemListView(string: <#Binding<String>#>, items: createTestItems(), onTap: {print("hello")})
+//		.environmentObject(DataModel())
+// }

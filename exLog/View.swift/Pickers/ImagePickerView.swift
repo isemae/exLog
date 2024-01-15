@@ -32,7 +32,6 @@ struct ImagePickerView: View {
 		}
 
 		.sheet(isPresented: $showImagePicker, onDismiss: { loadImage() }) { ImagePicker(image: $selectedUIImage) }
-
 	}
 
 	func loadImage() {
