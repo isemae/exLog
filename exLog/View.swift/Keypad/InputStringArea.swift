@@ -6,69 +6,77 @@
 //
 
 import SwiftUI
+import SwiftData
 
-struct InputArea: View {
+struct InputStringArea: View {
+	@Query(sort: \Item.date, order: .reverse) private var items: [Item]
 	@EnvironmentObject var dataModel: DataModel
 	@ObservedObject private var sharedResponseManager = ResponseManager.shared
 	@State private var contextMenuButtons: [Currency] = []
-	@Binding var isShowingKeypad: Bool
+	//	@Binding var isShowingKeypad: Bool
 	var string: String
 	let onSwipeUp: () -> Void
 	let onSwipeDown: () -> Void
 
 	var body: some View {
-		VStack(spacing: 0) {
-			calculatedPreview()
-			HStack {
-				currencySelectorButton()
-					.onAppear {
-						contextMenuButtons = Currency.allCases
-					}
-				Spacer()
-				Text(string.formatNumber())
-					.padding(.trailing, 20)
-			}
-			.frame(height: 65)
+
+			VStack(spacing: 0) {
+				calculatedPreview()
+				HStack {
+					currencySelectorButton()
+						.onAppear {
+							contextMenuButtons = Currency.allCases
+						}
+					Spacer()
+					Text(string.formatNumber())
+//						.padding(.trailing, 10)
 			.padding(.horizontal, 10)
-			.font(.largeTitle)
-		}
-		.contentShape(Rectangle())
-		.onTapGesture(perform: {
-			withAnimation(.spring(response: 0.15, dampingFraction: 1.1)) {
-				isShowingKeypad.toggle()
+				}
+				.frame(height: Screen.height / 12)
+				.padding(.horizontal, 10)
+				.font(.largeTitle)
 			}
-		})
-		.overlayDivider(alignment: .top)
-		.gestureHandler(onSwipeUp: onSwipeUp, onSwipeDown: onSwipeDown)
+			.contentShape(Rectangle())
+			//		.onTapGesture(perform: {
+			//			withAnimation(.spring(response: 0.15, dampingFraction: 1.1)) {
+			//				isShowingKeypad.toggle()
+			//			}
+			//		})
+			.overlayDivider(alignment: .top)
+			.gestureHandler(onSwipeUp: onSwipeUp, onSwipeDown: onSwipeDown)
+
 	}
 
 	private func calculatedPreview() -> some View {
-		VStack {
+		VStack(spacing: 0) {
 			HStack {
 				Text("₩")
-					.frame(width: 50)
+					.font(.title2)
+					.frame(width: Screen.width / 8, height: Screen.width / 8)
 				Spacer()
 				Text("\(Int(round(Double(string) ?? 1.0) * sharedResponseManager.dealBasisRate))")
+					.font(.title)
 					.onChange(of: sharedResponseManager.dealBasisRate) { newDealBasisRate in
 						_ = Int(round(Double(string) ?? 1.0) * newDealBasisRate)
 					}
-					.padding(.trailing, 25)
+					.padding(.horizontal, 10)
 			}
 			.foregroundColor(.secondary)
 			.padding(.horizontal, 10)
 			Divider()
-				.padding(.horizontal, 10)
 		}
-		.opacity(isShowingKeypad ? 1 : 0)
-		.frame(height: isShowingKeypad ? 40 : 0)
+		//		.opacity(isShowingKeypad ? 1 : 0)
+		//		.frame(height: isShowingKeypad ? 40 : 0)
 	}
 
 	func currencySelectorButton() -> some View {
 		VStack(spacing: 0) {
 			Text(dataModel.currentCurrency.symbol)
-			Text(dataModel.currentCurrency.code).font(.footnote)
+				.font(.title)
+			Text(dataModel.currentCurrency.code)
+				.font(.footnote)
 		}
-		.frame(width: 50, height: 50)
+		.frame(width: Screen.width / 8, height: Screen.width / 8)
 		.contentShape(RoundedRectangle(cornerRadius: 10))
 		.contextMenu(menuItems: {
 			ForEach(contextMenuButtons, id: \.self) { curr in
@@ -89,7 +97,7 @@ struct InputAreaPreview: View {
 	@State var testBool: Bool = true
 	var body: some View {
 		VStack {
-			InputArea(isShowingKeypad: $testBool, string: string, onSwipeUp: {}, onSwipeDown: {})
+			InputStringArea(string: string, onSwipeUp: {}, onSwipeDown: {})
 				.environmentObject(DataModel())
 		}
 		.font(.largeTitle)

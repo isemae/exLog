@@ -20,7 +20,7 @@
 		082177BF2B0DFDC400D46518 /* spndLogUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177BE2B0DFDC400D46518 /* spndLogUITestsLaunchTests.swift */; };
 		082177CC2B0DFE7800D46518 /* CountryMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177CB2B0DFE7800D46518 /* CountryMenuView.swift */; };
 		082177CE2B0DFE9300D46518 /* Keypad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177CD2B0DFE9300D46518 /* Keypad.swift */; };
-		083DAFF82B5089AD00023BE6 /* OverlayKeypad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083DAFF72B5089AD00023BE6 /* OverlayKeypad.swift */; };
+		083DAFF82B5089AD00023BE6 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083DAFF72B5089AD00023BE6 /* InputView.swift */; };
 		08491AB62B49A00400D3E13F /* UIDateRangePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08491AB52B49A00400D3E13F /* UIDateRangePicker.swift */; };
 		08491AB82B4A9ED100D3E13F /* LocationGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08491AB72B4A9ED100D3E13F /* LocationGridView.swift */; };
 		08491ABA2B4AE22200D3E13F /* States.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08491AB92B4AE22200D3E13F /* States.swift */; };
@@ -35,9 +35,10 @@
 		08AB637E2B0E706600F03C64 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AB637D2B0E706600F03C64 /* Extensions.swift */; };
 		08B6C8DF2B27E8AE0045EE24 /* ItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B6C8DE2B27E8AE0045EE24 /* ItemListView.swift */; };
 		08B8C2142B1156A1008734A8 /* CategoryMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B8C2132B1156A1008734A8 /* CategoryMenuView.swift */; };
+		08C090FA2B550B5D008366AC /* CategoryCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C090F92B550B5D008366AC /* CategoryCarousel.swift */; };
 		08DC52222B12D65E005ED804 /* SpendingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DC52212B12D65E005ED804 /* SpendingItem.swift */; };
 		08DC52242B12D7DA005ED804 /* DateHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DC52232B12D7DA005ED804 /* DateHeader.swift */; };
-		08DC52262B12D8C6005ED804 /* InputArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DC52252B12D8C6005ED804 /* InputArea.swift */; };
+		08DC52262B12D8C6005ED804 /* InputStringArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DC52252B12D8C6005ED804 /* InputStringArea.swift */; };
 		08EBE7FD2B104D6B00552A3F /* DateFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EBE7FC2B104D6B00552A3F /* DateFormat.swift */; };
 		08EBE7FF2B105D2400552A3F /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EBE7FE2B105D2400552A3F /* Theme.swift */; };
 		08F2B37C2B0E82AA00371E49 /* EXCRateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F2B37B2B0E82AA00371E49 /* EXCRateRequest.swift */; };
@@ -80,7 +81,7 @@
 		082177BE2B0DFDC400D46518 /* spndLogUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = spndLogUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		082177CB2B0DFE7800D46518 /* CountryMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryMenuView.swift; sourceTree = "<group>"; };
 		082177CD2B0DFE9300D46518 /* Keypad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keypad.swift; sourceTree = "<group>"; };
-		083DAFF72B5089AD00023BE6 /* OverlayKeypad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayKeypad.swift; sourceTree = "<group>"; };
+		083DAFF72B5089AD00023BE6 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 		08491AB52B49A00400D3E13F /* UIDateRangePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDateRangePicker.swift; sourceTree = "<group>"; };
 		08491AB72B4A9ED100D3E13F /* LocationGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationGridView.swift; sourceTree = "<group>"; };
 		08491AB92B4AE22200D3E13F /* States.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = States.swift; sourceTree = "<group>"; };
@@ -95,9 +96,10 @@
 		08AB637D2B0E706600F03C64 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		08B6C8DE2B27E8AE0045EE24 /* ItemListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemListView.swift; sourceTree = "<group>"; };
 		08B8C2132B1156A1008734A8 /* CategoryMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryMenuView.swift; sourceTree = "<group>"; };
+		08C090F92B550B5D008366AC /* CategoryCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCarousel.swift; sourceTree = "<group>"; };
 		08DC52212B12D65E005ED804 /* SpendingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingItem.swift; sourceTree = "<group>"; };
 		08DC52232B12D7DA005ED804 /* DateHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHeader.swift; sourceTree = "<group>"; };
-		08DC52252B12D8C6005ED804 /* InputArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputArea.swift; sourceTree = "<group>"; };
+		08DC52252B12D8C6005ED804 /* InputStringArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputStringArea.swift; sourceTree = "<group>"; };
 		08EBE7FC2B104D6B00552A3F /* DateFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormat.swift; sourceTree = "<group>"; };
 		08EBE7FE2B105D2400552A3F /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		08F2B37B2B0E82AA00371E49 /* EXCRateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXCRateRequest.swift; sourceTree = "<group>"; };
@@ -230,8 +232,9 @@
 		08491AC22B4C2D7B00D3E13F /* Keypad */ = {
 			isa = PBXGroup;
 			children = (
-				083DAFF72B5089AD00023BE6 /* OverlayKeypad.swift */,
-				08DC52252B12D8C6005ED804 /* InputArea.swift */,
+				083DAFF72B5089AD00023BE6 /* InputView.swift */,
+				08C090F92B550B5D008366AC /* CategoryCarousel.swift */,
+				08DC52252B12D8C6005ED804 /* InputStringArea.swift */,
 				082177CD2B0DFE9300D46518 /* Keypad.swift */,
 			);
 			path = Keypad;
@@ -438,7 +441,7 @@
 			files = (
 				082177A22B0DFDC300D46518 /* ContentView.swift in Sources */,
 				081384712B4808BB00CDF389 /* DatePickerView.swift in Sources */,
-				083DAFF82B5089AD00023BE6 /* OverlayKeypad.swift in Sources */,
+				083DAFF82B5089AD00023BE6 /* InputView.swift in Sources */,
 				087ADE822B0F951200E1BFD8 /* ResponseManager.swift in Sources */,
 				08491AB82B4A9ED100D3E13F /* LocationGridView.swift in Sources */,
 				087712A02B26873D003C8EE8 /* HHmmHeader.swift in Sources */,
@@ -448,13 +451,14 @@
 				08491AB62B49A00400D3E13F /* UIDateRangePicker.swift in Sources */,
 				0872F1E92B3BDF46004169BB /* ImagePickerView.swift in Sources */,
 				082177A42B0DFDC300D46518 /* Item.swift in Sources */,
-				08DC52262B12D8C6005ED804 /* InputArea.swift in Sources */,
+				08DC52262B12D8C6005ED804 /* InputStringArea.swift in Sources */,
 				08B6C8DF2B27E8AE0045EE24 /* ItemListView.swift in Sources */,
 				08DC52222B12D65E005ED804 /* SpendingItem.swift in Sources */,
 				0857C6C42B11C4E60012C698 /* EXCRateJSON.json in Sources */,
 				082177A02B0DFDC300D46518 /* spndLogApp.swift in Sources */,
 				0802FB632B18F495009A7E81 /* DataModel.swift in Sources */,
 				0872F1E72B3BDDA6004169BB /* ImagePicker.swift in Sources */,
+				08C090FA2B550B5D008366AC /* CategoryCarousel.swift in Sources */,
 				08491AC02B4C291E00D3E13F /* authkey.swift in Sources */,
 				08F71DB82B31C58700B305D7 /* GestureHandler.swift in Sources */,
 				082177CE2B0DFE9300D46518 /* Keypad.swift in Sources */,
