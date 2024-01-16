@@ -29,6 +29,9 @@ struct ContentView: View {
 		//		let uniqueYears = Array(Set(years))
 		if !items.isEmpty {
 			NavigationView {
+
+				// Test
+		NavigationLink("t", destination: InputView(string: $keypadState.string, onSwipeUp: {}, onSwipeDown: {}))
 				ScrollView(.vertical) {
 					NavigationLink("분류되지 않음", destination: destinationItemListView())
 					LocationGridView(items: items.filter { $0.location == nil }, tapAction: { try? modelContext.save() })
