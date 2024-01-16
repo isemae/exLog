@@ -48,38 +48,8 @@ struct CategoryCarouselView: View {
 					// 임계의 배수일경우에 실행
 					if state.truncatingRemainder(dividingBy: threshold) == 0 {
 						lastOffset = value.translation.width
-						if diff > 0 {
-							// 우측스와이프
-							if let currentIndex = categories.firstIndex(of: selectedCategory), currentIndex < categories.count - 1 {
-								selectedCategory =  categories[currentIndex + 1]
-								print("right")
-								UIImpactFeedbackGenerator(style: .rigid).impactOccurred(intensity: 0.5)
-								lastOffset = value.translation.width
-							}
-							// 마지막항목일 경우
-							if let currentIndex = categories.firstIndex(of: selectedCategory), currentIndex == categories.count - 1 {
-								selectedCategory = categories[categories.count - 1]
-								print("right end")
-							
-								lastOffset = value.translation.width
-							}
-						}
-						if diff < 0 {
-							// 좌측스와이프
-							if let currentIndex = categories.firstIndex(of: selectedCategory), currentIndex > 0 {
-								selectedCategory = categories[currentIndex - 1]
-								print("left")
-								UIImpactFeedbackGenerator(style: .rigid).impactOccurred(intensity: 0.5)
-								lastOffset = value.translation.width
-							}
-							// 첫항목일경우
-							if let currentIndex = categories.firstIndex(of: selectedCategory), currentIndex == 0 {
-								selectedCategory = categories[0]
-								print("left end")
-								
-								lastOffset = value.translation.width
-							}
-						}
+						handleSwipe(diff: diff)
+						handleEdgeCases()
 					}
 				}
 				.onEnded { _ in
@@ -88,8 +58,42 @@ struct CategoryCarouselView: View {
 		)
 		.animation(.spring())
 	}
+
+	func handleSwipe(diff: CGFloat) {
+		if diff > 0 {
+			handleRightSwipe()
+		} else if diff < 0 {
+			handleLeftSwipe()
+		}
+	}
+
+	func handleRightSwipe() {
+		guard let currentIndex = categories.firstIndex(of: selectedCategory), currentIndex < categories.count - 1 else {
+			return
+		}
+		selectedCategory =  categories[currentIndex + 1]
+		print("right")
+		UIImpactFeedbackGenerator(style: .rigid).impactOccurred(intensity: 0.5)
+	}
+
+	func handleLeftSwipe() {
+		guard let currentIndex = categories.firstIndex(of: selectedCategory), currentIndex > 0 else {
+			return
+		}
+		selectedCategory = categories[currentIndex - 1]
+		print("left")
+		UIImpactFeedbackGenerator(style: .rigid).impactOccurred(intensity: 0.5)
+	}
+
+	func handleEdgeCases() {
+		if categories.firstIndex(of: selectedCategory) == categories.count - 1 {
+			print("right end")
+		}
+		if categories.firstIndex(of: selectedCategory) == 0 {
+			print("left end")
+		}
+	}
 }
-// }
 
 #Preview {
 	CategoryCarouselView()
