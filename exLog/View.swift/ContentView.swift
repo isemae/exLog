@@ -155,12 +155,12 @@ struct ContentView: View {
 		}
 	}
 
-	func updateFoldedDate() {
+//	func updateFoldedDate() {
 		let currentDate = Calendar.current.startOfDay(for: Date())
 //		if dataModel.foldedItems[currentDate] == true {
 //			dataModel.foldedItems[currentDate] = false
 //		}
-	}
+//	}
 
 	func addItem() {
 		if let balance = Double(keypadState.string), keypadState.string != "0" {
@@ -168,7 +168,7 @@ struct ContentView: View {
 			withAnimation(.easeOut(duration: 0.2)) {
 //				modelContext.insert(newItem)
 				saveContext()
-				updateFoldedDate()
+//				updateFoldedDate()
 			}
 			keypadState.string = "0"
 		}
@@ -180,7 +180,7 @@ struct ContentView: View {
 			withAnimation(.easeOut(duration: 0.2)) {
 				modelContext.delete(recentItem)
 				saveContext()
-				updateFoldedDate()
+//				updateFoldedDate()
 			}
 		}
 	}

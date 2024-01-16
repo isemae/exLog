@@ -89,29 +89,3 @@ enum Currency: String, Identifiable, Hashable, CaseIterable, Codable {
 		}
 	}
 }
-
-enum Category: String, Identifiable, Codable, CaseIterable {
-	var id: Category { self }
-	case transportation
-	case shopping
-	case food
-	case liquor
-	case cafe
-	case sweets
-	case entertainment
-	case souvenir
-	case accommodation
-	var symbol: String {
-		switch self {
-		case .transportation: return "🚋"
-		case .shopping: return "🛒"
-		case .food: return "🍝"
-		case .liquor: return "🥃"
-		case .cafe: return "☕"
-		case .sweets: return "🍰"
-		case .entertainment: return "🥳"
-		case .souvenir: return "🛍️"
-		case .accommodation: return "🛌🏻"
-		}
-	}
-}

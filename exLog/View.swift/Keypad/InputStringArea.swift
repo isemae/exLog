@@ -52,7 +52,7 @@ struct InputStringArea: View {
 			HStack {
 				Text("₩")
 					.font(.title2)
-					.frame(width: Screen.width / 8, height: Screen.width / 8)
+					.frame(width: Screen.width / 10, height: Screen.width / 10)
 				Spacer()
 				Text("\(Int(round(Double(string) ?? 1.0) * sharedResponseManager.dealBasisRate))")
 					.font(.title)

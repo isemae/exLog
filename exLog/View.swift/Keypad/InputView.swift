@@ -21,7 +21,7 @@ struct InputView: View {
 		VStack(spacing: 0) {
 			ZStack {
 				Capsule()
-					.frame(width: Screen.width / 1.5, height: Screen.height / 15)
+					.frame(width: Screen.width / 1.5, height: Screen.height / 18)
 					.overlay(
 						HStack {
 							Image(systemName: "scope")
@@ -49,7 +49,8 @@ struct InputView: View {
 				}
 			}
 			.font(.callout)
-			CategoryCarouselView()
+			CategoryPickerView()
+				.frame(height: Screen.height / 8)
 			VStack(spacing: 0) {
 				InputStringArea(
 					string: string,
