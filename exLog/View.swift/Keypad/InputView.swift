@@ -9,63 +9,68 @@ import SwiftUI
 import SwiftData
 
 struct InputView: View {
-	@Environment(\.modelContext) private var modelContext
+	@Environment(\.modelContext) var modelContext
 	@Query(sort: \Item.date, order: .reverse) private var items: [Item]
 	@Binding var string: String
 	@StateObject private var dataModel = DataModel()
-
+	@State var selectedCategory: Category = .sweets
+	@State var itemDesc: String = ""
 	var onSwipeUp: () -> Void
 	var onSwipeDown: () -> Void
 
 	var body: some View {
 		VStack(spacing: 0) {
-			ZStack {
-				Capsule()
-					.frame(width: Screen.width / 1.5, height: Screen.height / 18)
-					.overlay(
-						HStack {
-							Image(systemName: "scope")
-								.resizable()
-								.frame(width: 30, height: 30)
-								.foregroundColor(.accentColor)
-							Spacer()
-						}
-							.padding()
-					)
+			HStack {
+				Image(systemName: "scope")
+					.resizable()
+					.frame(width: 30, height: 30)
+					.foregroundColor(.accentColor)
+				Spacer()
+			}
+			.padding()
+			.overlay(
 				HStack {
 					Spacer()
-					Text("\'여행이름\'")
+					NavigationLink("여행이름", destination: LocationGridView(items: items.filter { $0.location == nil }, tapAction: { try? modelContext.save() }))
+						.underline()
 						.font(.title2)
 					Spacer()
 				}
-				.foregroundColor(.accentColor)
-				.padding()
-			}
+					.foregroundColor(.accentColor)
+					.padding()
+			)
 			Form {
 				Section("지출 추가") {
 					Text("사진")
-					Text("설명...")
+					TextField("설명...", text: $itemDesc)
 					Text("시간")
 				}
 			}
 			.font(.callout)
-			CategoryPickerView()
+			CategoryPickerView(selectedCategory: $selectedCategory)
 				.frame(height: Screen.height / 8)
 			VStack(spacing: 0) {
 				InputStringArea(
 					string: string,
-					onSwipeUp: { addItem() },
-					onSwipeDown: { deleteFirst() })
+					onSwipeUp: {
+						addItem()
+					},
+					onSwipeDown: {
+						deleteFirst()
+					})
 				.onChange(of: string, perform: { _ in
 					if string.count > 9 {
 						string = String(string.prefix(9)) }})
 
-				Keypad(string: $string, onSwipeUp: { addItem() },
-					   onSwipeDown: { deleteFirst() })
+				Keypad(string: $string, onSwipeUp: { addItem()
+				},
+					   onSwipeDown: { deleteFirst()
+				})
 				.font(.largeTitle)
 			}
 			.background(.bar)
 		}
+		.ignoresSafeArea(.keyboard)
 	}
 
 	func saveContext() {
@@ -87,7 +92,7 @@ struct InputView: View {
 
 	func addItem() {
 		if let balance = Double(string), string != "0" {
-			let newItem = Item(date: Date(), balance: String(balance), currency: dataModel.currentCurrency)
+			let newItem = Item(date: Date(), balance: String(balance), currency: dataModel.currentCurrency, category: selectedCategory)
 			withAnimation(.easeOut(duration: 0.2)) {
 				modelContext.insert(newItem)
 				saveContext()
@@ -130,7 +135,7 @@ struct OverlayKeypadPreview: View {
 	var body: some View {
 		VStack {
 			InputView(string: $string, onSwipeUp: {}, onSwipeDown: {})
-			.environmentObject(DataModel())
+				.environmentObject(DataModel())
 		}
 		.font(.largeTitle)
 	}

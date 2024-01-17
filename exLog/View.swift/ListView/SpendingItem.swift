@@ -12,24 +12,27 @@ struct SpendingItem: View {
 	var item: Item
 
 	var body: some View {
-		HStack(alignment: .center, spacing: 0) {
-			categoryView()
-			Spacer()
-			Text("₩\(item.calculatedBalance)")
-				.font(.title2)
-		}
-		.foregroundColor(Color(uiColor: .label))
-		.padding(.vertical, 5)
-		.padding(.horizontal, 10)
-		.contextMenu(menuItems: {
-			ForEach(Category.allCases, id: \.self) { category in
-				Button {
-					item.category = category
-				} label: {
-					Text("\(category.symbol)")
-				}
+		VStack {
+			HStack(alignment: .center, spacing: 0) {
+				categoryView()
+				Spacer()
+				Text("₩\(item.calculatedBalance)")
+					.font(.title2)
 			}
-		})
+			.foregroundColor(Color(uiColor: .label))
+			.padding(.vertical, 5)
+			.padding(.horizontal, 10)
+			.background(.green)
+			.contextMenu(menuItems: {
+				ForEach(Category.allCases, id: \.self) { category in
+					Button {
+						item.category = category
+					} label: {
+						Text("\(category.symbol)")
+					}
+				}
+			})
+		}
 	}
 
 	func localCurrencyValue() -> some View {

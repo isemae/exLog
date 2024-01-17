@@ -11,7 +11,7 @@ import Foundation
 struct CategoryPickerView: View {
 	@GestureState var translation: CGFloat = 0.0
 	@State var lastTranslation: CGFloat = .zero
-	@State private var selectedCategory: Category = .sweets
+	@Binding var selectedCategory: Category
 	var categories = Category.allCases
 
 	var body: some View {
@@ -103,7 +103,7 @@ struct CategoryPickerView: View {
 		}
 	}
 }
-
-#Preview {
-	CategoryPickerView()
-}
+//
+// #Preview {
+//	CategoryPickerView()
+// }

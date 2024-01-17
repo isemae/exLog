@@ -15,16 +15,21 @@ struct LocationGridView: View {
 	var items: [Item]
 	var tapAction: () -> Void
 
-    var body: some View {
+	var body: some View {
+		ScrollView(.vertical) {
+
+		NavigationLink("분류되지 않음", destination: ItemListView(items: items, onTap: { try? modelContext.save() })
+			.navigationBarTitle("분류되지 않음")
+			.foregroundColor(Color(uiColor: .label)))
 		LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
 			ForEach(locations.sorted(by: { $0.startDate ?? Date()  > $1.startDate ?? Date() }), id: \.self) { location in
 				ZStack {
 					ImagePickerView(locations: locations, showImagePicker: $showImagePicker)
 					VStack {
 						NavigationLink(location.name, destination: destinationItemListView(location: location))
-						.font(.title)
-						.foregroundColor(.primary)
-						.bold()
+							.font(.title)
+							.foregroundColor(.primary)
+							.bold()
 						Text("\(formattedDate(date: location.startDate ?? Date())) ~ \(formattedDate(date: location.endDate ?? Date()))")
 					}
 				}
@@ -47,7 +52,8 @@ struct LocationGridView: View {
 		}
 		.padding()
 		.navigationTitle("main")
-    }
+			}
+	}
 
 	func destinationItemListView(location: Location) -> some View {
 		ItemListView(items: items.filter { item in
@@ -58,7 +64,7 @@ struct LocationGridView: View {
 		}, onTap: tapAction )
 	}
 }
-//
+
 // #Preview {
-//	LocationGridView(locations: [], items: [])
+//	 LocationGridView(locations: [], items: [], tapAction: {})
 // }

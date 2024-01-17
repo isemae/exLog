@@ -27,80 +27,37 @@ struct ContentView: View {
 		//			return Calendar.current.component(.year, from: item.date)
 		//		}
 		//		let uniqueYears = Array(Set(years))
-		if !items.isEmpty {
-			NavigationView {
-
-				// Test
-		NavigationLink("t", destination: InputView(string: $keypadState.string, onSwipeUp: {}, onSwipeDown: {}))
-				ScrollView(.vertical) {
-					NavigationLink("분류되지 않음", destination: destinationItemListView())
-					LocationGridView(items: items.filter { $0.location == nil }, tapAction: { try? modelContext.save() })
-				}
-				.navigationBarTitleDisplayMode(.inline)
-				.toolbar {
-					ToolbarItem(placement: .navigationBarTrailing) {
-						Button {
-							pickerState.isDatePickerPresented.toggle()
-						} label: {
-							Label("새 일정", systemImage: "calendar.badge.plus")
-						}
-					}
-				}
-				.sheet(isPresented: $pickerState.isDatePickerPresented, content: {
-					VStack {
-						DatePickerView(selectedDates: $pickerState.selectedDates)
-						TextField("위치...", text: $pickerState.addingLocationName)
-					}
-					HStack {
-						Button {
-							pickerState.isDatePickerPresented = false
-							pickerState.selectedDates = []
-						} label : {
-							Text("취소")
-						}
-						Button {
-							let newLocation = Location(name: pickerState.addingLocationName, startDate: pickerState.selectedDates.first ?? Date(), endDate: pickerState.selectedDates.last ?? Date(), items: [])
-							pickerState.isDatePickerPresented = false
-							newLocation.name = pickerState.addingLocationName
-							newLocation.startDate = pickerState.selectedDates.first
-							newLocation.endDate = pickerState.selectedDates.last
-							newLocation.items = items.filter { item in
-								if let startDate = newLocation.startDate, let endDate = newLocation.endDate {
-									return startDate <= item.date && item.date <= endDate
-								}
-								return false
-							}
-							withAnimation(.easeOut(duration: 0.2)) {
-								modelContext.insert(newLocation)
-								saveContext()
-							}
-							pickerState.addingLocationName = ""
-							pickerState.selectedDates = []
-							for location in locations {
-								print(location.name)
-							}
-						} label : {
-							Text("확인")
-						}
-					}
-				})
-			}
-
-		} else {
-//			initialView()
+		NavigationView {
+			InputView(string: $keypadState.string, onSwipeUp: {}, onSwipeDown: {})
 		}
 	}
 
-	func destinationItemListView() -> some View {
-		ItemListView(items: items, onTap: { try? modelContext.save() })
-			.navigationBarTitle("분류되지 않음")
-			.foregroundColor(Color(uiColor: .label))
+	func gridListView() -> some View {
+//		if !items.isEmpty {
+			ScrollView(.vertical) {
+
+			}
+			.navigationBarTitleDisplayMode(.inline)
+			.toolbar {
+				ToolbarItem(placement: .navigationBarTrailing) {
+					Button {
+						pickerState.isDatePickerPresented.toggle()
+					} label: {
+						Label("새 일정", systemImage: "calendar.badge.plus")
+					}
+				}
+			}
+			.sheet(isPresented: $pickerState.isDatePickerPresented, content: {
+
+			})
+		}
+//	}
+
 //			.safeAreaInset(edge: .bottom) {
 //				OverlayKeypad(string: $keypadState.string, isShowingKeypad: $keypadState.isShowingKeypad, onSwipeUp: addItem, onSwipeDown: deleteFirst)
 //					.transition(.move(edge: .bottom))
 //			}
 //			.environmentObject(dataModel)
-	}
 
 //	func initialView() -> some View {
 //		ZStack {
