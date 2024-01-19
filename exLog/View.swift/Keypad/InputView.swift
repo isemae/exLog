@@ -13,7 +13,7 @@ struct InputView: View {
 	@Query(sort: \Item.date, order: .reverse) private var items: [Item]
 	@Binding var string: String
 	@StateObject private var dataModel = DataModel()
-	@State var selectedCategory: Category = .sweets
+	@State var selectedCategory: Category = .nil
 	@State var itemDesc: String = ""
 	var onSwipeUp: () -> Void
 	var onSwipeDown: () -> Void
@@ -41,9 +41,13 @@ struct InputView: View {
 			)
 			Form {
 				Section("지출 추가") {
-					Text("사진")
-					TextField("설명...", text: $itemDesc)
-					Text("시간")
+					HStack {
+						Text("사진")
+						Spacer()
+						Text(dataModel.ampm ? "\(dateFormatString(for: Date(), format: "aahhmm"))" : "\(dateFormatString(for: Date(), format: "hhmm"))")
+					}
+						TextField("설명...", text: $itemDesc)
+
 				}
 			}
 			.font(.callout)
@@ -92,7 +96,7 @@ struct InputView: View {
 
 	func addItem() {
 		if let balance = Double(string), string != "0" {
-			let newItem = Item(date: Date(), balance: String(balance), currency: dataModel.currentCurrency, category: selectedCategory)
+			let newItem = Item(date: Date(), balance: String(balance), currency: dataModel.currentCurrency, category: selectedCategory, desc: itemDesc)
 			withAnimation(.easeOut(duration: 0.2)) {
 				modelContext.insert(newItem)
 				saveContext()
@@ -132,9 +136,10 @@ struct InputView: View {
 
 struct OverlayKeypadPreview: View {
 	@State var string: String = "0"
+	@State var selectedCategory: Category = .nil
 	var body: some View {
 		VStack {
-			InputView(string: $string, onSwipeUp: {}, onSwipeDown: {})
+			InputView(string: $string, selectedCategory: selectedCategory, onSwipeUp: {}, onSwipeDown: {})
 				.environmentObject(DataModel())
 		}
 		.font(.largeTitle)

@@ -8,31 +8,35 @@
 import SwiftUI
 
 struct SpendingItem: View {
+	@State var isShowingPicker: Bool = false
 	var ampm: Bool
 	var item: Item
-
 	var body: some View {
-		VStack {
-			HStack(alignment: .center, spacing: 0) {
+		VStack(spacing: 0) {
+			HStack {
 				categoryView()
+				VStack(spacing: 0) {
+					item.desc.map { Text($0).font(.body) }
+					localCurrencyValue()
+				}
+				Spacer()
+				Image(systemName: "arrow.left.arrow.right")
+					.font(.system(size: 15))
 				Spacer()
 				Text("₩\(item.calculatedBalance)")
-					.font(.title2)
+					.font(.title3)
 			}
-			.foregroundColor(Color(uiColor: .label))
-			.padding(.vertical, 5)
-			.padding(.horizontal, 10)
-			.background(.green)
-			.contextMenu(menuItems: {
-				ForEach(Category.allCases, id: \.self) { category in
-					Button {
-						item.category = category
-					} label: {
-						Text("\(category.symbol)")
-					}
-				}
-			})
 		}
+		.padding(10)
+		.contextMenu(menuItems: {
+			ForEach(Category.allCases, id: \.self) { category in
+				Button {
+					item.category = category
+				} label: {
+					Text("\(category.symbol)")
+				}
+			}
+		})
 	}
 
 	func localCurrencyValue() -> some View {
@@ -40,26 +44,31 @@ struct SpendingItem: View {
 			Text("\(item.currency.symbol) \(item.balance.formatNumber()) ")
 				.padding(5)
 				.font(.body)
-			Spacer()
-			Image(systemName: "arrow.left.arrow.right")
-				.font(.system(size: 15))
 		}
 	}
 
 	func categoryView() -> some View {
 		HStack(spacing: 0) {
-			if (item.category != nil) {
+			if (item.category != .nil && item.category != nil) {
 				ZStack {
 					RoundedRectangle(cornerRadius: 10)
 						.foregroundStyle(Color.accentColor)
-					Text(item.category!.symbol)
+						.frame(width: Screen.width / 8, height: Screen.width / 8)
+					Text(item.category?.symbol ?? "")
+						.font(.body)
 						.padding(5)
 				}
 				.fixedSize()
+
 			}
-			localCurrencyValue()
 		}
-		.frame(width: UIScreen.main.bounds.size.width / 2.3, alignment: .leading)
+//		.onTapGesture {
+//			isShowingPicker = true
+//		}
+		.sheet(isPresented: $isShowingPicker) {
+
+		}
+
 	}
 }
 

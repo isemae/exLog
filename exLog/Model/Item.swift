@@ -20,7 +20,7 @@ final class Item: Identifiable {
 	var image: Data?
 	var location: Location?
 	//	@Relationship(inverse: \FoldedItems.items)
-	init(date: Date, balance: String = "", currency: Currency, category: Category? = nil) {
+	init(date: Date, balance: String = "", currency: Currency, category: Category? = nil, desc: String? = nil) {
 		self.date = date
 		self.balance = balance
 		self.currency = currency
@@ -58,13 +58,15 @@ class Location: Identifiable, Hashable {
 	var name: String
 	var startDate: Date?
 	var endDate: Date?
-//	var image: UIImage?
+	var bgImage: Data?
+	@Attribute(.externalStorage) var imageData: Data?
 
-	init(name: String, startDate: Date, endDate: Date, items: [Item]) {
+	init(name: String, startDate: Date, endDate: Date, items: [Item], imageData: Data? = nil) {
 		self.name = name
 		self.startDate = startDate
 		self.endDate = endDate
 		self.items = items
+		self.imageData = imageData
 	}
 }
 

@@ -9,6 +9,7 @@ import Foundation
 
 enum Category: String, Identifiable, Codable, CaseIterable {
 	var id: Category { self }
+	case `nil`
 	case transportation
 	case shopping
 	case food
@@ -18,8 +19,10 @@ enum Category: String, Identifiable, Codable, CaseIterable {
 	case entertainment
 	case souvenir
 	case accommodation
+
 	var symbol: String {
 		switch self {
+		case .nil: return ""
 		case .transportation: return "🚋"
 		case .shopping: return "🛒"
 		case .food: return "🍝"

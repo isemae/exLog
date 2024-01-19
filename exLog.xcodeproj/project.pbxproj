@@ -29,7 +29,7 @@
 		0857C6C42B11C4E60012C698 /* EXCRateJSON.json in Sources */ = {isa = PBXBuildFile; fileRef = 0857C6C32B11C4E60012C698 /* EXCRateJSON.json */; };
 		0857DD122B563B5100915604 /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0857DD112B563B5100915604 /* Categories.swift */; };
 		0872F1E72B3BDDA6004169BB /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0872F1E62B3BDDA6004169BB /* ImagePicker.swift */; };
-		0872F1E92B3BDF46004169BB /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0872F1E82B3BDF46004169BB /* ImagePickerView.swift */; };
+		0872F1E92B3BDF46004169BB /* LocationGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0872F1E82B3BDF46004169BB /* LocationGridCell.swift */; };
 		087712A02B26873D003C8EE8 /* HHmmHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0877129F2B26873D003C8EE8 /* HHmmHeader.swift */; };
 		087ADE822B0F951200E1BFD8 /* ResponseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087ADE812B0F951200E1BFD8 /* ResponseManager.swift */; };
 		089014122B4C568F00791F27 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 089014112B4C568F00791F27 /* .swiftlint.yml */; };
@@ -91,7 +91,7 @@
 		0857C6C32B11C4E60012C698 /* EXCRateJSON.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = EXCRateJSON.json; sourceTree = "<group>"; };
 		0857DD112B563B5100915604 /* Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Categories.swift; sourceTree = "<group>"; };
 		0872F1E62B3BDDA6004169BB /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
-		0872F1E82B3BDF46004169BB /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
+		0872F1E82B3BDF46004169BB /* LocationGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationGridCell.swift; sourceTree = "<group>"; };
 		0877129F2B26873D003C8EE8 /* HHmmHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HHmmHeader.swift; sourceTree = "<group>"; };
 		087ADE812B0F951200E1BFD8 /* ResponseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseManager.swift; sourceTree = "<group>"; };
 		089014112B4C568F00791F27 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -214,7 +214,7 @@
 		08491ABE2B4C28A800D3E13F /* Pickers */ = {
 			isa = PBXGroup;
 			children = (
-				0872F1E82B3BDF46004169BB /* ImagePickerView.swift */,
+				0872F1E62B3BDDA6004169BB /* ImagePicker.swift */,
 				081384702B4808BB00CDF389 /* DatePickerView.swift */,
 				08491AB52B49A00400D3E13F /* UIDateRangePicker.swift */,
 				08B8C2132B1156A1008734A8 /* CategoryMenuView.swift */,
@@ -268,7 +268,7 @@
 			isa = PBXGroup;
 			children = (
 				082177A12B0DFDC300D46518 /* ContentView.swift */,
-				08491AB72B4A9ED100D3E13F /* LocationGridView.swift */,
+				08D4C7722B5A1CA300D25ED5 /* LocationGrid */,
 				08491AC32B4C2DE500D3E13F /* ListView */,
 				08491ABE2B4C28A800D3E13F /* Pickers */,
 				08491AC22B4C2D7B00D3E13F /* Keypad */,
@@ -277,11 +277,19 @@
 			path = View.swift;
 			sourceTree = "<group>";
 		};
+		08D4C7722B5A1CA300D25ED5 /* LocationGrid */ = {
+			isa = PBXGroup;
+			children = (
+				08491AB72B4A9ED100D3E13F /* LocationGridView.swift */,
+				0872F1E82B3BDF46004169BB /* LocationGridCell.swift */,
+			);
+			path = LocationGrid;
+			sourceTree = "<group>";
+		};
 		08F71DB52B31C58700B305D7 /* Handler */ = {
 			isa = PBXGroup;
 			children = (
 				08F71DB62B31C58700B305D7 /* GestureHandler.swift */,
-				0872F1E62B3BDDA6004169BB /* ImagePicker.swift */,
 				08F71DB72B31C58700B305D7 /* TestProvider.swift */,
 			);
 			name = Handler;
@@ -452,7 +460,7 @@
 				08491ABC2B4AE3B600D3E13F /* Constants.swift in Sources */,
 				08DC52242B12D7DA005ED804 /* DateHeader.swift in Sources */,
 				08491AB62B49A00400D3E13F /* UIDateRangePicker.swift in Sources */,
-				0872F1E92B3BDF46004169BB /* ImagePickerView.swift in Sources */,
+				0872F1E92B3BDF46004169BB /* LocationGridCell.swift in Sources */,
 				082177A42B0DFDC300D46518 /* Item.swift in Sources */,
 				08DC52262B12D8C6005ED804 /* InputStringArea.swift in Sources */,
 				08B6C8DF2B27E8AE0045EE24 /* ItemListView.swift in Sources */,
