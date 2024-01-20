@@ -15,8 +15,11 @@ struct InputView: View {
 	@StateObject private var dataModel = DataModel()
 	@State var selectedCategory: Category = .nil
 	@State var itemDesc: String = ""
+	@State var showAddedIndicator = false
+	@State var showDeletedIndicator = false
 	var onSwipeUp: () -> Void
 	var onSwipeDown: () -> Void
+	@State var indicatorCancellation: DispatchWorkItem?
 
 	var body: some View {
 		VStack(spacing: 0) {
@@ -31,13 +34,20 @@ struct InputView: View {
 			.overlay(
 				HStack {
 					Spacer()
-					NavigationLink("여행이름", destination: LocationGridView(items: items.filter { $0.location == nil }, tapAction: { try? modelContext.save() }))
-						.underline()
-						.font(.title2)
+					ZStack {
+						NavigationLink("여행이름", destination: LocationGridView(items: items.filter { $0.location == nil }, tapAction: { try? modelContext.save() }))
+							.underline()
+							.font(.title2)
+						HStack {
+							Spacer()
+							itemAddedIndicator(item: items.first!)
+
+						}
+					}
 					Spacer()
 				}
 					.foregroundColor(.accentColor)
-					.padding()
+					.padding(5)
 			)
 			Form {
 				Section("지출 추가") {
@@ -46,7 +56,7 @@ struct InputView: View {
 						Spacer()
 						Text(dataModel.ampm ? "\(dateFormatString(for: Date(), format: "aahhmm"))" : "\(dateFormatString(for: Date(), format: "hhmm"))")
 					}
-						TextField("설명...", text: $itemDesc)
+					TextField("설명...", text: $itemDesc)
 
 				}
 			}
@@ -77,6 +87,44 @@ struct InputView: View {
 		.ignoresSafeArea(.keyboard)
 	}
 
+	func itemAddedIndicator(item: Item) -> some View {
+		return
+		HStack {
+			ZStack {
+				Capsule()
+					.foregroundColor(Color(uiColor:.label))
+				HStack {
+					if showAddedIndicator {
+						Image(systemName: "checkmark.circle")
+							.foregroundColor(.green)
+							.onAppear {
+								showDeletedIndicator = false
+							}
+						Spacer()
+					}
+					if showDeletedIndicator {
+						Image(systemName: "minus.circle")
+							.foregroundColor(.red)
+							.onAppear {
+								showAddedIndicator = false
+							}
+						Spacer()
+					}
+					Group {
+						Text(item.category?.symbol ?? "")
+						if (showAddedIndicator || showDeletedIndicator) && !items.isEmpty {
+							Text("₩\(item.calculatedBalance)")
+								.foregroundColor(Color(UIColor.systemBackground))
+//					.transition(.asymmetric(insertion: .move(edge:.bottom), removal: .move(edge: .top)))
+						}
+					}
+				}
+				.padding()
+			}
+			.frame(maxWidth: (showAddedIndicator || showDeletedIndicator) ? Screen.width / 2 : Screen.width / 5 )
+		}
+	}
+
 	func saveContext() {
 		do {
 			try modelContext.save()
@@ -94,6 +142,40 @@ struct InputView: View {
 		}
 	}
 
+	enum IndicatorAction {
+		case add
+		case delete
+	}
+
+	func handleIndicator(action: IndicatorAction) {
+		indicatorCancellation?.cancel()
+
+		withAnimation(.easeOut(duration: 0.2)) {
+			switch action {
+			case .add:
+				showDeletedIndicator = false
+				showAddedIndicator = true
+			case .delete:
+				showDeletedIndicator = true
+				showAddedIndicator = false
+			}
+		}
+
+		let cancellation = DispatchWorkItem {
+			withAnimation(.easeOut(duration: 0.2)) {
+				switch action {
+				case .add:
+					showAddedIndicator = false
+				case .delete:
+					showDeletedIndicator = false
+				}
+			}
+		}
+		DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: cancellation)
+		indicatorCancellation = cancellation
+
+	}
+
 	func addItem() {
 		if let balance = Double(string), string != "0" {
 			let newItem = Item(date: Date(), balance: String(balance), currency: dataModel.currentCurrency, category: selectedCategory, desc: itemDesc)
@@ -104,11 +186,13 @@ struct InputView: View {
 			}
 			string = "0"
 		}
+		handleIndicator(action: .add)
+
 	}
 
 	func deleteFirst() {
-		if let firstGroup = items.sortedByDate().first,
-		   let recentItem = firstGroup.1.first {
+		if let recentItem = items.first {
+			handleIndicator(action: .delete)
 			withAnimation(.easeOut(duration: 0.2)) {
 				modelContext.delete(recentItem)
 				saveContext()

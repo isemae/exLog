@@ -18,7 +18,7 @@ struct ContentView: View {
 	//	})
 //	@StateObject private var dataModel = DataModel()
 	@State var keypadState = States.Keypad()
-	@State var locationState = States.Location()
+//	@State var locationState = States.Location()
 	@State var pickerState = States.Picker()
 	@State private var image: UIImage?
 
@@ -132,8 +132,7 @@ struct ContentView: View {
 	}
 
 	func deleteFirst() {
-		if let firstGroup = items.sortedByDate().first,
-		   let recentItem = firstGroup.1.first {
+		if let recentItem = items.last {
 			withAnimation(.easeOut(duration: 0.2)) {
 				modelContext.delete(recentItem)
 				saveContext()

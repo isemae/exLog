@@ -44,8 +44,7 @@ class ModelActor: ObservableObject {
 	}
 
 	func deleteFirst(items: [Item]) async {
-		if let firstGroup = items.sortedByDate().first,
-		   let recentItem = firstGroup.1.first {
+		if let recentItem = items.last {
 				withAnimation(.easeOut(duration: 0.2)) {
 					modelContext.delete(recentItem)
 					try? modelContext.save()

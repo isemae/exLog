@@ -83,7 +83,7 @@ extension String {
 }
 
 extension Array where Element == Item {
-	func sortedByDate() -> [(Date, [Item])] {
+	func groupByDate() -> [(Date, [Item])] {
 		let groupedDictionary = Dictionary(grouping: self) { item in
 			Calendar.current.startOfDay(for: item.date)
 		}

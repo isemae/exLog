@@ -15,10 +15,10 @@ struct States {
 		var height = CGFloat.zero
 	}
 
-	struct Location {
-		var currentLocation: String = ""
-		var selectedLocation: String = ""
-	}
+//	struct Location {
+//		var currentLocation: String = ""
+//		var selectedLocation: String = ""
+//	}
 
 	struct Picker {
 		var isDatePickerPresented = false
