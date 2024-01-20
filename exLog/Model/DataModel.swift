@@ -28,7 +28,7 @@ class DataModel: ObservableObject {
 		guard self.currentCurrency != .KRW else {
 			return
 		}
-//		fetchAPIResponse(dataModel: self)
+		fetchAPIResponse(dataModel: self)
 	}
 	func getCurrentCurrencyCode() -> String {
 		return currentCurrency.rawValue
