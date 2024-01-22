@@ -35,7 +35,7 @@ struct InputView: View {
 				HStack {
 					Spacer()
 					ZStack {
-						NavigationLink("여행이름", destination: LocationGridView(items: items.filter { $0.location == nil }, tapAction: { try? modelContext.save() }))
+						NavigationLink("여행이름", destination: LocationGridView(items: items.filter { $0.location == nil }))
 							.underline()
 							.font(.title2)
 						HStack {

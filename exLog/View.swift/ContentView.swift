@@ -27,7 +27,7 @@ struct ContentView: View {
 		//			return Calendar.current.component(.year, from: item.date)
 		//		}
 		//		let uniqueYears = Array(Set(years))
-		NavigationView {
+		NavigationStack {
 			InputView(string: $keypadState.string, onSwipeUp: {}, onSwipeDown: {})
 		}
 	}

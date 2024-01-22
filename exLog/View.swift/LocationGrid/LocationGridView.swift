@@ -15,10 +15,8 @@ struct LocationGridView: View {
 	@State private var selectedImage: UIImage?
 	@State private var selectedLocation: Location?
 	var items: [Item]
-	var tapAction: () -> Void
 
 	var body: some View {
-		NavigationView {
 			ScrollView(.vertical) {
 				NavigationLink("분류되지 않음", destination: ItemListView(items: items))
 					.foregroundColor(Color(uiColor: .label))
@@ -49,7 +47,6 @@ struct LocationGridView: View {
 			}
 			.navigationTitle("여행")
 		}
-	}
 
 	func destinationItemListView(location: Location) -> some View {
 		ItemListView(items: items.filter { item in
@@ -81,5 +78,5 @@ struct LocationGridView: View {
 }
 
 // #Preview {
-//	 LocationGridView(locations: [], items: [], tapAction: {})
+//	 LocationGridView(locations: [], items: [])
 // }
