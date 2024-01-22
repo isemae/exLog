@@ -9,8 +9,6 @@ import SwiftUI
 
 struct Keypad: View {
 	@Binding var string: String
-	var onSwipeUp: () -> Void
-	var onSwipeDown: () -> Void
 	var body: some View {
 		LazyVStack(spacing: 0) {
 			KeypadRow(keys: ["1","2","3"])
@@ -19,25 +17,11 @@ struct Keypad: View {
 			KeypadRow(keys: [".","0","⌫"])
 		}
 		.contentShape(Rectangle())
-		.frame(maxHeight:  UIScreen.main.bounds.height / 3.0)
+		.frame(maxHeight: Screen.height / 3.0)
 		.padding(.horizontal, 20)
+		.font(.largeTitle)
 		.overlayDivider(alignment: .top)
 		.transition(.move(edge: .bottom))
-		.gesture(
-			DragGesture()
-				.onEnded { orientation in
-					if abs(orientation.translation.width) > abs(orientation.translation.height) {
-						return
-					}
-					if orientation.translation.height > 10.0 {
-						self.onSwipeDown()
-					}
-
-					if orientation.translation.height < 10.0 {
-						self.onSwipeUp()
-					}
-				}
-		)
 		.ignoresSafeArea(.all)
 		.environment(\.keypadButtonAction, self.keyPressed(_:))
 	}
@@ -106,7 +90,7 @@ struct KpPreview: View {
 		VStack {
 //			InputArea( string: string, onSwipeUp: {}, onSwipeDown: {})
 //				.environmentObject(DataModel())
-			Keypad(string: $string, onSwipeUp: { string = "0" }, onSwipeDown: {})
+			Keypad(string: $string)
 		}
 		.font(.largeTitle)
 	}

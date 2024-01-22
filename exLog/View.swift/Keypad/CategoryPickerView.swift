@@ -91,7 +91,6 @@ struct CategoryPickerView: View {
 		}
 
 		selectedCategory =  categories[currentIndex + 1]
-		print("right")
 		UIImpactFeedbackGenerator(style: .rigid).impactOccurred(intensity: 0.5)
 	}
 
@@ -101,20 +100,15 @@ struct CategoryPickerView: View {
 		}
 
 		let previousIndex = currentIndex - 1
-			if categories[previousIndex] != .nil {
+		if categories[previousIndex] != .nil {
 			selectedCategory = categories[currentIndex - 1]
-			print("left")
 			UIImpactFeedbackGenerator(style: .rigid).impactOccurred(intensity: 0.5)
 		}
 	}
 
 	func handleEdgeCases() {
-		if categories.firstIndex(of: selectedCategory) == categories.count - 1 {
-			print("right end")
-		}
-		if categories.firstIndex(of: selectedCategory) == 0 {
-			print("left end")
-		}
+		if categories.firstIndex(of: selectedCategory) == categories.count - 1 { }
+		if categories.firstIndex(of: selectedCategory) == 0 { }
 	}
 }
 //

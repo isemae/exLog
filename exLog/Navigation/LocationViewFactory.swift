@@ -14,7 +14,7 @@ class LocationViewFactory {
 	static func setViewForDestination(_ destination: LocationNavigation, location: Location? = nil, string: Binding<String>) -> AnyView {
 		switch destination {
 		case .inputView:
-			return AnyView(InputView(string: string, onSwipeUp: {}, onSwipeDown: {}))
+			return AnyView(InputView(string: string))
 		case .locationGrids:
 			return AnyView(LocationGridView())
 		case .locationLists:

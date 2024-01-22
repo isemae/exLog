@@ -24,7 +24,6 @@ struct ItemListView: View {
 					return date
 				}
 			}
-
 			List {
 				ForEach(dateGroup.sorted(by: { $0.key > $1.key }), id: \.key) { date, group in
 					let sumForDate = group.reduce(0) { $0 + $1.calculatedBalance }

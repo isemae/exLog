@@ -12,7 +12,7 @@ struct LocationGridView: View {
 	@Environment(\.modelContext) private var modelContext
 	@EnvironmentObject var navigationFlow: NavigationFlow
 	@Query var locations: [Location]
-	@Query var items: [Item]
+	@Query(sort: \Item.date, order: .reverse) private var items: [Item]
 	@State private var showImagePicker = false
 	@State private var selectedImage: UIImage?
 	@State private var selectedLocation: Location?
@@ -20,45 +20,18 @@ struct LocationGridView: View {
 
 	var body: some View {
 		ScrollView(.vertical) {
-			NavigationLink("분류되지 않음", destination: ItemListView(items: items.filter { item in
-				item.location == nil }))
+			NavigationLink("분류되지 않음", destination: ItemListView(items: items.filter { item in item.location == nil }))
 				.foregroundColor(Color(uiColor: .label))
 			LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
 				ForEach(locations.sorted(by: { $0.startDate ?? Date() > $1.startDate ?? Date() }), id: \.self) { location in
-//					NavigationLink(destination: destinationItemListView(location: location)
-//						.navigationTitle(location.name)) {
-//							LocationGridCell(location: location)
-//						}
-//						.contextMenu(ContextMenu(menuItems: {
-//							gridContextMenu(location: location)
-//						}))
-//						.sheet(isPresented: $showImagePicker) {
-//							ImagePicker(image: $selectedImage, location: $selectedLocation) { selectedImage in
-//								if let selectedLocation = selectedLocation {
-//									if let imageData = selectedImage?.pngData() {
-//										selectedLocation.imageData = imageData
-//										try? modelContext.save()
-//									}
-//								}
-//								showImagePicker = false
-//							}
-//						}
 					Button {
-//							LocationViewFactory.items = items.filter { item in
-//								if let startDate = location.startDate, let endDate = location.endDate {
-//									return startDate <= item.date && item.date <= endDate
-//								}
-//								return false
-//							}
 						LocationViewFactory.items = location.items ?? []
-							navigationFlow.selectedLocation = location
-							navigationFlow.navigateToLocationListView(location: location)
+						navigationFlow.selectedLocation = location
+						navigationFlow.navigateToLocationListView(location: location)
 
 					} label: {
 						LocationGridCell(location: location)
-							.contextMenu(ContextMenu(menuItems: {
-								gridContextMenu(location: location)
-							}))
+							.contextMenu(ContextMenu(menuItems: { gridContextMenu(location: location) }))
 							.sheet(isPresented: $showImagePicker) {
 								ImagePicker(image: $selectedImage, location: $selectedLocation) { selectedImage in
 									if let selectedLocation = selectedLocation {

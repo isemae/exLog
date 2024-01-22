@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct HHmmHeader: View {
-	@EnvironmentObject var dataModel: DataModel
 	var date: Date
 
 	var body: some View {
 		HStack {
 			Image(systemName: "clock")
-			Text(dataModel.ampm ? "\(dateFormatString(for: date, format: "aahhmm"))" : "\(dateFormatString(for: date, format: "hhmm"))")
+			Text("\(dateFormatString(for: date, format: "aahhmm"))")
 				.font(.body)
 				.fixedSize()
 			Spacer()
@@ -22,8 +21,5 @@ struct HHmmHeader: View {
 		.foregroundColor(Color(uiColor: .secondaryLabel))
 		.padding(10)
 		.overlayDivider(alignment: .top)
-		.onTapGesture {
-			dataModel.ampm.toggle()
-		}
 	}
 }

@@ -15,8 +15,8 @@ struct InputStringArea: View {
 	@State private var contextMenuButtons: [Currency] = []
 	//	@Binding var isShowingKeypad: Bool
 	var string: String
-	let onSwipeUp: () -> Void
-	let onSwipeDown: () -> Void
+//	let onSwipeUp: () -> Void
+//	let onSwipeDown: () -> Void
 
 	var body: some View {
 
@@ -43,8 +43,6 @@ struct InputStringArea: View {
 			//			}
 			//		})
 			.overlayDivider(alignment: .top)
-			.gestureHandler(onSwipeUp: onSwipeUp, onSwipeDown: onSwipeDown)
-
 	}
 
 	private func calculatedPreview() -> some View {
@@ -97,7 +95,7 @@ struct InputAreaPreview: View {
 	@State var testBool: Bool = true
 	var body: some View {
 		VStack {
-			InputStringArea(string: string, onSwipeUp: {}, onSwipeDown: {})
+			InputStringArea(string: string)
 				.environmentObject(DataModel())
 		}
 		.font(.largeTitle)

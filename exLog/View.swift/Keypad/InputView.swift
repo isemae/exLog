@@ -18,9 +18,6 @@ struct InputView: View {
 	@State var itemDesc: String = ""
 	@State var showAddedIndicator = false
 	@State var showDeletedIndicator = false
-
-	var onSwipeUp: () -> Void
-	var onSwipeDown: () -> Void
 	@State var indicatorCancellation: DispatchWorkItem?
 
 	var body: some View {
@@ -37,7 +34,6 @@ struct InputView: View {
 				HStack {
 					Spacer()
 					ZStack {
-						//						NavigationLink("여행이름", destination: LocationGridView(items: items.filter { $0.location == nil }))
 						Button {
 							navigationFlow.navigateToLocationGridView()
 						} label: {
@@ -47,7 +43,7 @@ struct InputView: View {
 						}
 						HStack {
 							Spacer()
-							itemAddedIndicator(item: items.first!)
+							lastItemIndicator(item: items.first!)
 						}
 					}
 					Spacer()
@@ -70,52 +66,31 @@ struct InputView: View {
 			CategoryPickerView(selectedCategory: $selectedCategory)
 				.frame(height: Screen.height / 8)
 			VStack(spacing: 0) {
-				InputStringArea(
-					string: string,
-					onSwipeUp: {
-						addItem()
-					},
-					onSwipeDown: {
-						deleteFirst()
-					})
-				.onChange(of: string, perform: { _ in
-					if string.count > 9 {
-						string = String(string.prefix(9)) }})
-
-				Keypad(string: $string, onSwipeUp: { addItem()
-				},
-					   onSwipeDown: { deleteFirst()
-				})
-				.font(.largeTitle)
+				InputStringArea(string: string)
+					.onChange(of: string, perform: { _ in
+						if string.count > 9 {
+							string = String(string.prefix(9)) }})
+				Keypad(string: $string)
 			}
+			.gestureHandler(onSwipeUp: addItem, onSwipeDown: deleteFirst)
 			.background(.bar)
 		}
 		.ignoresSafeArea(.keyboard)
 	}
 
-	func itemAddedIndicator(item: Item) -> some View {
+	func lastItemIndicator(item: Item) -> some View {
 		return
 		HStack {
 			ZStack {
 				Capsule()
 					.foregroundColor(Color(uiColor:.label))
 				HStack {
-					if showAddedIndicator {
-						Image(systemName: "checkmark.circle")
-							.foregroundColor(.green)
-							.onAppear {
-								showDeletedIndicator = false
-							}
-						Spacer()
+					if showAddedIndicator || showDeletedIndicator {
+						indicatorImage(for: showAddedIndicator ? .add : .delete)
+					} else {
+						EmptyView()
 					}
-					if showDeletedIndicator {
-						Image(systemName: "minus.circle")
-							.foregroundColor(.red)
-							.onAppear {
-								showAddedIndicator = false
-							}
-						Spacer()
-					}
+					Spacer()
 					Group {
 						Text(item.category?.symbol ?? "")
 						if (showAddedIndicator || showDeletedIndicator) && !items.isEmpty {
@@ -151,6 +126,50 @@ struct InputView: View {
 	enum IndicatorAction {
 		case add
 		case delete
+	}
+
+	//	func showIndicator() {
+	//		if showAddedIndicator {
+	//			Image(systemName: "checkmark.circle")
+	//				.foregroundColor(.green)
+	//				.onAppear {
+	//					showDeletedIndicator = false
+	//				}
+	//			Spacer()
+	//		}
+	//		if showDeletedIndicator {
+	//			Image(systemName: "minus.circle")
+	//				.foregroundColor(.red)
+	//				.onAppear {
+	//					showAddedIndicator = false
+	//				}
+	//			Spacer()
+	//		}
+	//	}
+
+	func indicatorImage(for action: IndicatorAction) -> some View {
+		let systemName: String
+		let color: Color
+
+		switch action {
+		case .add:
+			systemName = "checkmark.circle"
+			color = .green
+		case .delete:
+			systemName = "minus.circle"
+			color = .red
+		}
+
+		return Image(systemName: systemName)
+			.foregroundColor(color)
+			.onAppear {
+				switch action {
+				case .add:
+					showDeletedIndicator = false
+				case .delete:
+					showAddedIndicator = false
+				}
+			}
 	}
 
 	func handleIndicator(action: IndicatorAction) {
@@ -230,7 +249,7 @@ struct OverlayKeypadPreview: View {
 	@State var selectedCategory: Category = .nil
 	var body: some View {
 		VStack {
-			InputView(string: $string, selectedCategory: selectedCategory, onSwipeUp: {}, onSwipeDown: {})
+			InputView(string: $string, selectedCategory: selectedCategory)
 				.environmentObject(DataModel())
 		}
 		.font(.largeTitle)

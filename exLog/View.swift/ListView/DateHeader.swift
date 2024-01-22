@@ -20,7 +20,7 @@ struct DateHeader: View {
 				.font(.title3)
 				.foregroundColor(Color(uiColor: .secondaryLabel))
 		}
-		.padding(8)
+		.padding(5)
 		.overlayDivider(alignment: .bottom, state: !dataModel.foldedItems[date, default: false])
 		.contentShape(Rectangle())
 		.onTapGesture {
@@ -30,6 +30,7 @@ struct DateHeader: View {
 			}
 		}
 	}
+
 	private func headerDateView() -> some View {
 		HStack(spacing: 0) {
 			Text("\(dateFormatString(for: date, format: "mm"))/")

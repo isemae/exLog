@@ -29,8 +29,7 @@ struct SpendingItem: View {
 		.padding(10)
 		.contextMenu(menuItems: {
 			ForEach(Category.allCases, id: \.self) { category in
-				Button {
-					item.category = category
+				Button { item.category = category
 				} label: {
 					Text("\(category.symbol)")
 				}
@@ -57,12 +56,8 @@ struct SpendingItem: View {
 						.padding(5)
 				}
 				.fixedSize()
-
 			}
 		}
-//		.onTapGesture {
-//			isShowingPicker = true
-//		}
 	}
 }
 

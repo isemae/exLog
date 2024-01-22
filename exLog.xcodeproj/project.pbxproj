@@ -235,6 +235,7 @@
 				081384702B4808BB00CDF389 /* DatePickerView.swift */,
 				08491AB52B49A00400D3E13F /* UIDateRangePicker.swift */,
 				08B8C2132B1156A1008734A8 /* CategoryMenuView.swift */,
+				0837109E2B577B9600F5829E /* DatePickerForm.swift */,
 			);
 			path = Pickers;
 			sourceTree = "<group>";
@@ -255,7 +256,6 @@
 				08C090F92B550B5D008366AC /* CategoryPickerView.swift */,
 				08DC52252B12D8C6005ED804 /* InputStringArea.swift */,
 				082177CD2B0DFE9300D46518 /* Keypad.swift */,
-				0837109E2B577B9600F5829E /* DatePickerForm.swift */,
 			);
 			path = Keypad;
 			sourceTree = "<group>";

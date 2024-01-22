@@ -28,7 +28,7 @@ struct ContentView: View {
 		//		}
 		//		let uniqueYears = Array(Set(years))
 		NavigationStack(path: $navigationFlow.path) {
-			InputView(string: $keypadState.string, onSwipeUp: {}, onSwipeDown: {})
+			InputView(string: $keypadState.string)
 				.navigationDestination(for: LocationNavigation.self) { destination in
 					LocationViewFactory.setViewForDestination(destination, string: $keypadState.string)
 				}
