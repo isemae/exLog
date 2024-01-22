@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0802FB632B18F495009A7E81 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0802FB622B18F495009A7E81 /* DataModel.swift */; };
+		080E2E952B5E3F4F0056828A /* LocationNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080E2E942B5E3F4F0056828A /* LocationNavigation.swift */; };
+		080E2E982B5E3F690056828A /* LocationViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080E2E972B5E3F690056828A /* LocationViewFactory.swift */; };
+		080E2E9A2B5E3F740056828A /* NavigationFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080E2E992B5E3F740056828A /* NavigationFlow.swift */; };
 		0811D45E2B4EEB13005867A5 /* ModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0811D45D2B4EEB13005867A5 /* ModelManager.swift */; };
 		081384712B4808BB00CDF389 /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081384702B4808BB00CDF389 /* DatePickerView.swift */; };
 		082177A02B0DFDC300D46518 /* spndLogApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0821779F2B0DFDC300D46518 /* spndLogApp.swift */; };
@@ -66,6 +69,9 @@
 
 /* Begin PBXFileReference section */
 		0802FB622B18F495009A7E81 /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		080E2E942B5E3F4F0056828A /* LocationNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationNavigation.swift; sourceTree = "<group>"; };
+		080E2E972B5E3F690056828A /* LocationViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewFactory.swift; sourceTree = "<group>"; };
+		080E2E992B5E3F740056828A /* NavigationFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationFlow.swift; sourceTree = "<group>"; };
 		0811D45D2B4EEB13005867A5 /* ModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelManager.swift; sourceTree = "<group>"; };
 		081379402B0EA0A1006AE972 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		081384702B4808BB00CDF389 /* DatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
@@ -134,6 +140,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		080E2E962B5E3F540056828A /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				080E2E942B5E3F4F0056828A /* LocationNavigation.swift */,
+				080E2E972B5E3F690056828A /* LocationViewFactory.swift */,
+				080E2E992B5E3F740056828A /* NavigationFlow.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
 		082177932B0DFDC300D46518 = {
 			isa = PBXGroup;
 			children = (
@@ -160,6 +176,7 @@
 			children = (
 				081379402B0EA0A1006AE972 /* Info.plist */,
 				0821779F2B0DFDC300D46518 /* spndLogApp.swift */,
+				080E2E962B5E3F540056828A /* Navigation */,
 				08491ABD2B4C284E00D3E13F /* Resources */,
 				08AB63852B0E7F0E00F03C64 /* Model */,
 				08491AC12B4C29EB00D3E13F /* Network */,
@@ -471,6 +488,7 @@
 				0802FB632B18F495009A7E81 /* DataModel.swift in Sources */,
 				0872F1E72B3BDDA6004169BB /* ImagePicker.swift in Sources */,
 				08C090FA2B550B5D008366AC /* CategoryPickerView.swift in Sources */,
+				080E2E9A2B5E3F740056828A /* NavigationFlow.swift in Sources */,
 				08491AC02B4C291E00D3E13F /* authkey.swift in Sources */,
 				08F71DB82B31C58700B305D7 /* GestureHandler.swift in Sources */,
 				082177CE2B0DFE9300D46518 /* Keypad.swift in Sources */,
@@ -478,6 +496,8 @@
 				08F2B37C2B0E82AA00371E49 /* EXCRateRequest.swift in Sources */,
 				08EBE7FF2B105D2400552A3F /* Theme.swift in Sources */,
 				08491ABA2B4AE22200D3E13F /* States.swift in Sources */,
+				080E2E952B5E3F4F0056828A /* LocationNavigation.swift in Sources */,
+				080E2E982B5E3F690056828A /* LocationViewFactory.swift in Sources */,
 				08B8C2142B1156A1008734A8 /* CategoryMenuView.swift in Sources */,
 				08AB637E2B0E706600F03C64 /* Extensions.swift in Sources */,
 				08F71DB92B31C58700B305D7 /* TestProvider.swift in Sources */,

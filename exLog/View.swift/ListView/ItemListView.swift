@@ -9,37 +9,40 @@ import SwiftData
 
 struct ItemListView: View {
 	@EnvironmentObject var dataModel: DataModel
+	@EnvironmentObject var navigationFlow: NavigationFlow
 	@State private var refreshView = false
-	var items: [Item]
-	var location: String?
+	var items: [Item]?
+	var location: Location?
+
 	var body: some View {
-		var dateGroup: [Date: [Item]] = Dictionary(grouping: items) { item in
-			Calendar.current.startOfDay(for: item.date) }
-		var minuteGroup: [Date: [Date: [Item]]] = dateGroup.mapValues { itemsInDate in
-			Dictionary(grouping: itemsInDate) { item in
-				let components = Calendar.current.dateComponents([.hour, .minute], from: item.date)
-				let date = Calendar.current.date(from: components)!
-				return date
+		var dateGroup: [Date: [Item]] = Dictionary(grouping: items!) { item in
+				Calendar.current.startOfDay(for: item.date) }
+			var minuteGroup: [Date: [Date: [Item]]] = dateGroup.mapValues { itemsInDate in
+				Dictionary(grouping: itemsInDate) { item in
+					let components = Calendar.current.dateComponents([.hour, .minute], from: item.date)
+					let date = Calendar.current.date(from: components)!
+					return date
+				}
 			}
-		}
-		List {
-			ForEach(dateGroup.sorted(by: { $0.key > $1.key }), id: \.key) { date, group in
-				let sumForDate = group.reduce(0) { $0 + $1.calculatedBalance }
-				dayList(group: minuteGroup[date] ?? [:], date: date, sumForDate: sumForDate)
+
+			List {
+				ForEach(dateGroup.sorted(by: { $0.key > $1.key }), id: \.key) { date, group in
+					let sumForDate = group.reduce(0) { $0 + $1.calculatedBalance }
+					dayList(group: minuteGroup[date] ?? [:], date: date, sumForDate: sumForDate)
+				}
+				.listRowInsets(EdgeInsets())
+				.listRowSeparator(.hidden)
+				.listRowBackground(Color(uiColor: .systemBackground))
 			}
-			.listRowInsets(EdgeInsets())
-			.listRowSeparator(.hidden)
-			.listRowBackground(Color(uiColor: .systemBackground))
+			.listStyle(.insetGrouped)
+			.background(Color(uiColor: .systemBackground))
+			.environment(\.defaultMinListRowHeight, 12)
+			.environment(\.defaultMinListHeaderHeight, 0)
 		}
-		.listStyle(.insetGrouped)
-		.background(Color(uiColor: .systemBackground))
-		.environment(\.defaultMinListRowHeight, 12)
-		.environment(\.defaultMinListHeaderHeight, 0)
-	}
 
 	func dayList(group: [Date: [Item]], date: Date, sumForDate: Int) -> some View {
 		Section(
-			header: DateHeader(items: items, date: date, sumForDate: sumForDate)
+			header: DateHeader(date: date, sumForDate: sumForDate)
 				.environmentObject(dataModel)
 		) {
 			ForEach(group.keys.sorted().reversed(), id: \.self) { minuteDate in

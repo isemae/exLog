@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LocationGridCell: View {
 	var location: Location
+
 	var body: some View {
 		VStack {
 			RoundedRectangle(cornerRadius: 20)

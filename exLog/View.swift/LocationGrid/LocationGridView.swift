@@ -10,23 +10,52 @@ import SwiftData
 
 struct LocationGridView: View {
 	@Environment(\.modelContext) private var modelContext
+	@EnvironmentObject var navigationFlow: NavigationFlow
 	@Query var locations: [Location]
+	@Query var items: [Item]
 	@State private var showImagePicker = false
 	@State private var selectedImage: UIImage?
 	@State private var selectedLocation: Location?
-	var items: [Item]
+	@State var pickerState = States.Picker()
 
 	var body: some View {
-			ScrollView(.vertical) {
-				NavigationLink("분류되지 않음", destination: ItemListView(items: items))
-					.foregroundColor(Color(uiColor: .label))
-				LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-					ForEach(locations.sorted(by: { $0.startDate ?? Date() > $1.startDate ?? Date() }), id: \.self) { location in
+		ScrollView(.vertical) {
+			NavigationLink("분류되지 않음", destination: ItemListView(items: items.filter { item in
+				item.location == nil }))
+				.foregroundColor(Color(uiColor: .label))
+			LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+				ForEach(locations.sorted(by: { $0.startDate ?? Date() > $1.startDate ?? Date() }), id: \.self) { location in
+//					NavigationLink(destination: destinationItemListView(location: location)
+//						.navigationTitle(location.name)) {
+//							LocationGridCell(location: location)
+//						}
+//						.contextMenu(ContextMenu(menuItems: {
+//							gridContextMenu(location: location)
+//						}))
+//						.sheet(isPresented: $showImagePicker) {
+//							ImagePicker(image: $selectedImage, location: $selectedLocation) { selectedImage in
+//								if let selectedLocation = selectedLocation {
+//									if let imageData = selectedImage?.pngData() {
+//										selectedLocation.imageData = imageData
+//										try? modelContext.save()
+//									}
+//								}
+//								showImagePicker = false
+//							}
+//						}
+					Button {
+//							LocationViewFactory.items = items.filter { item in
+//								if let startDate = location.startDate, let endDate = location.endDate {
+//									return startDate <= item.date && item.date <= endDate
+//								}
+//								return false
+//							}
+						LocationViewFactory.items = location.items ?? []
+							navigationFlow.selectedLocation = location
+							navigationFlow.navigateToLocationListView(location: location)
 
-						NavigationLink(destination: destinationItemListView(location: location)
-							.navigationTitle(location.name)) {
-								LocationGridCell(location: location)
-							}
+					} label: {
+						LocationGridCell(location: location)
 							.contextMenu(ContextMenu(menuItems: {
 								gridContextMenu(location: location)
 							}))
@@ -43,26 +72,28 @@ struct LocationGridView: View {
 							}
 					}
 				}
-				.padding()
 			}
-			.navigationTitle("여행")
+			.navigationBarTitleDisplayMode(.inline)
+			.toolbar {
+				ToolbarItem(placement: .navigationBarTrailing) {
+					Button {
+						pickerState.isDatePickerPresented.toggle()
+					} label: {
+						Label("새 일정", systemImage: "calendar.badge.plus")
+					}
+				}
+			}
+			.sheet(isPresented: $pickerState.isDatePickerPresented, content: {
+				DatePickerForm(isPresenting: $pickerState.isDatePickerPresented , selectedDates: $pickerState.selectedDates, addingLocationName: $pickerState.addingLocationName)
+			})
+			.padding()
 		}
-
-	func destinationItemListView(location: Location) -> some View {
-		ItemListView(items: items.filter { item in
-			if let startDate = location.startDate, let endDate = location.endDate {
-				return startDate <= item.date && item.date <= endDate
-			}
-			return false
-		})
+		.navigationTitle("여행")
 	}
 
 	func gridContextMenu(location: Location) -> some View {
 		return Group {
 			Button {
-				selectedLocation = location
-				print(location.imageData)
-				print(location.name)
 				showImagePicker.toggle()
 			} label: {
 				Label("배경이미지 설정", systemImage: "photo.badge.plus")

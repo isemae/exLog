@@ -10,7 +10,6 @@ import SwiftUI
 struct DateHeader: View {
 	@EnvironmentObject var dataModel: DataModel
 	@State var isFolded = false
-	var items: [Item]
 	var date: Date
 	var sumForDate: Int
 	var body: some View {
@@ -49,6 +48,6 @@ struct DateHeader: View {
 }
 
 #Preview {
-	DateHeader(items: createTestItems(), date: Date(), sumForDate: 1000)
+	DateHeader(date: Date(), sumForDate: 1000)
 		.environmentObject(DataModel())
 }

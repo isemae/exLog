@@ -11,12 +11,14 @@ import SwiftData
 struct InputView: View {
 	@Environment(\.modelContext) private var modelContext
 	@Query(sort: \Item.date, order: .reverse) private var items: [Item]
+	@EnvironmentObject var navigationFlow: NavigationFlow
 	@Binding var string: String
 	@StateObject private var dataModel = DataModel()
 	@State var selectedCategory: Category = .nil
 	@State var itemDesc: String = ""
 	@State var showAddedIndicator = false
 	@State var showDeletedIndicator = false
+
 	var onSwipeUp: () -> Void
 	var onSwipeDown: () -> Void
 	@State var indicatorCancellation: DispatchWorkItem?
@@ -35,9 +37,14 @@ struct InputView: View {
 				HStack {
 					Spacer()
 					ZStack {
-						NavigationLink("여행이름", destination: LocationGridView(items: items.filter { $0.location == nil }))
-							.underline()
-							.font(.title2)
+						//						NavigationLink("여행이름", destination: LocationGridView(items: items.filter { $0.location == nil }))
+						Button {
+							navigationFlow.navigateToLocationGridView()
+						} label: {
+							Text("여행이름")
+								.underline()
+								.font(.title2)
+						}
 						HStack {
 							Spacer()
 							itemAddedIndicator(item: items.first!)

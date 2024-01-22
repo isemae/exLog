@@ -29,6 +29,7 @@ struct ExLogApp: App {
         WindowGroup {
 			ContentView()
 				.environmentObject(DataModel())
+				.environmentObject(NavigationFlow.shared)
         }
         .modelContainer(sharedModelContainer)
     }
