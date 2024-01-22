@@ -14,7 +14,7 @@ struct SpendingItem: View {
 		VStack(spacing: 0) {
 			HStack {
 				categoryView()
-				VStack(spacing: 0) {
+				VStack(alignment: .leading, spacing: 0) {
 					item.desc.map { Text($0).font(.body) }
 					localCurrencyValue()
 				}
@@ -51,10 +51,9 @@ struct SpendingItem: View {
 			if (item.category != .nil && item.category != nil) {
 				ZStack {
 					RoundedRectangle(cornerRadius: 10)
-						.foregroundStyle(Color.accentColor)
-						.frame(width: Screen.width / 8, height: Screen.width / 8)
+						.foregroundStyle(.fill)
 					Text(item.category?.symbol ?? "")
-						.font(.body)
+						.font(.title)
 						.padding(5)
 				}
 				.fixedSize()
@@ -88,5 +87,10 @@ struct SpendingItem: View {
 //	}
 
 #Preview {
-	SpendingItem(item: createTestItems().first!)
+	Group {
+		SpendingItem(item: createTestItems().first!)
+		List(createTestItems(), id: \.self) { item in
+			SpendingItem(item: item)
+		}
+	}
 }

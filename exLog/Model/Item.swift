@@ -14,9 +14,9 @@ final class Item: Identifiable {
 	var id = UUID()
 	var date: Date
 	var balance: String
-	var desc: String?
 	var currency: Currency
 	var category: Category?
+	var desc: String?
 	var image: Data?
 	var location: Location?
 	//	@Relationship(inverse: \FoldedItems.items)
