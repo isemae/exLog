@@ -8,21 +8,20 @@ import SwiftUI
 import SwiftData
 
 struct ItemListView: View {
-	@EnvironmentObject private var dataModel: DataModel
+	@EnvironmentObject var dataModel: DataModel
+	@State private var refreshView = false
 	var items: [Item]
-	var onTap: () -> Void
 	var location: String?
 	var body: some View {
-		let dateGroup: [Date: [Item]] = Dictionary(grouping: items) { item in
+		var dateGroup: [Date: [Item]] = Dictionary(grouping: items) { item in
 			Calendar.current.startOfDay(for: item.date) }
-		let minuteGroup: [Date: [Date: [Item]]] = dateGroup.mapValues { itemsInDate in
+		var minuteGroup: [Date: [Date: [Item]]] = dateGroup.mapValues { itemsInDate in
 			Dictionary(grouping: itemsInDate) { item in
-				var components = Calendar.current.dateComponents([.hour, .minute], from: item.date)
-				var date = Calendar.current.date(from: components)!
+				let components = Calendar.current.dateComponents([.hour, .minute], from: item.date)
+				let date = Calendar.current.date(from: components)!
 				return date
 			}
 		}
-
 		List {
 			ForEach(dateGroup.sorted(by: { $0.key > $1.key }), id: \.key) { date, group in
 				let sumForDate = group.reduce(0) { $0 + $1.calculatedBalance }
@@ -48,7 +47,7 @@ struct ItemListView: View {
 					Group {
 						HHmmHeader(date: minuteDate)
 						ForEach(itemsInMinute, id: \.id) { item in
-							SpendingItem(ampm: dataModel.ampm, item: item)
+							SpendingItem(item: item)
 						}
 					}
 					.background(Color(uiColor: .secondarySystemGroupedBackground).edgesIgnoringSafeArea(.all))

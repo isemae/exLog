@@ -32,9 +32,16 @@ struct CategoryPickerView: View {
 								Text("\(category.symbol)")
 							)
 							.onTapGesture {
-								withAnimation(.spring(duration: 0.2)) {
-									selectedCategory = category
-									UIImpactFeedbackGenerator(style: .rigid).impactOccurred(intensity: 0.5)
+								if category != selectedCategory {
+									withAnimation(.spring(duration: 0.2)) {
+										selectedCategory = category
+										UIImpactFeedbackGenerator(style: .rigid).impactOccurred(intensity: 0.5)
+									}
+								} else {
+									withAnimation(.spring(duration: 0.2)) {
+										selectedCategory = .nil
+										UIImpactFeedbackGenerator(style: .rigid).impactOccurred(intensity: 0.5)
+									}
 								}
 							}
 					}

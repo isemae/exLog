@@ -9,7 +9,6 @@ import SwiftUI
 
 struct SpendingItem: View {
 	@State var isShowingPicker: Bool = false
-	var ampm: Bool
 	var item: Item
 	var body: some View {
 		VStack(spacing: 0) {
@@ -65,10 +64,6 @@ struct SpendingItem: View {
 //		.onTapGesture {
 //			isShowingPicker = true
 //		}
-		.sheet(isPresented: $isShowingPicker) {
-
-		}
-
 	}
 }
 
@@ -93,5 +88,5 @@ struct SpendingItem: View {
 //	}
 
 #Preview {
-	SpendingItem(ampm: true, item: createTestItems().first!)
+	SpendingItem(item: createTestItems().first!)
 }

@@ -29,13 +29,25 @@ struct LocationGridCell: View {
 				)
 
 		}
+		.overlay(
+			VStack {
+				Text(location.name)
+					.font(.title)
+					.bold()
+				Text("""
+\(formattedDate(date: location.startDate ?? Date()))
+~ \(formattedDate(date: location.endDate ?? Date()))
+""")
+			}
+				.foregroundColor(.primary)
+		)
 
 	}
 
-//	func loadImage() {
-//			guard let selectedImage = selectedUIImage else { return }
-//			image = Image(uiImage: selectedImage)
-//		}
+	//	func loadImage() {
+	//			guard let selectedImage = selectedUIImage else { return }
+	//			image = Image(uiImage: selectedImage)
+	//		}
 }
 //
 // #Preview {

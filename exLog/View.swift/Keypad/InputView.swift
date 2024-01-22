@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct InputView: View {
-	@Environment(\.modelContext) var modelContext
+	@Environment(\.modelContext) private var modelContext
 	@Query(sort: \Item.date, order: .reverse) private var items: [Item]
 	@Binding var string: String
 	@StateObject private var dataModel = DataModel()
@@ -41,7 +41,6 @@ struct InputView: View {
 						HStack {
 							Spacer()
 							itemAddedIndicator(item: items.first!)
-
 						}
 					}
 					Spacer()
@@ -54,7 +53,7 @@ struct InputView: View {
 					HStack {
 						Text("사진")
 						Spacer()
-						Text(dataModel.ampm ? "\(dateFormatString(for: Date(), format: "aahhmm"))" : "\(dateFormatString(for: Date(), format: "hhmm"))")
+						Text("\(dateFormatString(for: Date(), format: "aahhmm"))" )
 					}
 					TextField("설명...", text: $itemDesc)
 
@@ -115,7 +114,7 @@ struct InputView: View {
 						if (showAddedIndicator || showDeletedIndicator) && !items.isEmpty {
 							Text("₩\(item.calculatedBalance)")
 								.foregroundColor(Color(UIColor.systemBackground))
-//					.transition(.asymmetric(insertion: .move(edge:.bottom), removal: .move(edge: .top)))
+							//					.transition(.asymmetric(insertion: .move(edge:.bottom), removal: .move(edge: .top)))
 						}
 					}
 				}
@@ -185,6 +184,7 @@ struct InputView: View {
 				updateFoldedDate()
 			}
 			string = "0"
+			itemDesc = ""
 		}
 		handleIndicator(action: .add)
 
