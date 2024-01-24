@@ -28,15 +28,14 @@ struct LocationGridView: View {
 						LocationViewFactory.items = location.items ?? []
 						navigationFlow.selectedLocation = location
 						navigationFlow.navigateToLocationListView(location: location)
-
 					} label: {
 						LocationGridCell(location: location)
 							.contextMenu(ContextMenu(menuItems: { gridContextMenu(location: location) }))
 							.sheet(isPresented: $showImagePicker) {
 								ImagePicker(image: $selectedImage, location: $selectedLocation) { selectedImage in
-									if let selectedLocation = selectedLocation {
+									if let location = selectedLocation {
 										if let imageData = selectedImage?.pngData() {
-											selectedLocation.imageData = imageData
+											location.imageData = imageData
 											try? modelContext.save()
 										}
 									}
@@ -44,6 +43,7 @@ struct LocationGridView: View {
 								}
 							}
 					}
+					.buttonStyle(PlainButtonStyle())
 				}
 			}
 			.navigationBarTitleDisplayMode(.inline)
@@ -57,7 +57,7 @@ struct LocationGridView: View {
 				}
 			}
 			.sheet(isPresented: $pickerState.isDatePickerPresented, content: {
-				DatePickerForm(isPresenting: $pickerState.isDatePickerPresented , selectedDates: $pickerState.selectedDates, addingLocationName: $pickerState.addingLocationName)
+				DatePickerForm(isPresenting: $pickerState.isDatePickerPresented, selectedDates: $pickerState.selectedDates, addingLocationName: $pickerState.addingLocationName)
 			})
 			.padding()
 		}
@@ -67,13 +67,16 @@ struct LocationGridView: View {
 	func gridContextMenu(location: Location) -> some View {
 		return Group {
 			Button {
+				selectedLocation = location
 				showImagePicker.toggle()
 			} label: {
 				Label("배경이미지 설정", systemImage: "photo.badge.plus")
 			}
 			Button(role: .destructive) {
-				modelContext.delete(location)
-				try? modelContext.save()
+				withAnimation(.easeOut(duration: 0.2)) {
+					modelContext.delete(location)
+					try? modelContext.save()
+				}
 			} label : {
 				Label("여행계획 삭제", systemImage: "trash")
 			}

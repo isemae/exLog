@@ -9,10 +9,10 @@ import SwiftUI
 
 struct DragGestureHandler: ViewModifier {
 	public let minDistance = 10.0
-	
+
 	var onSwipeUp: () -> Void
 	var onSwipeDown: () -> Void
-	
+
 	func body(content: Content) -> some View {
 		content.gesture(
 			DragGesture()

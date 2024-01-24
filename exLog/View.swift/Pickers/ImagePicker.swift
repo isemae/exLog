@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ImagePicker: UIViewControllerRepresentable {
-	@Binding var image: UIImage?
 	@Environment(\.presentationMode) var mode
+	@Binding var image: UIImage?
 	@Binding var location: Location?
 	var didFinishPicking: ((UIImage?) -> Void)?
 

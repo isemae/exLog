@@ -10,11 +10,12 @@ import SwiftData
 
 struct DatePickerForm: View {
 	@Query(sort: \Item.date, order: .reverse) private var items: [Item]
+	@Environment(\.modelContext) private var modelContext
 	@Query private var locations: [Location]
 	@Binding var isPresenting: Bool
 	@Binding var selectedDates: [Date]
 	@Binding var addingLocationName: String
-    var body: some View {
+	var body: some View {
 		VStack {
 			DatePickerView(selectedDates: $selectedDates)
 			TextField("위치...", text: $addingLocationName)
@@ -39,8 +40,8 @@ struct DatePickerForm: View {
 					return false
 				}
 				withAnimation(.easeOut(duration: 0.2)) {
-//					modelContext.insert(newLocation)
-//					saveContext()
+					modelContext.insert(newLocation)
+					saveContext()
 				}
 
 				addingLocationName = ""
@@ -52,7 +53,17 @@ struct DatePickerForm: View {
 				Text("확인")
 			}
 		}
-    }
+	}
+
+	func saveContext() {
+		do {
+			try modelContext.save()
+			UISelectionFeedbackGenerator().selectionChanged()
+		} catch {
+			print("Error saving context: \(error)")
+			UINotificationFeedbackGenerator().notificationOccurred(.warning)
+		}
+	}
 }
 //
 // #Preview {
