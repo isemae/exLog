@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LocationGridCell: View {
 	var location: Location
-
+	
 	var body: some View {
 		ZStack {
 			RoundedRectangle(cornerRadius: 20)

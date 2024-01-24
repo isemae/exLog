@@ -41,14 +41,23 @@ extension ImagePicker {
 		init(_ parent: ImagePicker) {
 			self.parent = parent
 		}
+		func loadOriginalImage(_ uiImage: UIImage) async -> UIImage? {
+			return uiImage
+		}
 
 		func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 			if let uiImage = info[.originalImage] as? UIImage {
-				parent.image = uiImage
-				parent.location?.imageData = uiImage.pngData()
-				parent.didFinishPicking?(uiImage)
+					parent.image = uiImage
+					parent.location?.imageData = uiImage.pngData()
+				
+				Task {
+					let thumbnailImage = await uiImage.createThumbnail(scaleTo: 0.25)
+					parent.image = thumbnailImage
+					parent.location?.imageData = thumbnailImage?.pngData()
+					parent.didFinishPicking?(thumbnailImage)
+				}
 			}
-
+			
 			parent.mode.wrappedValue.dismiss()
 		}
 	}
