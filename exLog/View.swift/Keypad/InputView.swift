@@ -22,44 +22,13 @@ struct InputView: View {
 
 	var body: some View {
 		VStack(spacing: 0) {
-			HStack {
-				Image(systemName: "scope")
-					.resizable()
-					.frame(width: 30, height: 30)
-					.foregroundColor(.accentColor)
-				Spacer()
-			}
-			.padding()
-			.overlay(
-				HStack {
-					Spacer()
-					ZStack {
-						Button {
-							navigationFlow.navigateToLocationGridView()
-						} label: {
-							Text("여행이름")
-								.underline()
-								.font(.title2)
-						}
-						HStack {
-							Spacer()
-							lastItemIndicator(item: items.first!)
-						}
-					}
-					Spacer()
-				}
-					.foregroundColor(.accentColor)
-					.padding(5)
-			)
+			lastItemIndicator(item: items.first!)
+				.padding(.vertical, 5)
 			Form {
-				Section("지출 추가") {
-					HStack {
-						Text("사진")
-						Spacer()
-						Text("\(dateFormatString(for: Date(), format: "aahhmm"))" )
-					}
+				HStack {
 					TextField("설명...", text: $itemDesc)
-
+					Spacer()
+					Text("\(dateFormatString(for: Date(), format: "aahhmm"))" )
 				}
 			}
 			.font(.callout)
@@ -76,6 +45,17 @@ struct InputView: View {
 			.background(.bar)
 		}
 		.ignoresSafeArea(.keyboard)
+		.navigationTitle("지출 추가")
+		.toolbarTitleDisplayMode(.inline)
+		.toolbar {
+			ToolbarItem(placement: .topBarTrailing) {
+				Button {
+					navigationFlow.navigateToLocationGridView()
+				} label: {
+					Image(systemName: "square.grid.2x2.fill")
+				}
+			}
+		}
 	}
 
 	func lastItemIndicator(item: Item) -> some View {
@@ -83,7 +63,7 @@ struct InputView: View {
 		HStack {
 			ZStack {
 				Capsule()
-					.foregroundColor(Color(uiColor:.label))
+					.foregroundStyle(.bar)
 				HStack {
 					if showAddedIndicator || showDeletedIndicator {
 						indicatorImage(for: showAddedIndicator ? .add : .delete)
@@ -95,14 +75,15 @@ struct InputView: View {
 						Text(item.category?.symbol ?? "")
 						if (showAddedIndicator || showDeletedIndicator) && !items.isEmpty {
 							Text("₩\(item.calculatedBalance)")
-								.foregroundColor(Color(UIColor.systemBackground))
+								.foregroundColor(Color(UIColor.label))
 							//					.transition(.asymmetric(insertion: .move(edge:.bottom), removal: .move(edge: .top)))
 						}
 					}
 				}
 				.padding()
 			}
-			.frame(maxWidth: (showAddedIndicator || showDeletedIndicator) ? Screen.width / 2 : Screen.width / 5 )
+			.frame(maxWidth: (showAddedIndicator || showDeletedIndicator) ? Screen.width / 1.5 : Screen.width / 3, maxHeight: 40)
+
 		}
 	}
 

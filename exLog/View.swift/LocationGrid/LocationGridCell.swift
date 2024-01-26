@@ -6,10 +6,15 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct LocationGridCell: View {
 	var location: Location
-	
+//	@State var pickerState = States.Picker()
+	@State private var showImagePicker = false
+	@State private var selectedImage: UIImage?
+	@State private var selectedLocation: Location?
+	var modelContext: ModelContext
 	var body: some View {
 		ZStack {
 			RoundedRectangle(cornerRadius: 20)
@@ -35,6 +40,37 @@ struct LocationGridCell: View {
 				)
 			}
 			.foregroundColor(.primary)
+		}
+		.contextMenu(ContextMenu(menuItems: { gridContextMenu(location: location) }))
+		.sheet(isPresented: $showImagePicker) {
+			ImagePicker(image: $selectedImage, location: $selectedLocation) { selectedImage in
+				if let location = selectedLocation {
+					if let imageData = selectedImage?.pngData() {
+						location.imageData = imageData
+						try? modelContext.save()
+					}
+				}
+				showImagePicker = false
+			}
+		}
+	}
+
+	func gridContextMenu(location: Location) -> some View {
+		return Group {
+			Button {
+				selectedLocation = location
+				showImagePicker.toggle()
+			} label: {
+				Label("배경이미지 설정", systemImage: "photo.badge.plus")
+			}
+			Button(role: .destructive) {
+				withAnimation(.easeOut(duration: 0.2)) {
+					modelContext.delete(location)
+					try? modelContext.save()
+				}
+			} label : {
+				Label("여행계획 삭제", systemImage: "trash")
+			}
 		}
 	}
 }

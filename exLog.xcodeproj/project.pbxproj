@@ -38,7 +38,6 @@
 		089014122B4C568F00791F27 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 089014112B4C568F00791F27 /* .swiftlint.yml */; };
 		08AB637E2B0E706600F03C64 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AB637D2B0E706600F03C64 /* Extensions.swift */; };
 		08B6C8DF2B27E8AE0045EE24 /* ItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B6C8DE2B27E8AE0045EE24 /* ItemListView.swift */; };
-		08B8C2142B1156A1008734A8 /* CategoryMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B8C2132B1156A1008734A8 /* CategoryMenuView.swift */; };
 		08C090FA2B550B5D008366AC /* CategoryPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C090F92B550B5D008366AC /* CategoryPickerView.swift */; };
 		08DC52222B12D65E005ED804 /* SpendingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DC52212B12D65E005ED804 /* SpendingItem.swift */; };
 		08DC52242B12D7DA005ED804 /* DateHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DC52232B12D7DA005ED804 /* DateHeader.swift */; };
@@ -103,7 +102,6 @@
 		089014112B4C568F00791F27 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		08AB637D2B0E706600F03C64 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		08B6C8DE2B27E8AE0045EE24 /* ItemListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemListView.swift; sourceTree = "<group>"; };
-		08B8C2132B1156A1008734A8 /* CategoryMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryMenuView.swift; sourceTree = "<group>"; };
 		08C090F92B550B5D008366AC /* CategoryPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPickerView.swift; sourceTree = "<group>"; };
 		08DC52212B12D65E005ED804 /* SpendingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingItem.swift; sourceTree = "<group>"; };
 		08DC52232B12D7DA005ED804 /* DateHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHeader.swift; sourceTree = "<group>"; };
@@ -234,7 +232,6 @@
 				0872F1E62B3BDDA6004169BB /* ImagePicker.swift */,
 				081384702B4808BB00CDF389 /* DatePickerView.swift */,
 				08491AB52B49A00400D3E13F /* UIDateRangePicker.swift */,
-				08B8C2132B1156A1008734A8 /* CategoryMenuView.swift */,
 				0837109E2B577B9600F5829E /* DatePickerForm.swift */,
 			);
 			path = Pickers;
@@ -498,7 +495,6 @@
 				08491ABA2B4AE22200D3E13F /* States.swift in Sources */,
 				080E2E952B5E3F4F0056828A /* LocationNavigation.swift in Sources */,
 				080E2E982B5E3F690056828A /* LocationViewFactory.swift in Sources */,
-				08B8C2142B1156A1008734A8 /* CategoryMenuView.swift in Sources */,
 				08AB637E2B0E706600F03C64 /* Extensions.swift in Sources */,
 				08F71DB92B31C58700B305D7 /* TestProvider.swift in Sources */,
 				0837109F2B577B9600F5829E /* DatePickerForm.swift in Sources */,

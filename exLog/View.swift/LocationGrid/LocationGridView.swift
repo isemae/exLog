@@ -13,9 +13,6 @@ struct LocationGridView: View {
 	@EnvironmentObject var navigationFlow: NavigationFlow
 	@Query var locations: [Location]
 	@Query(sort: \Item.date, order: .reverse) private var items: [Item]
-	@State private var showImagePicker = false
-	@State private var selectedImage: UIImage?
-	@State private var selectedLocation: Location?
 	@State var pickerState = States.Picker()
 
 	var body: some View {
@@ -29,19 +26,7 @@ struct LocationGridView: View {
 						navigationFlow.selectedLocation = location
 						navigationFlow.navigateToLocationListView(location: location)
 					} label: {
-						LocationGridCell(location: location)
-							.contextMenu(ContextMenu(menuItems: { gridContextMenu(location: location) }))
-							.sheet(isPresented: $showImagePicker) {
-								ImagePicker(image: $selectedImage, location: $selectedLocation) { selectedImage in
-									if let location = selectedLocation {
-										if let imageData = selectedImage?.pngData() {
-											location.imageData = imageData
-											try? modelContext.save()
-										}
-									}
-									showImagePicker = false
-								}
-							}
+						LocationGridCell(location: location, modelContext: modelContext)
 					}
 					.buttonStyle(PlainButtonStyle())
 				}
@@ -62,25 +47,6 @@ struct LocationGridView: View {
 			.padding()
 		}
 		.navigationTitle("여행")
-	}
-
-	func gridContextMenu(location: Location) -> some View {
-		return Group {
-			Button {
-				selectedLocation = location
-				showImagePicker.toggle()
-			} label: {
-				Label("배경이미지 설정", systemImage: "photo.badge.plus")
-			}
-			Button(role: .destructive) {
-				withAnimation(.easeOut(duration: 0.2)) {
-					modelContext.delete(location)
-					try? modelContext.save()
-				}
-			} label : {
-				Label("여행계획 삭제", systemImage: "trash")
-			}
-		}
 	}
 }
 

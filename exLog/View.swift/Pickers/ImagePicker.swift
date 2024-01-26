@@ -49,7 +49,7 @@ extension ImagePicker {
 			if let uiImage = info[.originalImage] as? UIImage {
 					parent.image = uiImage
 					parent.location?.imageData = uiImage.pngData()
-				
+
 				Task {
 					let thumbnailImage = await uiImage.createThumbnail(scaleTo: 0.25)
 					parent.image = thumbnailImage
@@ -57,7 +57,7 @@ extension ImagePicker {
 					parent.didFinishPicking?(thumbnailImage)
 				}
 			}
-			
+
 			parent.mode.wrappedValue.dismiss()
 		}
 	}
