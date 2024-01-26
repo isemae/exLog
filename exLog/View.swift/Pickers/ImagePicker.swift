@@ -47,8 +47,8 @@ extension ImagePicker {
 
 		func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 			if let uiImage = info[.originalImage] as? UIImage {
-					parent.image = uiImage
-					parent.location?.imageData = uiImage.pngData()
+				parent.image = uiImage
+				parent.location?.imageData = uiImage.pngData()
 
 				Task {
 					let thumbnailImage = await uiImage.createThumbnail(scaleTo: 0.25)

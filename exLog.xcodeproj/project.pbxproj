@@ -231,8 +231,8 @@
 			children = (
 				0872F1E62B3BDDA6004169BB /* ImagePicker.swift */,
 				081384702B4808BB00CDF389 /* DatePickerView.swift */,
-				08491AB52B49A00400D3E13F /* UIDateRangePicker.swift */,
 				0837109E2B577B9600F5829E /* DatePickerForm.swift */,
+				08491AB52B49A00400D3E13F /* UIDateRangePicker.swift */,
 			);
 			path = Pickers;
 			sourceTree = "<group>";

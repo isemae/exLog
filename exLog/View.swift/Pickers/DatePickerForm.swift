@@ -30,9 +30,6 @@ struct DatePickerForm: View {
 			Button {
 				let newLocation = Location(name: addingLocationName, startDate: selectedDates.first ?? Date(), endDate: selectedDates.last ?? Date(), items: [])
 				isPresenting = false
-				newLocation.name = addingLocationName
-				newLocation.startDate = selectedDates.first
-				newLocation.endDate = selectedDates.last
 				newLocation.items = items.filter { item in
 					if let startDate = newLocation.startDate, let endDate = newLocation.endDate {
 						return startDate <= item.date && item.date <= endDate

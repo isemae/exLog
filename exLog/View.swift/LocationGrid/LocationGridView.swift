@@ -11,7 +11,7 @@ import SwiftData
 struct LocationGridView: View {
 	@Environment(\.modelContext) private var modelContext
 	@EnvironmentObject var navigationFlow: NavigationFlow
-	@Query var locations: [Location]
+	@Query private var locations: [Location]
 	@Query(sort: \Item.date, order: .reverse) private var items: [Item]
 	@State var pickerState = States.Picker()
 
@@ -26,7 +26,7 @@ struct LocationGridView: View {
 						navigationFlow.selectedLocation = location
 						navigationFlow.navigateToLocationListView(location: location)
 					} label: {
-						LocationGridCell(location: location, modelContext: modelContext)
+						LocationGridCell(location: location)
 					}
 					.buttonStyle(PlainButtonStyle())
 				}
