@@ -8,12 +8,6 @@
 import SwiftUI
 
 struct DatePickerView: View {
-	@Environment(\.calendar) var calendar
-	@Environment(\.timeZone) var timeZone
-
-	//	@State var startDate = Date.distantPast
-	//	@State var endDate = Date.distantFuture
-
 	@State var dateRange: Set<DateComponents> = []
 	@Binding var selectedDates: [Date]
 
@@ -24,8 +18,6 @@ struct DatePickerView: View {
 
 	var body: some View {
 		MultiDatePicker("", selection: $dateRange)
-			.environment(\.locale, Locale.init(identifier: "ko_kr"))
-			.environment(\.calendar.locale, Locale.init(identifier: "ko_kr"))
 			.onAppear {
 				dateRange.removeAll()
 				selectedDates.removeAll()
@@ -36,6 +28,7 @@ struct DatePickerView: View {
 					selectedDates.removeAll()
 				}
 				selectedDates = dates.sorted()
+				print(dateRange)
 			}
 			.frame(maxHeight: Screen.height / 2)
 
@@ -71,12 +64,3 @@ struct DatePickerView: View {
 // #Preview {
 //    DatePickerView()
 // }
-extension DateComponents: Comparable {
-	public static func < (lhs: DateComponents, rhs: DateComponents) -> Bool {
-		// 비교할 로직을 여기에 추가
-		if let lhsDate = lhs.date, let rhsDate = rhs.date {
-			return lhsDate < rhsDate
-		}
-		return false
-	}
-}

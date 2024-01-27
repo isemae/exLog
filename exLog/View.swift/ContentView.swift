@@ -95,7 +95,7 @@ struct ContentView: View {
 	}
 
 	//	func updateFoldedDate() {
-	let currentDate = Calendar.current.startOfDay(for: Date())
+//	let currentDate = Calendar.current.startOfDay(for: Date())
 	//		if dataModel.foldedItems[currentDate] == true {
 	//			dataModel.foldedItems[currentDate] = false
 	//		}

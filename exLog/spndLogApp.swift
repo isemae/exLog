@@ -28,9 +28,14 @@ struct ExLogApp: App {
     var body: some Scene {
         WindowGroup {
 			ContentView()
+				.environment(\.locale, Locale.init(identifier: "ko_kr"))
+				.environment(\.calendar.locale, Locale.init(identifier: "ko_kr"))
+				.environment(\.timeZone, TimeZone.init(identifier: "Asia/Seoul")!)
 				.environmentObject(DataModel())
 				.environmentObject(NavigationFlow.shared)
         }
+
         .modelContainer(sharedModelContainer)
+
     }
 }

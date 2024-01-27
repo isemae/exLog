@@ -49,7 +49,7 @@ struct ItemListView: View {
 					Group {
 						HHmmHeader(date: minuteDate)
 						ForEach(itemsInMinute, id: \.id) { item in
-							SpendingItem(item: item)
+							ListItem(item: item)
 						}
 					}
 					.background(Color(uiColor: .secondarySystemGroupedBackground).edgesIgnoringSafeArea(.all))

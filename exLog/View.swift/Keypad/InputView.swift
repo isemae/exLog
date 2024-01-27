@@ -195,6 +195,7 @@ struct InputView: View {
 		}
 		handleIndicator(action: .add)
 
+		print(items.first?.date ?? Date())
 	}
 
 	func deleteFirst() {

@@ -48,6 +48,23 @@ struct DateHeader: View {
 	}
 }
 
+struct HHmmHeader: View {
+	var date: Date
+
+	var body: some View {
+		HStack {
+			Image(systemName: "clock")
+			Text("\(dateFormatString(for: date, format: "aahhmm"))")
+				.font(.body)
+				.fixedSize()
+			Spacer()
+		}
+		.foregroundColor(Color(uiColor: .secondaryLabel))
+		.padding(10)
+		.overlayDivider(alignment: .top)
+	}
+}
+
 #Preview {
 	DateHeader(date: Date(), sumForDate: 1000)
 		.environmentObject(DataModel())

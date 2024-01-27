@@ -8,9 +8,27 @@
 import Foundation
 import SwiftUI
 
+extension Date {
+	var startDateOfYear: Date {
+		guard let date = Calendar.current.date(from: Calendar.current.dateComponents([.year], from: self)) else {
+			fatalError("Unable to get start date from date")
+		}
+		return date
+	}
+
+	var endDateOfYear: Date {
+		guard let date = Calendar.current.date(byAdding: DateComponents(month: 1, day: -1), to: self.startDateOfYear) else {
+			fatalError("Unable to get end date from date")
+		}
+		return date
+	}
+}
+
+let formatter = DateFormatter()
+
 func formattedDateComponent(dateComponent: DateComponents) -> String? {
-	let formatter = DateFormatter()
 	formatter.locale = Locale(identifier: "ko_kr")
+	formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
 	formatter.dateStyle = .long
 
 	guard let date = Calendar.current.date(from: dateComponent) else {
@@ -20,10 +38,11 @@ func formattedDateComponent(dateComponent: DateComponents) -> String? {
 }
 
 func formattedDate(date: Date?) -> String {
-	let formatter = DateFormatter()
+	formatter.locale = Locale(identifier: "ko_kr")
+	formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
 	formatter.dateStyle = .long
 	formatter.timeStyle = .none
-	formatter.locale = Locale(identifier: "ko_kr")
+
 	if let validDate = date {
 		return formatter.string(from: validDate)
 	} else {
@@ -32,25 +51,24 @@ func formattedDate(date: Date?) -> String {
 }
 
 func dateFormatString(for date: Date, format: String) -> String {
-		let dateFormatter = DateFormatter()
 
-		switch format {
-		case "yymmdd":
-			dateFormatter.dateFormat = "yyMMdd"
-		case "mm/dd":
-			dateFormatter.dateFormat = "MM/dd"
-		case "mm":
-			dateFormatter.dateFormat = "MM"
-		case "dd":
-			dateFormatter.dateFormat = "dd"
-		case "aahhmm":
-			dateFormatter.dateFormat = "h:mm a"
-		case "hhmm":
-			dateFormatter.dateFormat = "HH:mm"
-		default:
-			dateFormatter.dateFormat = "yyyyMMdd"
-		}
-		return dateFormatter.string(from: date)
+	switch format {
+	case "yymmdd":
+		formatter.dateFormat = "yyMMdd"
+	case "mm/dd":
+		formatter.dateFormat = "MM/dd"
+	case "mm":
+		formatter.dateFormat = "MM"
+	case "dd":
+		formatter.dateFormat = "dd"
+	case "aahhmm":
+		formatter.dateFormat = "h:mm a"
+	case "hhmm":
+		formatter.dateFormat = "HH:mm"
+	default:
+		formatter.dateFormat = "yyyyMMdd"
+	}
+	return formatter.string(from: date)
 }
 
 func dayColor(for date: Date) -> Color {
@@ -67,17 +85,12 @@ func dayColor(for date: Date) -> Color {
 	}
 }
 
-let calendar = Calendar.current
-let currentDate = Date()
-let AM11 = DateComponents(hour: 11, minute: 0)
-
 struct DateView: View {
-
 	var body: some View {
-		Text(dateFormatString(for: currentDate, format: "yymmdd"))
-		Text(dateFormatString(for: currentDate, format:"mmdd"))
-		Text(dateFormatString(for: currentDate, format:"dd"))
-		Text(dateFormatString(for: currentDate, format:"흠그정돈가"))
+		Text(dateFormatString(for: Date(), format: "yymmdd"))
+		Text(dateFormatString(for: Date(), format:"mmdd"))
+		Text(dateFormatString(for: Date(), format:"dd"))
+		Text(dateFormatString(for: Date(), format:"흠그정돈가"))
 	}
 }
 

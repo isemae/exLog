@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SpendingItem: View {
+struct ListItem: View {
 	@State var isShowingPicker: Bool = false
 	var item: Item
 	var body: some View {
@@ -83,9 +83,9 @@ struct SpendingItem: View {
 
 #Preview {
 	Group {
-		SpendingItem(item: createTestItems().first!)
+		ListItem(item: createTestItems().first!)
 		List(createTestItems(), id: \.self) { item in
-			SpendingItem(item: item)
+			ListItem(item: item)
 		}
 	}
 }

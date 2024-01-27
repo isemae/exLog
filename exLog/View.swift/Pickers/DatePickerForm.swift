@@ -28,19 +28,25 @@ struct DatePickerForm: View {
 				Text("취소")
 			}
 			Button {
-				let newLocation = Location(name: addingLocationName, startDate: selectedDates.first ?? Date(), endDate: selectedDates.last ?? Date(), items: [])
-				isPresenting = false
-				newLocation.items = items.filter { item in
-					if let startDate = newLocation.startDate, let endDate = newLocation.endDate {
-						return startDate <= item.date && item.date <= endDate
+				let calendar = Calendar.current
+				if let endDate = calendar.date(bySettingHour: 23, minute: 59, second: 59, of: selectedDates.last ?? Date()) {
+					let newLocation = Location(name: addingLocationName, startDate: selectedDates.first ?? Date(), endDate: endDate, items: [])
+					isPresenting = false
+
+					newLocation.items = items.filter { item in
+						if let startDate = newLocation.startDate, let endDate = newLocation.endDate {
+							return startDate <= item.date && item.date <= endDate
+						}
+						return false
 					}
-					return false
-				}
-				withAnimation(.easeOut(duration: 0.2)) {
-					modelContext.insert(newLocation)
-					saveContext()
+
+					withAnimation(.easeOut(duration: 0.2)) {
+						modelContext.insert(newLocation)
+						saveContext()
+					}
 				}
 
+				print(selectedDates)
 				addingLocationName = ""
 				selectedDates = []
 				for location in locations {
