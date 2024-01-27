@@ -20,12 +20,13 @@ final class Item: Identifiable {
 	var image: Data?
 	var location: Location?
 	//	@Relationship(inverse: \FoldedItems.items)
-	init(date: Date, balance: String = "", currency: Currency, category: Category? = nil, desc: String? = nil) {
+	init(date: Date, balance: String = "", currency: Currency, category: Category? = nil, desc: String? = nil, location: Location? = nil) {
 		self.date = date
 		self.balance = balance
 		self.currency = currency
 		self.category = category
 		self.desc = desc
+		self.location = location
 	}
 
 	var calculatedBalance: Int {

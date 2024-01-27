@@ -7,10 +7,12 @@
 
 import SwiftUI
 import SwiftData
+import Foundation
 
 struct InputView: View {
 	@Environment(\.modelContext) private var modelContext
 	@Query(sort: \Item.date, order: .reverse) private var items: [Item]
+	@Query private var locations: [Location]
 	@EnvironmentObject var navigationFlow: NavigationFlow
 	@Binding var string: String
 	@StateObject private var dataModel = DataModel()
@@ -183,8 +185,16 @@ struct InputView: View {
 	}
 
 	func addItem() {
+		let currentDate = Date()
+
+		let locationStartDate = Date()
+		let locationEndDate = Date().addingTimeInterval(86399)
+		let location = locations.filter { location in
+			location.startDate ?? Date() <= Date() && Date() <= location.endDate ?? Date()}.first
 		if let balance = Double(string), string != "0" {
-			let newItem = Item(date: Date(), balance: String(balance), currency: dataModel.currentCurrency, category: selectedCategory, desc: itemDesc)
+			let newItem = Item(date: Date(), balance: String(balance), currency: dataModel.currentCurrency, category: selectedCategory, desc: itemDesc, location: location)
+			if currentDate >= locationStartDate && currentDate <= locationEndDate {
+			}
 			withAnimation(.easeOut(duration: 0.2)) {
 				modelContext.insert(newItem)
 				saveContext()
