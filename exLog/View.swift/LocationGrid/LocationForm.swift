@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct DatePickerForm: View {
+struct LocationForm: View {
 	@Query(sort: \Item.date, order: .reverse) private var items: [Item]
 	@Environment(\.modelContext) private var modelContext
 	@Query private var locations: [Location]
@@ -140,12 +140,13 @@ struct DatePickerForm: View {
 		}
 	}
 }
+
 struct DatePickerFormPreview: View {
 	@State var selectedDates: [Date] = []
 	@State var isPresenting = true
 	@State var addingLocationName = ""
 	var body: some View {
-		DatePickerForm(isPresenting: $isPresenting, selectedDates: $selectedDates, addingLocationName: $addingLocationName)
+		LocationForm(isPresenting: $isPresenting, selectedDates: $selectedDates, addingLocationName: $addingLocationName)
 	}
 }
 

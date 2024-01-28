@@ -42,7 +42,7 @@ struct LocationGridView: View {
 				}
 			}
 			.sheet(isPresented: $pickerState.isDatePickerPresented, content: {
-				DatePickerForm(isPresenting: $pickerState.isDatePickerPresented, selectedDates: $pickerState.selectedDates, addingLocationName: $pickerState.addingLocationName)
+				LocationForm(isPresenting: $pickerState.isDatePickerPresented, selectedDates: $pickerState.selectedDates, addingLocationName: $pickerState.addingLocationName)
 			})
 			.padding()
 		}

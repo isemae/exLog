@@ -22,7 +22,7 @@
 		082177BD2B0DFDC400D46518 /* spndLogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177BC2B0DFDC400D46518 /* spndLogUITests.swift */; };
 		082177BF2B0DFDC400D46518 /* spndLogUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177BE2B0DFDC400D46518 /* spndLogUITestsLaunchTests.swift */; };
 		082177CE2B0DFE9300D46518 /* Keypad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177CD2B0DFE9300D46518 /* Keypad.swift */; };
-		0837109F2B577B9600F5829E /* DatePickerForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0837109E2B577B9600F5829E /* DatePickerForm.swift */; };
+		0837109F2B577B9600F5829E /* LocationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0837109E2B577B9600F5829E /* LocationForm.swift */; };
 		083DAFF82B5089AD00023BE6 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083DAFF72B5089AD00023BE6 /* InputView.swift */; };
 		08491AB62B49A00400D3E13F /* UIDateRangePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08491AB52B49A00400D3E13F /* UIDateRangePicker.swift */; };
 		08491AB82B4A9ED100D3E13F /* LocationGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08491AB72B4A9ED100D3E13F /* LocationGridView.swift */; };
@@ -85,7 +85,7 @@
 		082177BC2B0DFDC400D46518 /* spndLogUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = spndLogUITests.swift; sourceTree = "<group>"; };
 		082177BE2B0DFDC400D46518 /* spndLogUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = spndLogUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		082177CD2B0DFE9300D46518 /* Keypad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keypad.swift; sourceTree = "<group>"; };
-		0837109E2B577B9600F5829E /* DatePickerForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerForm.swift; sourceTree = "<group>"; };
+		0837109E2B577B9600F5829E /* LocationForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationForm.swift; sourceTree = "<group>"; };
 		083DAFF72B5089AD00023BE6 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 		08491AB52B49A00400D3E13F /* UIDateRangePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDateRangePicker.swift; sourceTree = "<group>"; };
 		08491AB72B4A9ED100D3E13F /* LocationGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationGridView.swift; sourceTree = "<group>"; };
@@ -229,7 +229,6 @@
 			children = (
 				0872F1E62B3BDDA6004169BB /* ImagePicker.swift */,
 				081384702B4808BB00CDF389 /* DatePickerView.swift */,
-				0837109E2B577B9600F5829E /* DatePickerForm.swift */,
 				08491AB52B49A00400D3E13F /* UIDateRangePicker.swift */,
 			);
 			path = Pickers;
@@ -293,6 +292,7 @@
 			children = (
 				08491AB72B4A9ED100D3E13F /* LocationGridView.swift */,
 				0872F1E82B3BDF46004169BB /* LocationGridCell.swift */,
+				0837109E2B577B9600F5829E /* LocationForm.swift */,
 			);
 			path = LocationGrid;
 			sourceTree = "<group>";
@@ -493,7 +493,7 @@
 				080E2E982B5E3F690056828A /* LocationViewFactory.swift in Sources */,
 				08AB637E2B0E706600F03C64 /* Extensions.swift in Sources */,
 				08F71DB92B31C58700B305D7 /* TestProvider.swift in Sources */,
-				0837109F2B577B9600F5829E /* DatePickerForm.swift in Sources */,
+				0837109F2B577B9600F5829E /* LocationForm.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
