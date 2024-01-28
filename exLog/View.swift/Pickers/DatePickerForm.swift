@@ -16,14 +16,85 @@ struct DatePickerForm: View {
 	@Binding var selectedDates: [Date]
 	@Binding var addingLocationName: String
 	var body: some View {
-		VStack {
-			DatePickerView(selectedDates: $selectedDates)
-			TextField("위치...", text: $addingLocationName)
-		}
+		Text("일정 등록")
+			.font(.headline)
+			.padding()
+		Divider()
+			.padding(.horizontal)
 		HStack {
-			Button {
+			dateFromTo()
+				.padding()
+			Spacer()
+		}
+		Spacer()
+		VStack(spacing: 0) {
+			if selectedDates.count >= 1 {
+				locationTextField()
+			}
+			Divider()
+				.padding(.horizontal)
+		}
+		.padding(.trailing, Screen.width * 0.3)
+		DatePickerView(selectedDates: $selectedDates)
+			.ignoresSafeArea(.all)
+			.padding()
+		submitButtons()
+	}
+
+	func dateFromTo() -> some View {
+		VStack(spacing: 5) {
+			HStack {
+				if selectedDates.count >= 1 {
+					ZStack {
+						RoundedRectangle(cornerRadius: 5)
+							.foregroundStyle(.bar)
+						Text(formattedDate(date: selectedDates.sorted().first))
+							.padding(5)
+					}
+					.fixedSize()
+					if selectedDates.count >= 2 {
+						Text("에서")
+					}
+				}
+			}
+
+			HStack {
+				if selectedDates.count >= 2 {
+					ZStack {
+						RoundedRectangle(cornerRadius: 5)
+							.foregroundStyle(.bar)
+						Text(formattedDate(date: selectedDates.sorted().last))
+							.padding(5)
+					}
+					.fixedSize()
+					Text("까지")
+				}
+			}
+		}
+	}
+
+	func locationTextField() -> some View {
+		let today = Calendar.current.startOfDay(for: Date())
+		var placeholder = ""
+
+		switch today {
+		case ..<selectedDates.first!:
+			placeholder = "어디로 떠날까요?"
+		case selectedDates.first!...selectedDates.last!:
+			placeholder = "어디를 여행중인가요?"
+		default:
+			placeholder = "어디에 다녀왔나요?"
+		}
+		return TextField(placeholder, text: $addingLocationName)
+			.padding()
+			.font(.title)
+			.bold()
+	}
+
+	func submitButtons() -> some View {
+		HStack {
+			Button(role: .cancel) {
 				isPresenting = false
-				selectedDates = []
 			} label : {
 				Text("취소")
 			}
@@ -55,6 +126,7 @@ struct DatePickerForm: View {
 			} label : {
 				Text("확인")
 			}
+			.disabled(selectedDates.isEmpty)
 		}
 	}
 
@@ -68,7 +140,15 @@ struct DatePickerForm: View {
 		}
 	}
 }
-//
-// #Preview {
-//	DatePickerForm(selectedDates: <#Binding<[Date]>#>)
-// }
+struct DatePickerFormPreview: View {
+	@State var selectedDates: [Date] = []
+	@State var isPresenting = true
+	@State var addingLocationName = ""
+	var body: some View {
+		DatePickerForm(isPresenting: $isPresenting, selectedDates: $selectedDates, addingLocationName: $addingLocationName)
+	}
+}
+
+#Preview {
+	DatePickerFormPreview()
+}

@@ -17,7 +17,8 @@ struct DatePickerView: View {
 	}
 
 	var body: some View {
-		MultiDatePicker("", selection: $dateRange)
+		MultiDatePicker("날짜 선택", selection: $dateRange)
+			.frame(maxHeight: Screen.height / 2)
 			.onAppear {
 				dateRange.removeAll()
 				selectedDates.removeAll()
@@ -27,39 +28,33 @@ struct DatePickerView: View {
 					dateRange.removeAll()
 					selectedDates.removeAll()
 				}
-				selectedDates = dates.sorted()
-				print(dateRange)
+				withAnimation(.spring(duration: 0.3)) {
+					selectedDates = dates.sorted()
+					print(dateRange)
+				}
 			}
-			.frame(maxHeight: Screen.height / 2)
 
-		HStack(spacing: 10) {
-			Text(formattedDate(date: dates.sorted().first))
-			if dates.count >= 2 {
-				Text(formattedDate(date: dates.sorted().last))
-			}
-		}
-
-		//			Text(selectedDates, formatter: formattedDateComponent(dateComponent: dateRange))
-		//			if dateRange.count > 1 {
-		//				if let endDate = dateRange.endIndex {
-		//					Text("\(dateRange)")
-		//					Text(formattedDateComponent(dateComponent: endDate) ?? "")
-		//				}
-		//			}
-
-		//		DateRangePicker(selectedDates: $selectedDates)
-		//			.frame(maxHeight: Screen.height / 2)
-		//			.onChange(of: selectedDates) { dates in
-		//				selectedDates = dates.sorted()
-		//			}
-		//		ForEach(Array(dateRange), id: \.self) { dateComponent in
-		//			if let formattedDate = formattedDate(dateComponent: dateComponent) {
-		//				Text(formattedDate)
-		//			}
-		//		}
 	}
-
 }
+//			Text(selectedDates, formatter: formattedDateComponent(dateComponent: dateRange))
+//			if dateRange.count > 1 {
+//				if let endDate = dateRange.endIndex {
+//					Text("\(dateRange)")
+//					Text(formattedDateComponent(dateComponent: endDate) ?? "")
+//				}
+//			}
+
+//		DateRangePicker(selectedDates: $selectedDates)
+//			.frame(maxHeight: Screen.height / 2)
+//			.onChange(of: selectedDates) { dates in
+//				selectedDates = dates.sorted()
+//			}
+//		ForEach(Array(dateRange), id: \.self) { dateComponent in
+//			if let formattedDate = formattedDate(dateComponent: dateComponent) {
+//				Text(formattedDate)
+//			}
+//		}
+
 //
 // #Preview {
 //    DatePickerView()

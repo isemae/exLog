@@ -51,6 +51,8 @@ func formattedDate(date: Date?) -> String {
 }
 
 func dateFormatString(for date: Date, format: String) -> String {
+	formatter.locale = Locale(identifier: "ko_kr")
+	formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
 
 	switch format {
 	case "yymmdd":
