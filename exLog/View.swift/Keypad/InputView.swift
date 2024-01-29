@@ -14,7 +14,7 @@ struct InputView: View {
 	@Query(sort: \Item.date, order: .reverse) private var items: [Item]
 	@Query private var locations: [Location]
 	@EnvironmentObject var navigationFlow: NavigationFlow
-	@State var string: String = ""
+	@State var string: String = "0"
 	@StateObject private var dataModel = DataModel()
 	@State var selectedCategory: Category = .nil
 	@State var itemDesc: String = ""
