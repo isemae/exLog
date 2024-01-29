@@ -16,60 +16,57 @@ struct LocationForm: View {
 	@Binding var selectedDates: [Date]
 	@Binding var addingLocationName: String
 	var body: some View {
-		Text("일정 등록")
-			.font(.headline)
-			.padding()
-		Divider()
-			.padding(.horizontal)
-		HStack {
+		NavigationStack {
+			Divider()
 			dateFromTo()
 				.padding()
-			Spacer()
-		}
-		Spacer()
-		VStack(spacing: 0) {
-			if selectedDates.count >= 1 {
-				locationTextField()
+			VStack {
+				if selectedDates.count >= 1 {
+					locationTextField()
+				}
+				Spacer()
+				DatePickerView(selectedDates: $selectedDates)
+					.ignoresSafeArea(.all)
+				submitButtons()
 			}
-			Divider()
-				.padding(.horizontal)
-		}
-		.padding(.trailing, Screen.width * 0.3)
-		DatePickerView(selectedDates: $selectedDates)
-			.ignoresSafeArea(.all)
 			.padding()
-		submitButtons()
+			.navigationTitle("일정 등록")
+			.navigationBarTitleDisplayMode(.inline)
+		}
 	}
 
 	func dateFromTo() -> some View {
-		VStack(spacing: 5) {
-			HStack {
-				if selectedDates.count >= 1 {
+		HStack(spacing: 5) {
+			VStack(alignment: .leading) {
+				ForEach(selectedDates, id: \.self) { date in
 					ZStack {
 						RoundedRectangle(cornerRadius: 5)
 							.foregroundStyle(.bar)
-						Text(formattedDate(date: selectedDates.sorted().first))
+						Text(formattedDate(date: date))
 							.padding(5)
 					}
 					.fixedSize()
-					if selectedDates.count >= 2 {
-						Text("에서")
-					}
 				}
 			}
-
-			HStack {
+			VStack {
 				if selectedDates.count >= 2 {
 					ZStack {
 						RoundedRectangle(cornerRadius: 5)
-							.foregroundStyle(.bar)
-						Text(formattedDate(date: selectedDates.sorted().last))
+							.foregroundStyle(.clear)
+						Text("에서")
 							.padding(5)
 					}
 					.fixedSize()
-					Text("까지")
+					ZStack {
+						RoundedRectangle(cornerRadius: 5)
+							.foregroundStyle(.clear)
+						Text("까지")
+							.padding(5)
+					}
+					.fixedSize()
 				}
 			}
+			Spacer()
 		}
 	}
 
@@ -86,7 +83,6 @@ struct LocationForm: View {
 			placeholder = "어디에 다녀왔나요?"
 		}
 		return TextField(placeholder, text: $addingLocationName)
-			.padding()
 			.font(.title)
 			.bold()
 	}
@@ -126,6 +122,7 @@ struct LocationForm: View {
 			} label : {
 				Text("확인")
 			}
+			.buttonStyle(.borderedProminent)
 			.disabled(selectedDates.isEmpty)
 		}
 	}

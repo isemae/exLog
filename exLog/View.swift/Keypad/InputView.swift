@@ -70,11 +70,12 @@ struct InputView: View {
 				HStack {
 					if showAddedIndicator || showDeletedIndicator {
 						indicatorImage(for: showAddedIndicator ? .add : .delete)
+						Text(":")
 					} else {
 						EmptyView()
 					}
 
-					Text("\(item.location?.name ?? ""): ")
+					Text(item.location?.name ?? "")
 					Spacer()
 					Group {
 						Text(item.category?.symbol ?? "")

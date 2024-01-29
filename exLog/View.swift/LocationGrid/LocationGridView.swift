@@ -16,34 +16,44 @@ struct LocationGridView: View {
 	@State var pickerState = States.Picker()
 
 	var body: some View {
-		ScrollView(.vertical) {
-//			NavigationLink("분류되지 않음", destination: ItemListView(items: items.filter { item in item.location == nil }))
-//				.foregroundColor(Color(uiColor: .label))
-			LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-				ForEach(locations.sorted(by: { $0.startDate ?? Date() > $1.startDate ?? Date() }), id: \.self) { location in
-					Button {
-						LocationViewFactory.items = location.items ?? []
-						navigationFlow.selectedLocation = location
-						navigationFlow.navigateToLocationListView(location: location)
-					} label: {
-						LocationGridCell(location: location)
-					}
-					.buttonStyle(PlainButtonStyle())
-				}
-			}
-			.navigationBarTitleDisplayMode(.inline)
-			.toolbar {
-				ToolbarItem(placement: .navigationBarTrailing) {
-					Button {
-						pickerState.isDatePickerPresented.toggle()
-					} label: {
-						Label("새 일정", systemImage: "calendar.badge.plus")
+		ZStack(alignment: .bottom) {
+			ScrollView(.vertical) {
+				//			NavigationLink("분류되지 않음", destination: ItemListView(items: items.filter { item in item.location == nil }))
+				//				.foregroundColor(Color(uiColor: .label))
+				LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+					ForEach(locations.sorted(by: { $0.startDate ?? Date() > $1.startDate ?? Date() }), id: \.self) { location in
+						Button {
+							LocationViewFactory.items = location.items ?? []
+							navigationFlow.selectedLocation = location
+							navigationFlow.navigateToLocationListView(location: location)
+						} label: {
+							LocationGridCell(location: location)
+						}
+						.buttonStyle(PlainButtonStyle())
 					}
 				}
+				.navigationBarTitleDisplayMode(.inline)
+				.toolbar {
+					ToolbarItem(placement: .navigationBarTrailing) {}
+				}
+				.sheet(isPresented: $pickerState.isDatePickerPresented, content: {
+
+					LocationForm(isPresenting: $pickerState.isDatePickerPresented, selectedDates: $pickerState.selectedDates, addingLocationName: $pickerState.addingLocationName)
+
+				})
+				.padding()
 			}
-			.sheet(isPresented: $pickerState.isDatePickerPresented, content: {
-				LocationForm(isPresenting: $pickerState.isDatePickerPresented, selectedDates: $pickerState.selectedDates, addingLocationName: $pickerState.addingLocationName)
-			})
+			ZStack {
+				Circle()
+					.foregroundColor(.accentColor)
+				Image(systemName: "calendar.badge.plus")
+					.foregroundColor(Color(uiColor: .label))
+					.font(.title)
+			}
+			.frame(width: 65, height: 65)
+			.onTapGesture {
+				pickerState.isDatePickerPresented.toggle()
+			}
 			.padding()
 		}
 		.navigationTitle("여행")
