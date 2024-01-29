@@ -10,8 +10,10 @@ import SwiftData
 
 struct LocationGridCell: View {
 	var location: Location
+	@Query(sort: \Item.date, order: .reverse) private var items: [Item]
+
 	@Environment(\.modelContext) private var modelContext
-//	@State var pickerState = States.Picker()
+	//	@State var pickerState = States.Picker()
 	@State private var showImagePicker = false
 	@State private var selectedImage: UIImage?
 	@State private var selectedLocation: Location?
@@ -33,12 +35,13 @@ struct LocationGridCell: View {
 				Text(location.name)
 					.font(.title)
 					.bold()
-				Text(
+					Text(
 """
-\(formattedDate(date: location.startDate ?? Date()))
-~ \(formattedDate(date: location.endDate ?? Date()))
+\(formattedDate(date: location.startDate))
+~ \(formattedDate(date: location.endDate ))
 """
-				)
+					)
+
 			}
 			.foregroundColor(.primary)
 		}

@@ -37,6 +37,7 @@ struct ItemListView: View {
 			.background(Color(uiColor: .systemBackground))
 			.environment(\.defaultMinListRowHeight, 12)
 			.environment(\.defaultMinListHeaderHeight, 0)
+			.navigationTitle(location?.name ?? "")
 		}
 
 	func dayList(group: [Date: [Item]], date: Date, sumForDate: Int) -> some View {

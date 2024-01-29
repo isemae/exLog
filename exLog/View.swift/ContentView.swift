@@ -28,11 +28,12 @@ struct ContentView: View {
 		//		}
 		//		let uniqueYears = Array(Set(years))
 		NavigationStack(path: $navigationFlow.path) {
-			InputView(string: $keypadState.string)
+			InputView()
 				.navigationDestination(for: LocationNavigation.self) { destination in
-					LocationViewFactory.setViewForDestination(destination, string: $keypadState.string)
+					LocationViewFactory.setViewForDestination(destination, location: navigationFlow.selectedLocation)
 				}
 		}
+
 	}
 
 	//			.safeAreaInset(edge: .bottom) {

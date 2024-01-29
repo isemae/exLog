@@ -14,7 +14,7 @@ struct InputView: View {
 	@Query(sort: \Item.date, order: .reverse) private var items: [Item]
 	@Query private var locations: [Location]
 	@EnvironmentObject var navigationFlow: NavigationFlow
-	@Binding var string: String
+	@State var string: String = ""
 	@StateObject private var dataModel = DataModel()
 	@State var selectedCategory: Category = .nil
 	@State var itemDesc: String = ""
@@ -58,6 +58,7 @@ struct InputView: View {
 				}
 			}
 		}
+
 	}
 
 	func lastItemIndicator(item: Item) -> some View {
@@ -85,6 +86,19 @@ struct InputView: View {
 				.padding()
 			}
 			.frame(maxWidth: (showAddedIndicator || showDeletedIndicator) ? Screen.width / 1.5 : Screen.width / 3, maxHeight: 40)
+			.onTapGesture {
+				LocationViewFactory.items = item.location?.items ?? items
+				if let recentLocation = item.location {
+					navigationFlow.selectedLocation = recentLocation
+					navigationFlow.navigateToLocationListView(location: recentLocation)
+				} else {
+					let defaultLocation = Location(name: "미분류", startDate: .distantPast, endDate: .distantPast, items: items.filter { item in
+						item.location == nil })
+					navigationFlow.navigateToLocationListView(location: defaultLocation)
+//					navigationFlow.selectedLocation = defaultLocation
+				}
+
+			}
 
 		}
 	}
@@ -234,20 +248,4 @@ struct InputView: View {
 		try? modelContext.save()
 
 	}
-}
-
-struct OverlayKeypadPreview: View {
-	@State var string: String = "0"
-	@State var selectedCategory: Category = .nil
-	var body: some View {
-		VStack {
-			InputView(string: $string, selectedCategory: selectedCategory)
-				.environmentObject(DataModel())
-		}
-		.font(.largeTitle)
-	}
-}
-
-#Preview {
-	OverlayKeypadPreview()
 }

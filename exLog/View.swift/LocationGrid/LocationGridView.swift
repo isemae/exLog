@@ -17,8 +17,8 @@ struct LocationGridView: View {
 
 	var body: some View {
 		ScrollView(.vertical) {
-			NavigationLink("분류되지 않음", destination: ItemListView(items: items.filter { item in item.location == nil }))
-				.foregroundColor(Color(uiColor: .label))
+//			NavigationLink("분류되지 않음", destination: ItemListView(items: items.filter { item in item.location == nil }))
+//				.foregroundColor(Color(uiColor: .label))
 			LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
 				ForEach(locations.sorted(by: { $0.startDate ?? Date() > $1.startDate ?? Date() }), id: \.self) { location in
 					Button {
