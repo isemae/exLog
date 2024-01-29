@@ -73,19 +73,20 @@ struct InputView: View {
 					} else {
 						EmptyView()
 					}
+
+					Text("\(item.location?.name ?? ""): ")
 					Spacer()
 					Group {
 						Text(item.category?.symbol ?? "")
 						if (showAddedIndicator || showDeletedIndicator) && !items.isEmpty {
 							Text("₩\(item.calculatedBalance)")
 								.foregroundColor(Color(UIColor.label))
-							//					.transition(.asymmetric(insertion: .move(edge:.bottom), removal: .move(edge: .top)))
 						}
 					}
 				}
 				.padding()
 			}
-			.frame(maxWidth: (showAddedIndicator || showDeletedIndicator) ? Screen.width / 1.5 : Screen.width / 3, maxHeight: 40)
+			.frame(maxWidth: (showAddedIndicator || showDeletedIndicator) ? Screen.width / 1.5 : Screen.width / 2, maxHeight: 40)
 			.onTapGesture {
 				LocationViewFactory.items = item.location?.items ?? items
 				if let recentLocation = item.location {
