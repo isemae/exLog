@@ -40,7 +40,7 @@ struct ListCarouselView : View {
 							DateHeader(date: date, sumForDate: sumForDate)
 								.frame(width: Screen.width)
 							List {
-								ForEach(dateItems, id: \.id) { item in
+								ForEach(dateItems.sorted(by: { $0.date > $1.date }), id: \.id) { item in
 									HHmmHeader(date: item.date)
 									ListItem(item: item)
 								}
@@ -60,7 +60,10 @@ struct ListCarouselView : View {
 					value, state, _ in
 					state = value.translation.width.rounded()
 				}
-				.onChanged { _ in
+				.onChanged { value in
+					guard abs(value.translation.width) > abs(value.translation.height) else {
+						return
+					}
 					offset = lastOffset + Int(translation)
 				}
 				.onEnded { value in
