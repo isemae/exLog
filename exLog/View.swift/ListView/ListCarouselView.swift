@@ -17,10 +17,10 @@ struct ListCarouselView : View {
 	var body: some View {
 		let dateRange = dateRange(location: location, from: location.startDate ?? Date(), to: location.endDate ?? Date())
 		VStack {
-			//		Text("\(currentPage)")
-			//			Text(dateRangeText(from: location.startDate ?? Date(), to: location.endDate ?? Date()))
-			//			Text("\(translation)")
-			//			Text("\(offset)")
+					Text("\(currentPage)")
+						Text(dateRangeText(from: location.startDate ?? Date(), to: location.endDate ?? Date()))
+						Text("\(translation)")
+						Text("\(offset)")
 			HStack {
 				ForEach(dateRange, id: \.self) { date in
 					Circle()
@@ -64,30 +64,28 @@ struct ListCarouselView : View {
 				}
 				.onEnded { value in
 					withAnimation {
-						var translation = value.translation.width
-						let newIndex = Int(-translation / UIScreen.main.bounds.width)
-						guard abs(translation) > Screen.width / 2 else {
-							offset = 0
+						let translation = value.translation
+						let newIndex = currentPage + Int(translation.width / Screen.width)
+						guard abs(translation.width) > Screen.width / 2 else {
+							offset = Int(Screen.width) * currentPage
 							return
 						}
-
-						if currentPage > 0 {
-							if translation > Screen.width / 2 {
+						guard abs(translation.height) < abs(translation.width) else { return }
+							if translation.width > Screen.width / 2 && currentPage > 0 {
 								currentPage -= 1
-								offset += Int(Screen.width)
-							} else {
-								return
-							}
-						}
-						if currentPage < dateRange.count {
-							if translation < -Screen.width / 2 {
-								currentPage += 1
-								offset -= Int(Screen.width)
-							} else {
-								return
-							}
-						}
+								offset = currentPage * Int(Screen.width)
+								print("우스와이프")
+								print(currentPage)
 
+							} else if translation.width < -Screen.width / 2 && currentPage < dateRange.count - 1 {
+								currentPage += 1
+								offset = -currentPage * Int(Screen.width)
+
+								print("좌스와이프")
+								print(currentPage)
+							} else {
+								offset = -currentPage * Int(Screen.width)
+							}
 					}
 				}
 		)
