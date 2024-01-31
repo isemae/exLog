@@ -13,7 +13,7 @@ struct ListCarouselView : View {
 	@GestureState private var translation: CGFloat = 0.0
 	@State private var currentPage = 0
 	@State private var offset = 0
-
+	@State private var lastOffset = 0
 	var body: some View {
 		let dateRange = dateRange(location: location, from: location.startDate ?? Date(), to: location.endDate ?? Date())
 		VStack {
@@ -61,27 +61,30 @@ struct ListCarouselView : View {
 					state = value.translation.width.rounded()
 				}
 				.onChanged { _ in
+					offset = lastOffset + Int(translation)
 				}
 				.onEnded { value in
-					withAnimation {
+					withAnimation(.spring(duration: 0.5)) {
+						offset = currentPage * -Int(Screen.width)
 						let translation = value.translation
 						let newIndex = currentPage + Int(translation.width / Screen.width)
-						guard abs(translation.width) > Screen.width / 2 else {
+						guard abs(translation.width) > Screen.width / 3 else {
 							return
 						}
 						guard abs(translation.height) < abs(translation.width) else { return }
-							if translation.width > Screen.width / 2 && currentPage > 0 {
+							if translation.width > Screen.width / 3 && currentPage > 0 {
 								currentPage -= 1
 								offset += Int(Screen.width)
 								print("우스와이프")
 								print(currentPage)
 
-							} else if translation.width < -Screen.width / 2 && currentPage < dateRange.count - 1 {
+							} else if translation.width < -Screen.width / 3 && currentPage < dateRange.count - 1 {
 								currentPage += 1
 								offset -= Int(Screen.width)
 								print("좌스와이프")
 								print(currentPage)
 							}
+						lastOffset = offset
 					}
 				}
 		)
