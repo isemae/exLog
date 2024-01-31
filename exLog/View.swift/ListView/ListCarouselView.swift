@@ -14,13 +14,23 @@ struct ListCarouselView : View {
 	@State private var currentPage = 0
 	@State private var offset = 0
 	@State private var lastOffset = 0
+
+	init(location: Location) {
+		self.location = location
+		let dateRange = dateRange(location: location, from: location.startDate ?? Date(), to: location.endDate ?? Date())
+		let initialOffset = -Int(Screen.width) * (dateRange.count - 1)
+		_offset = State(initialValue: initialOffset)
+		_lastOffset = State(initialValue: initialOffset)
+		_currentPage = State(initialValue: dateRange.count - 1)
+	}
+
 	var body: some View {
 		let dateRange = dateRange(location: location, from: location.startDate ?? Date(), to: location.endDate ?? Date())
 		VStack {
-//					Text("\(currentPage)")
-//						Text(dateRangeText(from: location.startDate ?? Date(), to: location.endDate ?? Date()))
-//						Text("\(translation)")
-//						Text("\(offset)")
+			//					Text("\(currentPage)")
+			//						Text(dateRangeText(from: location.startDate ?? Date(), to: location.endDate ?? Date()))
+			//						Text("\(translation)")
+			//						Text("\(offset)")
 			HStack {
 				ForEach(dateRange, id: \.self) { date in
 					Circle()
@@ -75,18 +85,18 @@ struct ListCarouselView : View {
 							return
 						}
 						guard abs(translation.height) < abs(translation.width) else { return }
-							if translation.width > Screen.width / 3 && currentPage > 0 {
-								currentPage -= 1
-								offset += Int(Screen.width)
-								print("우스와이프")
-								print(currentPage)
+						if translation.width > Screen.width / 3 && currentPage > 0 {
+							currentPage -= 1
+							offset += Int(Screen.width)
+							print("우스와이프")
+							print(currentPage)
 
-							} else if translation.width < -Screen.width / 3 && currentPage < dateRange.count - 1 {
-								currentPage += 1
-								offset -= Int(Screen.width)
-								print("좌스와이프")
-								print(currentPage)
-							}
+						} else if translation.width < -Screen.width / 3 && currentPage < dateRange.count - 1 {
+							currentPage += 1
+							offset -= Int(Screen.width)
+							print("좌스와이프")
+							print(currentPage)
+						}
 						lastOffset = offset
 					}
 				}
