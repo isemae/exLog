@@ -11,14 +11,15 @@ import SwiftData
 
 class LocationViewFactory {
 	static var items: [Item] = []
-	static func setViewForDestination(_ destination: LocationNavigation, location: Location? = nil) -> AnyView {
+	static func setViewForDestination(_ destination: LocationNavigation, location: Location) -> AnyView {
 		switch destination {
 		case .inputView:
 			return AnyView(InputView())
 		case .locationGrids:
 			return AnyView(LocationGridView())
 		case .locationLists:
-			return AnyView(ItemListView(items: items, location: location))
+//			return AnyView(ItemListView(items: items, location: location))
+			return AnyView(ListCarouselView(location: location))
 		}
 
 	}

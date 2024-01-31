@@ -37,12 +37,12 @@ struct DateHeader: View {
 				.foregroundColor(Color(uiColor: .label))
 			Text("\(dateFormatString(for: date, format: "dd"))")
 				.foregroundColor(dayColor(for: date))
-			Image(systemName: "chevron.down")
-				.font(.body)
-				.foregroundColor(.gray)
-				.frame(minWidth: 40, minHeight: 40)
-				.rotationEffect(Angle(degrees: dataModel.foldedItems[date, default: true] ? 0 : -180))
-				.animation(.spring(response: 0.35, dampingFraction: 0.9))
+//			Image(systemName: "chevron.down")
+//				.font(.body)
+//				.foregroundColor(.gray)
+//				.frame(minWidth: 40, minHeight: 40)
+//				.rotationEffect(Angle(degrees: dataModel.foldedItems[date, default: true] ? 0 : -180))
+//				.animation(.spring(response: 0.35, dampingFraction: 0.9))
 		}
 		.font(.title)
 	}

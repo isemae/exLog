@@ -12,6 +12,7 @@
 		080E2E982B5E3F690056828A /* LocationViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080E2E972B5E3F690056828A /* LocationViewFactory.swift */; };
 		080E2E9A2B5E3F740056828A /* NavigationFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080E2E992B5E3F740056828A /* NavigationFlow.swift */; };
 		0811D45E2B4EEB13005867A5 /* ModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0811D45D2B4EEB13005867A5 /* ModelManager.swift */; };
+		0811EC962B6893CA00B2C9C7 /* ListCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0811EC952B6893CA00B2C9C7 /* ListCarouselView.swift */; };
 		081384712B4808BB00CDF389 /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081384702B4808BB00CDF389 /* DatePickerView.swift */; };
 		082177A02B0DFDC300D46518 /* spndLogApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0821779F2B0DFDC300D46518 /* spndLogApp.swift */; };
 		082177A22B0DFDC300D46518 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177A12B0DFDC300D46518 /* ContentView.swift */; };
@@ -71,6 +72,7 @@
 		080E2E972B5E3F690056828A /* LocationViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewFactory.swift; sourceTree = "<group>"; };
 		080E2E992B5E3F740056828A /* NavigationFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationFlow.swift; sourceTree = "<group>"; };
 		0811D45D2B4EEB13005867A5 /* ModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelManager.swift; sourceTree = "<group>"; };
+		0811EC952B6893CA00B2C9C7 /* ListCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCarouselView.swift; sourceTree = "<group>"; };
 		081379402B0EA0A1006AE972 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		081384702B4808BB00CDF389 /* DatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
 		0821779C2B0DFDC300D46518 /* exLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = exLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -258,6 +260,7 @@
 			isa = PBXGroup;
 			children = (
 				08B6C8DE2B27E8AE0045EE24 /* ItemListView.swift */,
+				0811EC952B6893CA00B2C9C7 /* ListCarouselView.swift */,
 				08DC52232B12D7DA005ED804 /* Headers.swift */,
 				08DC52212B12D65E005ED804 /* ListItem.swift */,
 			);
@@ -485,6 +488,7 @@
 				08491AC02B4C291E00D3E13F /* authkey.swift in Sources */,
 				08F71DB82B31C58700B305D7 /* GestureHandler.swift in Sources */,
 				082177CE2B0DFE9300D46518 /* Keypad.swift in Sources */,
+				0811EC962B6893CA00B2C9C7 /* ListCarouselView.swift in Sources */,
 				08EBE7FD2B104D6B00552A3F /* DateFormat.swift in Sources */,
 				08F2B37C2B0E82AA00371E49 /* EXCRateRequest.swift in Sources */,
 				08EBE7FF2B105D2400552A3F /* Theme.swift in Sources */,
