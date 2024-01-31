@@ -70,12 +70,11 @@ struct InputView: View {
 				HStack {
 					if showAddedIndicator || showDeletedIndicator {
 						indicatorImage(for: showAddedIndicator ? .add : .delete)
-						Text(":")
 					} else {
 						EmptyView()
 					}
 
-					Text(item.location?.name ?? "")
+					Text((item.location != nil) ? item.location!.name : "미분류")
 					Spacer()
 					Group {
 						Text(item.category?.symbol ?? "")
@@ -89,16 +88,16 @@ struct InputView: View {
 			}
 			.frame(maxWidth: (showAddedIndicator || showDeletedIndicator) ? Screen.width / 1.5 : Screen.width / 2, maxHeight: 40)
 			.onTapGesture {
-				LocationViewFactory.items = item.location?.items ?? items
-				if let recentLocation = item.location {
-					navigationFlow.selectedLocation = recentLocation
-					navigationFlow.navigateToLocationListView(location: recentLocation)
+				if let latestLocation = item.location {
+					navigationFlow.selectedLocation = latestLocation
+					navigationFlow.navigateToLocationListView(location: latestLocation)
 				} else {
-					let defaultLocation = Location(name: "미분류", startDate: .distantPast, endDate: .distantPast, items: items.filter { item in
+					let defaultLocation = Location(name: "미분류", startDate: .distantPast, endDate: .distantFuture, items: items.filter { item in
 						item.location == nil })
 					navigationFlow.navigateToLocationListView(location: defaultLocation)
-//					navigationFlow.selectedLocation = defaultLocation
+					navigationFlow.selectedLocation = defaultLocation
 				}
+				LocationViewFactory.items = item.location?.items ?? items
 
 			}
 
@@ -126,25 +125,6 @@ struct InputView: View {
 		case add
 		case delete
 	}
-
-	//	func showIndicator() {
-	//		if showAddedIndicator {
-	//			Image(systemName: "checkmark.circle")
-	//				.foregroundColor(.green)
-	//				.onAppear {
-	//					showDeletedIndicator = false
-	//				}
-	//			Spacer()
-	//		}
-	//		if showDeletedIndicator {
-	//			Image(systemName: "minus.circle")
-	//				.foregroundColor(.red)
-	//				.onAppear {
-	//					showAddedIndicator = false
-	//				}
-	//			Spacer()
-	//		}
-	//	}
 
 	func indicatorImage(for action: IndicatorAction) -> some View {
 		let systemName: String
@@ -206,11 +186,9 @@ struct InputView: View {
 		let locationStartDate = Date()
 		let locationEndDate = Date().addingTimeInterval(86399)
 		let location = locations.filter { location in
-			location.startDate ?? Date() <= Date() && Date() <= location.endDate ?? Date()}.first
+			location.startDate! <= Date() && Date() <= location.endDate! }.first
 		if let balance = Double(string), string != "0" {
 			let newItem = Item(date: Date(), balance: String(balance), currency: dataModel.currentCurrency, category: selectedCategory, desc: itemDesc, location: location)
-			if currentDate >= locationStartDate && currentDate <= locationEndDate {
-			}
 			withAnimation(.easeOut(duration: 0.2)) {
 				modelContext.insert(newItem)
 				saveContext()
