@@ -64,26 +64,6 @@ struct ListItem: View {
 	}
 }
 
-//// 여러 통화 사용시 통화기호를 구분
-//	private func showCurrency() -> Bool {
-//		guard let prevItem = prevItem else {
-//			return true
-//		}
-//		let isCurrencySame = item.currency != prevItem.currency
-//		return isCurrencySame
-//	}
-
-//// 시간순서에 따라 항목 투명도 조절
-//	func opacityForItem(_ item: Item, _ items: [Item]) -> Double {
-//		let minOpacity: Double = 0.5
-//		
-//		if let index = items.firstIndex(of: item) {
-//			let opacity = Double(index + 1) / Double(items.count)
-//			return max(opacity, minOpacity)
-//		}
-//		return 1.0
-//	}
-
 #Preview {
 	Group {
 		ListItem(item: createTestItems().first!)

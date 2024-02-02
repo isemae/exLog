@@ -14,7 +14,7 @@ struct LocationGridView: View {
 	@Query private var locations: [Location]
 	@Query(sort: \Item.date, order: .reverse) private var items: [Item]
 	@State var pickerState = States.Picker()
-	
+
 	var body: some View {
 		ZStack(alignment: .bottom) {
 			ScrollView(.vertical) {
@@ -35,9 +35,9 @@ struct LocationGridView: View {
 					ToolbarItem(placement: .navigationBarTrailing) {}
 				}
 				.sheet(isPresented: $pickerState.isDatePickerPresented, content: {
-					
+
 					LocationForm(isPresenting: $pickerState.isDatePickerPresented, selectedDates: $pickerState.selectedDates, addingLocationName: $pickerState.addingLocationName)
-					
+
 				})
 				.padding()
 			}

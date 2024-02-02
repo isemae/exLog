@@ -23,6 +23,11 @@
 		082177BD2B0DFDC400D46518 /* spndLogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177BC2B0DFDC400D46518 /* spndLogUITests.swift */; };
 		082177BF2B0DFDC400D46518 /* spndLogUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177BE2B0DFDC400D46518 /* spndLogUITestsLaunchTests.swift */; };
 		082177CE2B0DFE9300D46518 /* Keypad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082177CD2B0DFE9300D46518 /* Keypad.swift */; };
+		0821E0CF2B6CD80800EB66D2 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0821E0CE2B6CD80800EB66D2 /* View+Extensions.swift */; };
+		0821E0D12B6CD93000EB66D2 /* Array+Extensions .swift in Sources */ = {isa = PBXBuildFile; fileRef = 0821E0D02B6CD93000EB66D2 /* Array+Extensions .swift */; };
+		0821E0D32B6CD9E600EB66D2 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0821E0D22B6CD9E600EB66D2 /* UIImage+Extensions.swift */; };
+		0821E0D52B6CDA1F00EB66D2 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0821E0D42B6CDA1F00EB66D2 /* String+Extensions.swift */; };
+		0821E0D72B6CDAA600EB66D2 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0821E0D62B6CDAA600EB66D2 /* Date+Extensions.swift */; };
 		0837109F2B577B9600F5829E /* LocationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0837109E2B577B9600F5829E /* LocationForm.swift */; };
 		083DAFF82B5089AD00023BE6 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083DAFF72B5089AD00023BE6 /* InputView.swift */; };
 		08491AB62B49A00400D3E13F /* UIDateRangePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08491AB52B49A00400D3E13F /* UIDateRangePicker.swift */; };
@@ -36,8 +41,7 @@
 		0872F1E92B3BDF46004169BB /* LocationGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0872F1E82B3BDF46004169BB /* LocationGridCell.swift */; };
 		087ADE822B0F951200E1BFD8 /* ResponseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087ADE812B0F951200E1BFD8 /* ResponseManager.swift */; };
 		089014122B4C568F00791F27 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 089014112B4C568F00791F27 /* .swiftlint.yml */; };
-		08AB637E2B0E706600F03C64 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AB637D2B0E706600F03C64 /* Extensions.swift */; };
-		08B6C8DF2B27E8AE0045EE24 /* ItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B6C8DE2B27E8AE0045EE24 /* ItemListView.swift */; };
+		08AB637E2B0E706600F03C64 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AB637D2B0E706600F03C64 /* Color+Extensions.swift */; };
 		08C090FA2B550B5D008366AC /* CategoryPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C090F92B550B5D008366AC /* CategoryPickerView.swift */; };
 		08DC52222B12D65E005ED804 /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DC52212B12D65E005ED804 /* ListItem.swift */; };
 		08DC52242B12D7DA005ED804 /* Headers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DC52232B12D7DA005ED804 /* Headers.swift */; };
@@ -87,6 +91,11 @@
 		082177BC2B0DFDC400D46518 /* spndLogUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = spndLogUITests.swift; sourceTree = "<group>"; };
 		082177BE2B0DFDC400D46518 /* spndLogUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = spndLogUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		082177CD2B0DFE9300D46518 /* Keypad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keypad.swift; sourceTree = "<group>"; };
+		0821E0CE2B6CD80800EB66D2 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
+		0821E0D02B6CD93000EB66D2 /* Array+Extensions .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions .swift"; sourceTree = "<group>"; };
+		0821E0D22B6CD9E600EB66D2 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
+		0821E0D42B6CDA1F00EB66D2 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		0821E0D62B6CDAA600EB66D2 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		0837109E2B577B9600F5829E /* LocationForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationForm.swift; sourceTree = "<group>"; };
 		083DAFF72B5089AD00023BE6 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 		08491AB52B49A00400D3E13F /* UIDateRangePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDateRangePicker.swift; sourceTree = "<group>"; };
@@ -100,8 +109,7 @@
 		0872F1E82B3BDF46004169BB /* LocationGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationGridCell.swift; sourceTree = "<group>"; };
 		087ADE812B0F951200E1BFD8 /* ResponseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseManager.swift; sourceTree = "<group>"; };
 		089014112B4C568F00791F27 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
-		08AB637D2B0E706600F03C64 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		08B6C8DE2B27E8AE0045EE24 /* ItemListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemListView.swift; sourceTree = "<group>"; };
+		08AB637D2B0E706600F03C64 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		08C090F92B550B5D008366AC /* CategoryPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPickerView.swift; sourceTree = "<group>"; };
 		08DC52212B12D65E005ED804 /* ListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
 		08DC52232B12D7DA005ED804 /* Headers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Headers.swift; sourceTree = "<group>"; };
@@ -209,14 +217,26 @@
 			path = exLogUITests;
 			sourceTree = "<group>";
 		};
+		0821E0CD2B6CD7FC00EB66D2 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				0821E0D42B6CDA1F00EB66D2 /* String+Extensions.swift */,
+				08AB637D2B0E706600F03C64 /* Color+Extensions.swift */,
+				0821E0D62B6CDAA600EB66D2 /* Date+Extensions.swift */,
+				0821E0D22B6CD9E600EB66D2 /* UIImage+Extensions.swift */,
+				0821E0D02B6CD93000EB66D2 /* Array+Extensions .swift */,
+				0821E0CE2B6CD80800EB66D2 /* View+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		08491ABD2B4C284E00D3E13F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				08F71DB52B31C58700B305D7 /* Handler */,
+				0821E0CD2B6CD7FC00EB66D2 /* Extensions */,
 				08EBE7FE2B105D2400552A3F /* Theme.swift */,
 				08EBE7FC2B104D6B00552A3F /* DateFormat.swift */,
-				08AB637D2B0E706600F03C64 /* Extensions.swift */,
-				0857C6C32B11C4E60012C698 /* EXCRateJSON.json */,
 				08491ABB2B4AE3B600D3E13F /* Constants.swift */,
 				0857DD112B563B5100915604 /* Categories.swift */,
 				08491AB92B4AE22200D3E13F /* States.swift */,
@@ -259,7 +279,6 @@
 		08491AC32B4C2DE500D3E13F /* ListView */ = {
 			isa = PBXGroup;
 			children = (
-				08B6C8DE2B27E8AE0045EE24 /* ItemListView.swift */,
 				0811EC952B6893CA00B2C9C7 /* ListCarouselView.swift */,
 				08DC52232B12D7DA005ED804 /* Headers.swift */,
 				08DC52212B12D65E005ED804 /* ListItem.swift */,
@@ -273,6 +292,7 @@
 				0802FB622B18F495009A7E81 /* DataModel.swift */,
 				0811D45D2B4EEB13005867A5 /* ModelManager.swift */,
 				082177A32B0DFDC300D46518 /* Item.swift */,
+				0857C6C32B11C4E60012C698 /* EXCRateJSON.json */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -464,8 +484,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0821E0D32B6CD9E600EB66D2 /* UIImage+Extensions.swift in Sources */,
 				082177A22B0DFDC300D46518 /* ContentView.swift in Sources */,
 				081384712B4808BB00CDF389 /* DatePickerView.swift in Sources */,
+				0821E0D12B6CD93000EB66D2 /* Array+Extensions .swift in Sources */,
 				083DAFF82B5089AD00023BE6 /* InputView.swift in Sources */,
 				087ADE822B0F951200E1BFD8 /* ResponseManager.swift in Sources */,
 				08491AB82B4A9ED100D3E13F /* LocationGridView.swift in Sources */,
@@ -473,10 +495,11 @@
 				08491ABC2B4AE3B600D3E13F /* Constants.swift in Sources */,
 				08DC52242B12D7DA005ED804 /* Headers.swift in Sources */,
 				08491AB62B49A00400D3E13F /* UIDateRangePicker.swift in Sources */,
+				0821E0D72B6CDAA600EB66D2 /* Date+Extensions.swift in Sources */,
 				0872F1E92B3BDF46004169BB /* LocationGridCell.swift in Sources */,
 				082177A42B0DFDC300D46518 /* Item.swift in Sources */,
+				0821E0CF2B6CD80800EB66D2 /* View+Extensions.swift in Sources */,
 				08DC52262B12D8C6005ED804 /* InputStringArea.swift in Sources */,
-				08B6C8DF2B27E8AE0045EE24 /* ItemListView.swift in Sources */,
 				08DC52222B12D65E005ED804 /* ListItem.swift in Sources */,
 				0857C6C42B11C4E60012C698 /* EXCRateJSON.json in Sources */,
 				082177A02B0DFDC300D46518 /* spndLogApp.swift in Sources */,
@@ -493,9 +516,10 @@
 				08F2B37C2B0E82AA00371E49 /* EXCRateRequest.swift in Sources */,
 				08EBE7FF2B105D2400552A3F /* Theme.swift in Sources */,
 				08491ABA2B4AE22200D3E13F /* States.swift in Sources */,
+				0821E0D52B6CDA1F00EB66D2 /* String+Extensions.swift in Sources */,
 				080E2E952B5E3F4F0056828A /* LocationNavigation.swift in Sources */,
 				080E2E982B5E3F690056828A /* LocationViewFactory.swift in Sources */,
-				08AB637E2B0E706600F03C64 /* Extensions.swift in Sources */,
+				08AB637E2B0E706600F03C64 /* Color+Extensions.swift in Sources */,
 				08F71DB92B31C58700B305D7 /* TestProvider.swift in Sources */,
 				0837109F2B577B9600F5829E /* LocationForm.swift in Sources */,
 			);

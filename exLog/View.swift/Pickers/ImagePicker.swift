@@ -57,7 +57,6 @@ extension ImagePicker {
 					parent.didFinishPicking?(thumbnailImage)
 				}
 			}
-
 			parent.mode.wrappedValue.dismiss()
 		}
 	}

@@ -32,14 +32,8 @@ struct ListCarouselView : View {
 			//						Text(dateRangeText(from: location.startDate ?? Date(), to: location.endDate ?? Date()))
 			//						Text("\(translation)")
 			//						Text("\(offset)")
-			HStack {
-				ForEach(dateRange, id: \.self) { date in
-					Circle()
-						.fill(dateRange.firstIndex(of: date) == currentPage ? Color.blue : Color.gray)
-						.frame(width: 8, height: 8)
-				}
-			}
-			.padding(5)
+			CarouselIndicator(location: location, range: dateRange, currentIndex: currentPage)
+				.padding(5)
 			GeometryReader { _ in
 				HStack(spacing: 0) {
 					ForEach(dateRange, id: \.self) { date in
@@ -60,6 +54,7 @@ struct ListCarouselView : View {
 								.listRowInsets(EdgeInsets())
 								.listRowSeparator(.hidden)
 								.listRowSpacing(12)
+								.environment(\.defaultMinListHeaderHeight, 0)
 							}
 							.frame(width: Screen.width)
 						}
@@ -70,44 +65,9 @@ struct ListCarouselView : View {
 			}
 		}
 		.background()
-		.gesture(
-			DragGesture()
-				.updating($translation) {
-					value, state, _ in
-					state = value.translation.width.rounded()
-				}
-				.onChanged { value in
-					guard abs(value.translation.width) > abs(value.translation.height) else {
-						return
-					}
-					offset = lastOffset + Int(translation)
-				}
-				.onEnded { value in
-					withAnimation(.spring(duration: 0.5)) {
-						offset = currentPage * -Int(Screen.width)
-						let translation = value.translation
-						let newIndex = currentPage + Int(translation.width / Screen.width)
-						guard abs(translation.width) > Screen.width / 3 else {
-							return
-						}
-						guard abs(translation.height) < abs(translation.width) else { return }
-						if translation.width > Screen.width / 3 && currentPage > 0 {
-							currentPage -= 1
-							offset += Int(Screen.width)
-							print("우스와이프")
-							print(currentPage)
-
-						} else if translation.width < -Screen.width / 3 && currentPage < dateRange.count - 1 {
-							currentPage += 1
-							offset -= Int(Screen.width)
-							print("좌스와이프")
-							print(currentPage)
-						}
-						lastOffset = offset
-					}
-				}
-		)
+		.modifier(SwipeGestureHandler(translation: translation, currentIndex: $currentPage, offset: $offset, lastOffset: $lastOffset, range: dateRange))
 		.navigationTitle(location.name)
+
 	}
 
 	func dateRange(location: Location, from startDate: Date, to endDate: Date) -> [Date] {
@@ -132,5 +92,23 @@ struct ListCarouselView : View {
 		let text = dateStrings.joined(separator: ", ")
 
 		return text
+	}
+}
+
+extension ListCarouselView {
+	struct CarouselIndicator: View {
+		var location: Location
+		var range: [Date]
+		var currentIndex: Int
+
+		var body: some View {
+			HStack {
+				ForEach(range, id: \.self) { date in
+					Circle()
+						.fill(range.firstIndex(of: date) == currentIndex ? Color.blue : Color.gray)
+						.frame(width: 8, height: 8)
+				}
+			}
+		}
 	}
 }
