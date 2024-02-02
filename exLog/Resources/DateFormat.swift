@@ -64,7 +64,7 @@ func dateFormatString(for date: Date, format: String) -> String {
 	case "dd":
 		formatter.dateFormat = "dd"
 	case "aahhmm":
-		formatter.dateFormat = "h:mm a"
+		formatter.dateFormat = "a h:mm"
 	case "hhmm":
 		formatter.dateFormat = "HH:mm"
 	default:
@@ -93,6 +93,7 @@ struct DateView: View {
 		Text(dateFormatString(for: Date(), format:"mmdd"))
 		Text(dateFormatString(for: Date(), format:"dd"))
 		Text(dateFormatString(for: Date(), format:"흠그정돈가"))
+		Text(dateFormatString(for: Date(), format:"aahhmm"))
 	}
 }
 
