@@ -15,7 +15,10 @@ struct ListItem: View {
 			HStack {
 				categoryView()
 				VStack(alignment: .leading, spacing: 0) {
-					item.desc.map { Text($0).font(.body) }
+				if (item.desc != "" && item.desc != nil) {
+					Text(item.desc!)
+					.font(.body)
+				}
 					localCurrencyValue()
 				}
 				Spacer()

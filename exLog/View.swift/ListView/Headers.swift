@@ -21,7 +21,8 @@ struct DateHeader: View {
 				.foregroundColor(Color(uiColor: .secondaryLabel))
 		}
 		.padding(5)
-		.overlayDivider(alignment: .bottom, state: !dataModel.foldedItems[date, default: false])
+		.padding(.horizontal)
+		.overlayDivider(alignment: .bottom)
 		.contentShape(Rectangle())
 		.onTapGesture {
 			withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
@@ -61,7 +62,8 @@ struct HHmmHeader: View {
 		}
 		.foregroundColor(Color(uiColor: .secondaryLabel))
 		.padding(10)
-		.overlayDivider(alignment: .top)
+		.background(Color(uiColor: .systemBackground))
+		.overlayDivider(alignment: .bottom)
 	}
 }
 

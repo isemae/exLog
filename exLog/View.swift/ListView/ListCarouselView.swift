@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 import Foundation
 
 struct ListCarouselView : View {
@@ -26,7 +27,7 @@ struct ListCarouselView : View {
 
 	var body: some View {
 		let dateRange = dateRange(location: location, from: location.startDate ?? Date(), to: location.endDate ?? Date())
-		VStack {
+		VStack(spacing: 0) {
 			//					Text("\(currentPage)")
 			//						Text(dateRangeText(from: location.startDate ?? Date(), to: location.endDate ?? Date()))
 			//						Text("\(translation)")
@@ -38,7 +39,7 @@ struct ListCarouselView : View {
 						.frame(width: 8, height: 8)
 				}
 			}
-			.padding()
+			.padding(5)
 			GeometryReader { _ in
 				HStack(spacing: 0) {
 					ForEach(dateRange, id: \.self) { date in
@@ -51,9 +52,14 @@ struct ListCarouselView : View {
 								.frame(width: Screen.width)
 							List {
 								ForEach(dateItems.sorted(by: { $0.date > $1.date }), id: \.id) { item in
-									HHmmHeader(date: item.date)
-									ListItem(item: item)
+									VStack(spacing: 5) {
+										HHmmHeader(date: item.date)
+										ListItem(item: item)
+									}
 								}
+								.listRowInsets(EdgeInsets())
+								.listRowSeparator(.hidden)
+								.listRowSpacing(12)
 							}
 							.frame(width: Screen.width)
 						}
@@ -101,6 +107,7 @@ struct ListCarouselView : View {
 					}
 				}
 		)
+		.navigationTitle(location.name)
 	}
 
 	func dateRange(location: Location, from startDate: Date, to endDate: Date) -> [Date] {
