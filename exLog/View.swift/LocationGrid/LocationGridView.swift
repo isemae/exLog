@@ -14,12 +14,10 @@ struct LocationGridView: View {
 	@Query private var locations: [Location]
 	@Query(sort: \Item.date, order: .reverse) private var items: [Item]
 	@State var pickerState = States.Picker()
-
+	
 	var body: some View {
 		ZStack(alignment: .bottom) {
 			ScrollView(.vertical) {
-				//			NavigationLink("분류되지 않음", destination: ItemListView(items: items.filter { item in item.location == nil }))
-				//				.foregroundColor(Color(uiColor: .label))
 				LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
 					ForEach(locations.sorted(by: { $0.startDate ?? Date() > $1.startDate ?? Date() }), id: \.self) { location in
 						Button {
@@ -37,9 +35,9 @@ struct LocationGridView: View {
 					ToolbarItem(placement: .navigationBarTrailing) {}
 				}
 				.sheet(isPresented: $pickerState.isDatePickerPresented, content: {
-
+					
 					LocationForm(isPresenting: $pickerState.isDatePickerPresented, selectedDates: $pickerState.selectedDates, addingLocationName: $pickerState.addingLocationName)
-
+					
 				})
 				.padding()
 			}

@@ -18,7 +18,6 @@ class LocationViewFactory {
 		case .locationGrids:
 			return AnyView(LocationGridView())
 		case .locationLists:
-//			return AnyView(ItemListView(items: items, location: location))
 			return AnyView(ListCarouselView(location: location))
 		}
 
