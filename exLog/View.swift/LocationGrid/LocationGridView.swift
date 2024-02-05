@@ -14,11 +14,14 @@ struct LocationGridView: View {
 	@Query private var locations: [Location]
 	@Query(sort: \Item.date, order: .reverse) private var items: [Item]
 	@State var pickerState = States.Picker()
-
+	let columns = [
+		GridItem(.fixed(160)),
+		GridItem(.fixed(160))
+	]
 	var body: some View {
 		ZStack(alignment: .bottom) {
 			ScrollView(.vertical) {
-				LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+				LazyVGrid(columns: columns) {
 					ForEach(locations.sorted(by: { $0.startDate ?? Date() > $1.startDate ?? Date() }), id: \.self) { location in
 						Button {
 							LocationViewFactory.items = location.items ?? []
