@@ -62,7 +62,6 @@ struct HHmmHeader: View {
 		}
 		.foregroundColor(Color(uiColor: .secondaryLabel))
 		.padding(10)
-		.background(Color(uiColor: .systemBackground))
 		.overlayDivider(alignment: .bottom)
 	}
 }

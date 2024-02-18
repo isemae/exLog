@@ -11,72 +11,75 @@ import Foundation
 struct CategoryPickerView: View {
 	@GestureState var translation: CGFloat = 0.0
 	@State var lastTranslation: CGFloat = .zero
+	@State var offset = 0
+	@State var lastOffset = 0
 	@Binding var selectedCategory: Category
 	var categories = Category.allCases
 
 	var body: some View {
-		//		ScrollView(.horizontal, showsIndicators: false) {
-		var itemWidth = Screen.width / 7
 		GeometryReader { geo in
-			let categoryWidth =  itemWidth
-			let centerX = CGFloat(categories.firstIndex(of: selectedCategory)!) * categoryWidth
+			let itemWidth = geo.size.width / 7
 
 			HStack {
 				ForEach(categories, id: \.self) { category in
 					if category != .nil {
-						RoundedRectangle(cornerRadius: 10)
-							.frame(width: itemWidth, height:  itemWidth)
-							.scaleEffect(category == selectedCategory ? 1.1 : 1.0)
-							.foregroundColor( selectedCategory == category ? .accentColor : .white)
-							.overlay(
-								Text("\(category.symbol)")
-							)
-							.onTapGesture {
-								if category != selectedCategory {
-									withAnimation(.spring(duration: 0.2)) {
-										selectedCategory = category
-										UIImpactFeedbackGenerator(style: .rigid).impactOccurred(intensity: 0.5)
-									}
-								} else {
-									withAnimation(.spring(duration: 0.2)) {
-										selectedCategory = .nil
-										UIImpactFeedbackGenerator(style: .rigid).impactOccurred(intensity: 0.5)
-									}
+						ZStack {
+							RoundedRectangle(cornerRadius: 10)
+								.frame(width: itemWidth, height:  itemWidth)
+								.scaleEffect(category == selectedCategory ? 1.2 : 1.0)
+								.foregroundColor(selectedCategory == category ? .accentColor : Color(uiColor: .secondarySystemBackground))
+							Text("\(category.symbol)")
+								.font(.title2)
+								.transition(.scale)
+						}
+						.onTapGesture {
+							if category != selectedCategory {
+								withAnimation(.spring(duration: 0.2)) {
+									selectedCategory = category
+									UIImpactFeedbackGenerator(style: .rigid).impactOccurred(intensity: 0.5)
+								}
+							} else {
+								withAnimation(.spring(duration: 0.2)) {
+									selectedCategory = .nil
+									UIImpactFeedbackGenerator(style: .rigid).impactOccurred(intensity: 0.5)
 								}
 							}
+						}
 					}
 				}
 			}
 			.frame(width: geo.size.width, alignment: .leading)
 			.padding()
-			.offset(x: -CGFloat(categories.firstIndex(of: selectedCategory)! - 1) * categoryWidth)
+			.offset(x: -CGFloat(categories.firstIndex(of: selectedCategory)! - 1) * (itemWidth + 8) - itemWidth / 1.25 + geo.size.width * 0.5)
+			//			.offset(x: geo.size.width * 0.5 - CGFloat(categories.firstIndex(of: selectedCategory)!) * itemWidth)
+
+			.background()
 			.gesture(
 				DragGesture()
 					.updating($translation) { value, state, _ in
-						state = value.translation.width.rounded()
+						state = value.translation.width
 					}
 					.onChanged { value in
+						offset = lastOffset + Int(translation)
 						let threshold: CGFloat = 5
-						let multiplier: CGFloat = 5
-						let state = (value.translation.width / multiplier).rounded()
-						let diff = state - (lastTranslation / multiplier).rounded()
+						let state = (value.translation.width / 3).rounded(.toNearestOrEven)
+						let diff = state - (lastTranslation).rounded(.toNearestOrEven)
 
 						// 임계값의 배수일경우에 실행
-						if state.truncatingRemainder(dividingBy: threshold) == 0 {
-							withAnimation(.spring(duration: 0.2)) {
-								lastTranslation = value.translation.width
+						if state.truncatingRemainder(dividingBy: threshold).rounded(.toNearestOrEven) == 0 {
+							withAnimation(.spring(duration: 0.15)) {
+								lastTranslation = state
 								handleSwipe(diff: diff)
 								handleEdgeCases()
 							}
 						}
 					}
 					.onEnded { _ in
-						lastTranslation = 0
+						lastOffset = offset
 					}
 			)
 		}
 	}
-
 	func handleSwipe(diff: CGFloat) {
 		if diff > 0 {
 			handleLeftSwipe()
