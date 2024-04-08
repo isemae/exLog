@@ -37,8 +37,7 @@ struct SwipeGestureHandler: ViewModifier {
 	func body(content: Content) -> some View {
 		content.gesture(
 			DragGesture()
-				.updating($translation) {
-					value, state, _ in
+				.updating($translation) { value, state, _ in
 					state = value.translation.width.rounded()
 				}
 				.onChanged { value in
@@ -51,7 +50,7 @@ struct SwipeGestureHandler: ViewModifier {
 					withAnimation(.spring(duration: 0.5)) {
 						offset = currentIndex * -Int(Screen.width)
 						let translation = value.translation
-						let newIndex = currentIndex + Int(translation.width / Screen.width)
+//						let _newIndex = currentIndex + Int(translation.width / Screen.width)
 						guard abs(translation.width) > 50 else {
 							return
 						}

@@ -10,10 +10,11 @@ import SwiftData
 import SwiftUI
 
 class ModelActor: ObservableObject {
-	@Environment(\.modelContext) private var modelContext
+	private var modelContext: ModelContext
 	private var dataModel: DataModel
 
 	init(modelContext: ModelContext, dataModel: DataModel) {
+		self.modelContext = modelContext
 		self.dataModel = dataModel
 	}
 

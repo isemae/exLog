@@ -19,7 +19,6 @@ struct CategoryPickerView: View {
 	var body: some View {
 		GeometryReader { geo in
 			let itemWidth = geo.size.width / 7
-
 			HStack {
 				ForEach(categories, id: \.self) { category in
 					if category != .nil {
@@ -51,8 +50,6 @@ struct CategoryPickerView: View {
 			.frame(width: geo.size.width, alignment: .leading)
 			.padding()
 			.offset(x: -CGFloat(categories.firstIndex(of: selectedCategory)! - 1) * (itemWidth + 8) - itemWidth / 1.25 + geo.size.width * 0.5)
-			//			.offset(x: geo.size.width * 0.5 - CGFloat(categories.firstIndex(of: selectedCategory)!) * itemWidth)
-
 			.background()
 			.gesture(
 				DragGesture()
@@ -79,7 +76,9 @@ struct CategoryPickerView: View {
 					}
 			)
 		}
+		.frame(height: Screen.height / 8)
 	}
+
 	func handleSwipe(diff: CGFloat) {
 		if diff > 0 {
 			handleLeftSwipe()

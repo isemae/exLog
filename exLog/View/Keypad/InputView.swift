@@ -1,5 +1,5 @@
 //
-//  OverlayKeypad.swift
+//  InputView.swift
 //  exLog
 //
 //  Created by Jiwoon Lee on 1/12/24.
@@ -7,15 +7,16 @@
 
 import SwiftUI
 import SwiftData
-import Foundation
 
 struct InputView: View {
 	@Environment(\.modelContext) private var modelContext
+
+	@EnvironmentObject private var dataModel: DataModel
 	@Query(sort: \Item.date, order: .reverse) private var items: [Item]
 	@Query private var locations: [Location]
 	@EnvironmentObject var navigationFlow: NavigationFlow
 	@State var string: String = "0"
-	@StateObject private var dataModel = DataModel()
+
 	@State var selectedCategory: Category = .nil
 	@State var itemDesc: String = ""
 	@State var showAddedIndicator = false
@@ -40,7 +41,6 @@ struct InputView: View {
 			}
 			.font(.callout)
 			CategoryPickerView(selectedCategory: $selectedCategory)
-				.frame(height: Screen.height / 8)
 			VStack(spacing: 0) {
 				InputStringArea(string: string)
 					.onChange(of: string, perform: { _ in
@@ -67,8 +67,7 @@ struct InputView: View {
 	}
 
 	func lastItemIndicator(item: Item) -> some View {
-		return
-		HStack {
+		return HStack {
 			ZStack {
 				Capsule()
 					.foregroundStyle(.bar)

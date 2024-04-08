@@ -95,7 +95,7 @@ struct KpPreview: View {
 		.font(.largeTitle)
 	}
 }
-
-#Preview {
-	KpPreview()
-}
+//
+// #Preview {
+//	KpPreview()
+// }

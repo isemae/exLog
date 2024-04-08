@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct LocationGridView: View {
-	@Environment(\.modelContext) private var modelContext
+//	let modelContext: ModelContext
 	@EnvironmentObject var navigationFlow: NavigationFlow
 	@Query private var locations: [Location]
 	@Query(sort: \Item.date, order: .reverse) private var items: [Item]
@@ -38,9 +38,7 @@ struct LocationGridView: View {
 					ToolbarItem(placement: .navigationBarTrailing) {}
 				}
 				.sheet(isPresented: $pickerState.isDatePickerPresented, content: {
-
 					LocationForm(isPresenting: $pickerState.isDatePickerPresented, selectedDates: $pickerState.selectedDates, addingLocationName: $pickerState.addingLocationName)
-
 				})
 				.padding()
 			}
@@ -57,7 +55,6 @@ struct LocationGridView: View {
 			}
 			.padding()
 		}
-		.navigationTitle("여행")
 	}
 }
 

@@ -11,7 +11,6 @@ import SwiftData
 @main
 struct ExLogApp: App {
 	@AppStorage("selectedYear") private var selectedYear: Int?
-
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
 			Item.self, Location.self
@@ -25,17 +24,21 @@ struct ExLogApp: App {
         }
     }()
 
-    var body: some Scene {
+	@Environment(\.modelContext) private var modelContext
+	@StateObject private var dataModel = DataModel()
+
+	var body: some Scene {
+		let modelActor = ModelActor(modelContext: modelContext, dataModel: dataModel)
+
         WindowGroup {
-			ContentView()
+			ContentView(modelContext: modelContext)
+				.environmentObject(dataModel)
+				.environmentObject(modelActor)
+				.environmentObject(NavigationFlow.shared)
 				.environment(\.locale, Locale.init(identifier: "ko_kr"))
 				.environment(\.calendar.locale, Locale.init(identifier: "ko_kr"))
 				.environment(\.timeZone, TimeZone.init(identifier: "Asia/Seoul")!)
-				.environmentObject(DataModel())
-				.environmentObject(NavigationFlow.shared)
         }
-
         .modelContainer(sharedModelContainer)
-
     }
 }

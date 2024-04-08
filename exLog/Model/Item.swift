@@ -71,6 +71,39 @@ class Location: Identifiable, Hashable {
 	}
 }
 
+class LocationManager: ObservableObject {
+	@Published var locations: [Location] = []
+	private let modelContext: ModelContext
+	init(modelContext: ModelContext) {
+		self.modelContext = modelContext
+	}
+
+	func createNewLocation(selectedDates: [Date], addingLocationName: String, items: [Item]) {
+
+		let calendar = Calendar.current
+		if let endDate = calendar.date(bySettingHour: 23, minute: 59, second: 59, of: selectedDates.last ?? Date()) {
+			let newLocation = Location(name: addingLocationName, startDate: selectedDates.first ?? Date(), endDate: endDate, items: [])
+
+			newLocation.items = items.filter { item in
+				if let startDate = newLocation.startDate, let endDate = newLocation.endDate {
+					return startDate <= item.date && item.date <= endDate
+				}
+				return false
+			}
+
+			withAnimation(.easeOut(duration: 0.2)) {
+				modelContext.insert(newLocation)
+				do {
+					try modelContext.save()
+					UISelectionFeedbackGenerator().selectionChanged()
+					} catch {
+						print("Error saving context: \(error)")
+						UINotificationFeedbackGenerator().notificationOccurred(.warning)
+					}
+			}
+		}
+	}
+}
 extension Array where Element: Item {
 	subscript(id: Item.ID?) -> Item? {
 		first { $0.id == id}

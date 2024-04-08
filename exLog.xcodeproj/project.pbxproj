@@ -266,11 +266,11 @@
 		08DDABAC2B81E990009D0723 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				08DDABBE2B81E990009D0723 /* ContentView.swift */,
 				08DDABAD2B81E990009D0723 /* LocationGrid */,
 				08DDABB12B81E990009D0723 /* Keypad */,
 				08DDABB62B81E990009D0723 /* ListView */,
 				08DDABBA2B81E990009D0723 /* Pickers */,
-				08DDABBE2B81E990009D0723 /* ContentView.swift */,
 			);
 			name = View;
 			path = exLog/View;

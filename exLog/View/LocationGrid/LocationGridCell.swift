@@ -35,13 +35,14 @@ struct LocationGridCell: View {
 				Text(location.name)
 					.font(.title)
 					.bold()
+				if location.startDate != .distantPast && location.endDate != .distantFuture {
 					Text(
 """
 \(formattedDate(date: location.startDate))
 ~ \(formattedDate(date: location.endDate ))
 """
 					)
-
+				}
 			}
 			.foregroundColor(.primary)
 		}

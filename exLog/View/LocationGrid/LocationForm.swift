@@ -11,6 +11,17 @@ import SwiftData
 struct LocationForm: View {
 	@Query(sort: \Item.date, order: .reverse) private var items: [Item]
 	@Environment(\.modelContext) private var modelContext
+
+//	@StateObject private var locationManager = LocationManager(modelContext: modelContext)
+
+	 var locationManager: LocationManager {
+		 LocationManager(modelContext: modelContext)
+	 }
+
+	func createLocationManager() -> LocationManager {
+		return LocationManager(modelContext: modelContext)
+	}
+
 	@Query private var locations: [Location]
 	@Binding var isPresenting: Bool
 	@Binding var selectedDates: [Date]
@@ -76,7 +87,7 @@ struct LocationForm: View {
 
 		switch today {
 		case ..<selectedDates.first!:
-			placeholder = "어디로 떠날까요?"
+			placeholder = "어디로 떠나시나요? ✎"
 		case selectedDates.first!...selectedDates.last!:
 			placeholder = "어디를 여행중인가요?"
 		default:
@@ -95,25 +106,9 @@ struct LocationForm: View {
 				Text("취소")
 			}
 			Button {
-				let calendar = Calendar.current
-				if let endDate = calendar.date(bySettingHour: 23, minute: 59, second: 59, of: selectedDates.last ?? Date()) {
-					let newLocation = Location(name: addingLocationName, startDate: selectedDates.first ?? Date(), endDate: endDate, items: [])
-					isPresenting = false
+				locationManager.createNewLocation(selectedDates: selectedDates, addingLocationName: addingLocationName, items: items)
 
-					newLocation.items = items.filter { item in
-						if let startDate = newLocation.startDate, let endDate = newLocation.endDate {
-							return startDate <= item.date && item.date <= endDate
-						}
-						return false
-					}
-
-					withAnimation(.easeOut(duration: 0.2)) {
-						modelContext.insert(newLocation)
-						saveContext()
-					}
-				}
-
-				print(selectedDates)
+				isPresenting = false
 				addingLocationName = ""
 				selectedDates = []
 				for location in locations {
@@ -127,6 +122,25 @@ struct LocationForm: View {
 		}
 	}
 
+//	func createNewLocation(selectedDates: Date) {
+//		let calendar = Calendar.current
+//		if let endDate = calendar.date(bySettingHour: 23, minute: 59, second: 59, of: selectedDates.last ?? Date()) {
+//			let newLocation = Location(name: addingLocationName, startDate: selectedDates.first ?? Date(), endDate: endDate, items: [])
+//
+//			newLocation.items = items.filter { item in
+//				if let startDate = newLocation.startDate, let endDate = newLocation.endDate {
+//					return startDate <= item.date && item.date <= endDate
+//				}
+//				return false
+//			}
+//
+//			withAnimation(.easeOut(duration: 0.2)) {
+//				modelContext.insert(newLocation)
+//				saveContext()
+//			}
+//		}
+//	}
+	
 	func saveContext() {
 		do {
 			try modelContext.save()
@@ -136,17 +150,38 @@ struct LocationForm: View {
 			UINotificationFeedbackGenerator().notificationOccurred(.warning)
 		}
 	}
-}
 
-struct DatePickerFormPreview: View {
-	@State var selectedDates: [Date] = []
-	@State var isPresenting = true
-	@State var addingLocationName = ""
-	var body: some View {
-		LocationForm(isPresenting: $isPresenting, selectedDates: $selectedDates, addingLocationName: $addingLocationName)
+	func createNewLocation(modelActor: ModelActor, selectedDates: [Date], locationName: String, items: [Item]) {
+
+		let calendar = Calendar.current
+		if let endDate = calendar.date(bySettingHour: 23, minute: 59, second: 59, of: selectedDates.last ?? Date()) {
+			let newLocation = Location(name: locationName, startDate: selectedDates.first ?? Date(), endDate: endDate, items: [])
+
+			newLocation.items = items.filter { item in
+				if let startDate = newLocation.startDate, let endDate = newLocation.endDate {
+					return startDate <= item.date && item.date <= endDate
+				}
+				return false
+			}
+			withAnimation(.easeOut(duration: 0.2)) {
+				modelContext.insert(newLocation)
+				modelActor.saveContext()
+			}
+		}
 	}
 }
 
-#Preview {
-	DatePickerFormPreview()
-}
+//
+// struct DatePickerFormPreview: View {
+//	
+//	@State var selectedDates: [Date] = []
+//	@State var isPresenting = true
+//	@State var addingLocationName = ""
+//	var body: some View {
+//		LocationForm(isPresenting: $isPresenting, modelActor: modelActor, selectedDates: $selectedDates, addingLocationName: $addingLocationName)
+//	}
+// }
+//
+// #Preview {
+//	DatePickerFormPreview()
+// }

@@ -28,10 +28,6 @@ struct ListCarouselView : View {
 	var body: some View {
 		let dateRange = dateRange(location: location, from: location.startDate ?? Date(), to: location.endDate ?? Date())
 		VStack(spacing: 0) {
-			//					Text("\(currentPage)")
-			//						Text(dateRangeText(from: location.startDate ?? Date(), to: location.endDate ?? Date()))
-			//						Text("\(translation)")
-			//						Text("\(offset)")
 			CarouselIndicator(location: location, range: dateRange, currentIndex: currentPage)
 				.padding(5)
 			GeometryReader { _ in
@@ -39,11 +35,10 @@ struct ListCarouselView : View {
 					ForEach(dateRange, id: \.self) { date in
 						VStack(spacing: 0) {
 							let dateItems = location.items!.filter { item in
-								let ymdDate = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month, .day], from: item.date))
-								return ymdDate == date }
+								let ymd = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month, .day], from: item.date))
+								return ymd == date }
 							let sumForDate = dateItems.reduce(0) { $0 + $1.calculatedBalance }
 							DateHeader(date: date, sumForDate: sumForDate)
-								.frame(width: Screen.width)
 							List {
 								ForEach(dateItems.sorted(by: { $0.date > $1.date }), id: \.id) { item in
 									VStack(spacing: 5) {
