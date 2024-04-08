@@ -24,8 +24,13 @@ struct InputView: View {
 
 	var body: some View {
 		VStack(spacing: 0) {
+			if (items.first != nil) {
 			lastItemIndicator(item: items.first!)
 				.padding(.vertical, 5)
+			} else {
+				EmptyView()
+				.padding(.vertical, 5)
+			}
 			Form {
 				HStack {
 					TextField("설명...", text: $itemDesc)
